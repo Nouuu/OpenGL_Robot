@@ -1,17 +1,5 @@
-
-
-
-/************************************************************/
-/*            TP3: Bras articulé                            */
-/************************************************************/
-/*													        */
-/*        ESGI: algorithmique pour l'infographie	        */
-/*													        */
-/************************************************************/
-
-
-
 #include<windows.h>
+#include <math.h>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -27,6 +15,12 @@
 
 float angle = 0.0;
 float angle2 = 0.0;
+float angleAlpha = 0.0;
+float angleBeta = 0.0;
+float X0 = 0.0;
+float Y0 = 0.0;
+float Z0 = 0.0;
+float distanceR = 10.0;
 bool coucou = false;
 bool up;
 
@@ -41,6 +35,8 @@ void reshape(int w, int h);
 void update(int value);
 
 void keyboard(unsigned char key, int x, int y);
+
+void moveCamera();
 
 
 /* Programme principal */
@@ -128,8 +124,8 @@ void display(void) {
     glLoadIdentity();
 
 
-    gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    glTranslatef(0.0f, 0.0f, -5.0f);                      // déplacement caméra
+//    glTranslatef(0.0f, 0.0f, -5.0f);                      // déplacement caméra
+    gluLookAt(X0, Y0, Z0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     glColor3f(1.0f, 1.0f, 1.0f);
 
 
@@ -141,27 +137,27 @@ void display(void) {
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);         // position
 
     glPushMatrix();
-        glTranslatef(-3, 0.5, 0);
-        glRotatef(angle,0,0,1);
-        glTranslatef(1, -0.5, 0);
-        glPushMatrix();
-            glScalef(2, 1, 1);
-            glutWireCube(1);
-        glPopMatrix();
+    glTranslatef(-3, 0.5, 0);
+    glRotatef(angle, 0, 0, 1);
+    glTranslatef(1, -0.5, 0);
+    glPushMatrix();
+    glScalef(2, 1, 1);
+    glutWireCube(1);
+    glPopMatrix();
 
-        glPushMatrix();
-            glTranslatef(1.3,0,-0.5);
-            glutWireSphere(0.5,10,10);
-        glPopMatrix();
+    glPushMatrix();
+    glTranslatef(1.3, 0, -0.1);
+    glutWireSphere(0.5, 10, 10);
+    glPopMatrix();
 
-        glTranslatef(1, 0.5, 0);
-        glRotatef(angle2,0,0,1);
-        glTranslatef(1, -0.5, 0);
+    glTranslatef(1, 0.5, 0);
+    glRotatef(angle2, 0, 0, 1);
+    glTranslatef(1, -0.5, 0);
 
-        glPushMatrix();
-            glScalef(2, 1, 1);
-            glutWireCube(1);
-        glPopMatrix();
+    glPushMatrix();
+    glScalef(2, 1, 1);
+    glutWireCube(1);
+    glPopMatrix();
     glPopMatrix();
 
 
@@ -169,6 +165,12 @@ void display(void) {
 
     /* On force l'affichage */
     glFlush();
+}
+
+void moveCamera() {
+    X0 = distanceR * cos(angleBeta) * sin(angleAlpha);
+    Y0 = distanceR * sin(angleBeta);
+    Z0 = distanceR * cos(angleBeta) * cos(angleAlpha);
 }
 
 
@@ -199,10 +201,23 @@ void update(int value) {
         }
     }
 
+    if (angleAlpha > 2 * M_PI) {
+        angleAlpha = 0.01;
+    }
+    if (angleAlpha < 0.0) {
+        angleAlpha = 2 * M_PI - 0.01;
+    }
+    if (angleBeta >= M_PI / 2) {
+        angleBeta = M_PI / 2 - 0.01;
+    }
+    if (angleBeta <= -M_PI / 2) {
+        angleBeta = -M_PI / 2 + 0.01;
+    }
+
+    moveCamera();
+
     glutPostRedisplay();
     glutTimerFunc(10, update, 0);
-
-
 }
 
 
@@ -223,27 +238,23 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
 
         case 'z':
-            if (!coucou)
-                angle += 1.0;
+            angleAlpha += .05;
             break;
         case 's':
-            if (!coucou)
-                angle -= 1.0;
+            angleAlpha -= .05;
             break;
         case 'q':
-            if (!coucou)
-                angle2 += 1.0;
+            angleBeta += .05;
             break;
         case 'd':
-            if (!coucou)
-                angle2 -= 1.0;
+            angleBeta -= .05;
             break;
         case 'c':
             coucou = !coucou;
             up = true;
             break;
-
         case 'w':   /* Quitter le programme */
+            printf("Exit program !\n");
             exit(0);
     }
 }
