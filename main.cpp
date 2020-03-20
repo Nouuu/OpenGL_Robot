@@ -1,260 +1,192 @@
-#include<windows.h>
-#include <math.h>
+#include <stdlib.h>
 
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
+#include <GL/gl.h>
+#include <GL/glu.h>
 
-#include <GL/glut.h>
-
-#endif
-
-#include<stdlib.h>
-#include<stdio.h>
+#include "Camera.h"
+#include "Map.h"
 
 
-float angle = 0.0;
-float angle2 = 0.0;
-float angleAlpha = 0.0;
-float angleBeta = 0.0;
-float X0 = 0.0;
-float Y0 = 0.0;
-float Z0 = 0.0;
-float distanceR = 10.0;
-bool coucou = false;
-bool up;
+// Objet Camera
+Camera *cam = new Camera();
+// Objet Sc�ne
+Map *m = new Map();
 
 
-/* prototypes de fonctions */
-void initRendering();
 
-void display(void);
+/** GESTION FENETRE **/
+void reshapeWindow(int w, int h)
+{
+    if (h == 0)
+        h = 1;
 
-void reshape(int w, int h);
+    float ratio =  w * 1.0 / h;
 
-void update(int value);
-
-void keyboard(unsigned char key, int x, int y);
-
-void moveCamera();
-
-
-/* Programme principal */
-int main(int argc, char **argv) {
-
-    /* Initialisation de glut et creation de la fenetre */
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(500, 500);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("TP2: primitives 3D et illumination");
-
-    /* Initialisation d'OpenGL */
-    initRendering();
-
-    /* Enregistrement des fonctions de rappel */
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutTimerFunc(20, update, 0);
-    glutKeyboardFunc(keyboard);
-
-    /* Entrée dans la boucle principale de glut, traitement des évènements */
-    glutMainLoop();
-    return 0;
-}
-
-
-/* Initialisation d'OpenGL pour le rendu de la scène */
-void initRendering() {
-
-    /* Active le z-buffer */
-    glEnable(GL_DEPTH_TEST);
-
-    /* Activation des couleurs */
-    glEnable(GL_COLOR_MATERIAL);
-
-    /* définit la couleur d'effacement et la couleur de fond */
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-
-    /* Activation des lumières */
-    //glEnable(GL_LIGHTING);          // Activation du mode
-    //glEnable(GL_LIGHT0);            // Activation lumière n°0
-    //glEnable(GL_LIGHT1);            // Activation lumière n°1
-    //glEnable(GL_LIGHT2);            // Activation lumière n°2
-
-    /* Les normales (crées par glNormal(*)) sont automatiquement unitaires */
-    glEnable(GL_NORMALIZE);
-
-
-    /* Activation du mode ombrage (shading) et lissage (smooth) des couleur */
-    glShadeModel(GL_SMOOTH);
-
-    /*  définit la taille d'un pixel*/
-    glPointSize(2.0);
-
-}
-
-/* Création de la scène avec lampes */
-void display(void) {
-
-    /* Déclaration des couleurs et positions des lampes */
-    GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f};   // Color (0.2, 0.2, 0.2)
-
-    GLfloat lightColor0[] = {0.5f, 0.5f, 0.5f, 1.0f};    // Color (0.5, 0.5, 0.5)
-    GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f};      // Positioned at (4, 0, 8)
-
-
-    /* Déclaration des différents types de matière des sphères */
-    GLfloat no_mat[] = {0.0, 0.0, 0.0, 1.0};
-    GLfloat mat_ambient_color[] = {0.8, 0.8, 0.2, 1.0};
-    GLfloat mat_diffuse[] = {0.1, 0.5, 0.8, 1.0};
-    GLfloat mat_diffuseB[] = {0.0, 0.0, 1.0, 1.0};
-    GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat no_shininess[] = {0.0};
-    GLfloat low_shininess[] = {5.0};
-    GLfloat high_shininess[] = {100.0};
-    GLfloat mat_emission[] = {0.3, 0.2, 0.2, 0.0};
-
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_MODELVIEW);
-
-
-    glLoadIdentity();
-
-
-//    glTranslatef(0.0f, 0.0f, -5.0f);                      // déplacement caméra
-    gluLookAt(X0, Y0, Z0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    glColor3f(1.0f, 1.0f, 1.0f);
-
-
-    // Ajout lumière ambiante
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-
-    // Ajout lumière positionnelle L0
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);        // lumière diffuse
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);         // position
-
-    glPushMatrix();
-    glTranslatef(-3, 0.5, 0);
-    glRotatef(angle, 0, 0, 1);
-    glTranslatef(1, -0.5, 0);
-    glPushMatrix();
-    glScalef(2, 1, 1);
-    glutWireCube(1);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(1.3, 0, -0.1);
-    glutWireSphere(0.5, 10, 10);
-    glPopMatrix();
-
-    glTranslatef(1, 0.5, 0);
-    glRotatef(angle2, 0, 0, 1);
-    glTranslatef(1, -0.5, 0);
-
-    glPushMatrix();
-    glScalef(2, 1, 1);
-    glutWireCube(1);
-    glPopMatrix();
-    glPopMatrix();
-
-
-    glutSwapBuffers();
-
-    /* On force l'affichage */
-    glFlush();
-}
-
-void moveCamera() {
-    X0 = distanceR * cos(angleBeta) * sin(angleAlpha);
-    Y0 = distanceR * sin(angleBeta);
-    Z0 = distanceR * cos(angleBeta) * cos(angleAlpha);
-}
-
-
-/* Fonction de mise à jour: mouvements des objets*/
-void update(int value) {
-
-    if (coucou) {
-        if (up) {
-            if (angle2 > 57)
-                up = !up;
-            else
-                angle2 += 1.0;
-        } else {
-            if (angle2 < 0)
-                up = !up;
-            else
-                angle2 -= 1.0;
-        }
-    } else {
-        if (angle > 360 || angle < -360) {
-            angle = 0;
-        }
-        if (angle2 > 57) {
-            angle2 = 57;
-        }
-        if (angle2 < 0) {
-            angle2 = 0;
-        }
-    }
-
-    if (angleAlpha > 2 * M_PI) {
-        angleAlpha = 0.01;
-    }
-    if (angleAlpha < 0.0) {
-        angleAlpha = 2 * M_PI - 0.01;
-    }
-    if (angleBeta >= M_PI / 2) {
-        angleBeta = M_PI / 2 - 0.01;
-    }
-    if (angleBeta <= -M_PI / 2) {
-        angleBeta = -M_PI / 2 + 0.01;
-    }
-
-    moveCamera();
-
-    glutPostRedisplay();
-    glutTimerFunc(10, update, 0);
-}
-
-
-/*  Mise en forme de la scène pour l'affichage */
-void reshape(int w, int h) {
-    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(60.0, (GLfloat) w / (GLfloat) h, 1.0, 200.0);
-
-
+    glViewport(0, 0, w, h);
+    gluPerspective(45.0f, ratio, 0.1f, 348.0f);
+    glMatrixMode(GL_MODELVIEW);
 }
 
-
-/* Fonction de gestion au clavier des activations des lumières */
-void keyboard(unsigned char key, int x, int y) {
-    switch (key) {
-
-        case 'z':
-            angleAlpha += .05;
-            break;
-        case 's':
-            angleAlpha -= .05;
-            break;
-        case 'q':
-            angleBeta += .05;
-            break;
-        case 'd':
-            angleBeta -= .05;
-            break;
-        case 'c':
-            coucou = !coucou;
-            up = true;
-            break;
-        case 'w':   /* Quitter le programme */
-            printf("Exit program !\n");
-            exit(0);
+/** FONCTIONS DE GESTION CLAVIER **/
+void KeyboardDown(unsigned char key, int xx, int yy)
+{
+    switch(key)
+    {
+    case 'e': // Unlock Camera
+        cam->locked = (cam->locked)?0:1;
+        break;
+    case 'z':
+        cam->deltaForward = 1;
+        break;
+    case 's':
+        cam->deltaForward = -1;
+        break;
+    case 'd':
+        cam->deltaStrafe = -1;
+        break;
+    case 'q':
+        cam->deltaStrafe = 1;
+        break;
     }
 }
+void KeyboardUp(unsigned char key, int xx, int yy)
+{
+    switch(key)
+    {
+    case 'z':
+    case 's':
+        cam->deltaForward = 0;
+        break;
+    case 'q':
+    case 'd':
+        cam->deltaStrafe = 0;
+        break;
+    }
+}
+void SpecialDown(int key, int xx, int yy)
+{
+    switch(key)
+    {
+    case GLUT_KEY_UP:
+        cam->deltaForward = 1;
+        break;
+    case GLUT_KEY_DOWN:
+        cam->deltaForward = -1;
+        break;
+    case GLUT_KEY_RIGHT:
+        cam->deltaStrafe = -1;
+        break;
+    case GLUT_KEY_LEFT:
+        cam->deltaStrafe = 1;
+        break;
+    }
+}
+void SpecialUp(int key, int xx, int yy)
+{
+    switch(key)
+    {
+    case GLUT_KEY_UP:
+    case GLUT_KEY_DOWN:
+        cam->deltaForward = 0;
+        break;
+    case GLUT_KEY_RIGHT:
+    case GLUT_KEY_LEFT:
+        cam->deltaStrafe = 0;
+        break;
+    }
+}
+
+/** FONCTIONS DE GESTION SOURIS (ORIENTATION CAMERA) **/
+void mouseMove(int x, int y)
+{
+    // Rentres uniquement lors du clic
+    cam->orienterCam(x, y);
+}
+void mouseButton(int button, int state, int x, int y)
+{
+    // Gestion camera en fonction du clic souris
+    if (button == GLUT_LEFT_BUTTON)
+    {
+        // Relacher la camera
+        if (state == GLUT_UP)
+        {
+            cam->releaseCam();
+        }
+        // Mise � jour origine du clic
+        else
+        {
+            cam->grabCam(x, y);
+        }
+    }
+}
+
+/** GESTION DEPLACEMENT CAMERA **/
+void computePos(int inutile)
+{
+    cam->updatePos();
+    glutTimerFunc(10, computePos, 0);
+}
+
+/** AFFICHAGE **/
+void renderScene(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    // D�finition de la cam�ra
+    gluLookAt(  cam->posx, cam->posy, cam->posz,
+                cam->posx+cam->dirx, cam->posy+cam->diry,  cam->posz+cam->dirz,
+                0.0f, 1.0f,  0.0f
+                );
+
+    m->DrawGround();
+    m->DrawSkybox(cam);
+    glutSwapBuffers();
+}
+
+void LoadTextures()
+{
+    m->LoadTextures();
+}
+
+int main(int argc, char **argv)
+{
+    /** CREATION FENETRE **/
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+    glutInitWindowPosition(100,100);
+    glutInitWindowSize(320,320);
+    glutCreateWindow("Impl�mentation :: Textures");
+
+    /** FONCTIONS GLUT **/
+    glutDisplayFunc(renderScene);
+    glutReshapeFunc(reshapeWindow);
+    glutIdleFunc(renderScene);
+    glutTimerFunc(10, computePos, 0);
+
+    /** GESTION CLAVIER **/
+    glutIgnoreKeyRepeat(1);
+    glutKeyboardFunc(KeyboardDown);
+    glutKeyboardUpFunc(KeyboardUp);
+    glutSpecialFunc(SpecialDown);
+    glutSpecialUpFunc(SpecialUp);
+
+    /** GESTION SOURIS **/
+    glutMouseFunc(mouseButton);
+    glutMotionFunc(mouseMove);
+
+    /** INIT TEXTURES **/
+    LoadTextures();
+
+    /** INIT GL STATES **/
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+
+    glutMainLoop();
+
+    return (1);
+}
+
+
