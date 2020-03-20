@@ -4,10 +4,11 @@ project(soil_test)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
 
-add_executable(soil_test main.cpp
-        Camera.cpp
-        Block.cpp
-        Map.cpp
+add_executable(soil_test
+        src/main.cpp
+        src/Camera.cpp
+        src/Block.cpp
+        src/Map.cpp
         include/SOIL.c
         include/image_DXT.c
         include/image_helper.c
