@@ -178,3 +178,43 @@
 	"Map.h"
 	"Block.h"
 
+1584712594 source:d:\esgi\projet_infographie\opengl_robot\src\block.cpp
+	"Block.h"
+
+1584711801 d:\esgi\projet_infographie\opengl_robot\include\block.h
+	<GL/gl.h>
+	<GL/glu.h>
+	"glut.h"
+	"SOIL.h"
+
+1584711801 d:\esgi\projet_infographie\opengl_robot\include\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1584711801 d:\esgi\projet_infographie\opengl_robot\include\soil.h
+
+1584712594 source:d:\esgi\projet_infographie\opengl_robot\src\camera.cpp
+	"Camera.h"
+	<math.h>
+
+1584711801 d:\esgi\projet_infographie\opengl_robot\include\camera.h
+
+1584712594 source:d:\esgi\projet_infographie\opengl_robot\src\main.cpp
+	<stdlib.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	"Camera.h"
+	"Map.h"
+
+1584711801 d:\esgi\projet_infographie\opengl_robot\include\map.h
+	<GL/gl.h>
+	<GL/glu.h>
+	"glut.h"
+	"SOIL.h"
+	"Camera.h"
+
+1584712594 source:d:\esgi\projet_infographie\opengl_robot\src\map.cpp
+	"Map.h"
+	"Block.h"
+
