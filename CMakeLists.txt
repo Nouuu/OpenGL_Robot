@@ -13,7 +13,7 @@ add_executable(soil_test
         include/image_DXT.c
         include/image_helper.c
         include/stb_image_aug.c
-        )
+        src/Arms.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
