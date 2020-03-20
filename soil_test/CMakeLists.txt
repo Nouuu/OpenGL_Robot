@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(soil_test)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
 
 add_executable(soil_test main.cpp
         Camera.cpp
@@ -11,7 +12,7 @@ add_executable(soil_test main.cpp
         include/image_DXT.c
         include/image_helper.c
         include/stb_image_aug.c
-        include/Skybox.h)
+        )
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
