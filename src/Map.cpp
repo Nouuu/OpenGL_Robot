@@ -44,7 +44,7 @@ void Map::LoadTextures()
 
 void Map::DrawGround()
 {
-    Block *b = new Block(2.0f, 2.0f, 2.0f);
+    Block *b = new Block(1.0f, 1.0f, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -192,4 +192,29 @@ void Map::DrawSkybox(Camera *cam)
     glTexCoord2f(1, 1);
     glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
     glEnd();
+}
+
+void Map::DrawclankHead()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, Skybox[1]);
+    glBindTexture(GL_TEXTURE_2D, Skybox[5]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    /** La tête **/
+    GLUquadric* params = gluNewQuadric();
+    gluQuadricTexture(params,GL_TRUE);
+    glPushMatrix();
+    glTranslatef(5,5,5);
+    gluSphere(params,2,10,10);
+    glTranslatef(20,0,0);
+    gluSphere(params,2,10,10);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15,0,0);
+    gluSphere(params,12,20,20);
+    glPopMatrix();
 }

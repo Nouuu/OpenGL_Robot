@@ -19,8 +19,10 @@ class Map
         void LoadTextures(void);
         void DrawGround(void);
         void DrawSkybox(Camera *cam);
+        void DrawclankHead(void);
     protected:
     private:
+        GLuint textures[6];
 };
 
 #endif // MAP_H
