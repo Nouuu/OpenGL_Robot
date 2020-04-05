@@ -6,6 +6,7 @@ float scale = 1.0f;
 float thighLength = 0.5f * scale;
 float calfLength = 0.5f * scale;
 float legGirth = 0.06f * scale;
+float legGap = 0.8f * scale;
 
 // FOOT
 float footLength = 0.5f * scale;
@@ -125,4 +126,11 @@ void Legs::DrawLeg() {
     glPopMatrix();
 
     gluDeleteQuadric (pObj);
+}
+
+void Legs::DrawLegs() {
+    Legs *l = new Legs();
+    l->DrawLeg();
+    glTranslatef(legGap, 0, 0);
+    l->DrawLeg();
 }

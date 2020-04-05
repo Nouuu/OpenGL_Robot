@@ -145,7 +145,7 @@ void renderScene(void)
 
     m->DrawGround();
     m->DrawSkybox(cam);
-    l->DrawLeg();
+    l->DrawLegs();
     glutSwapBuffers();
 }
 
