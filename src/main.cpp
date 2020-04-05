@@ -5,12 +5,14 @@
 
 #include "Camera.h"
 #include "Map.h"
+#include "Legs.h"
 
 
 // Objet Camera
 Camera *cam = new Camera();
-// Objet Scène
+// Objet ScÃ¨ne
 Map *m = new Map();
+Legs *l = new Legs();
 
 
 
@@ -115,7 +117,7 @@ void mouseButton(int button, int state, int x, int y)
         {
             cam->releaseCam();
         }
-        // Mise à jour origine du clic
+        // Mise ï¿½ jour origine du clic
         else
         {
             cam->grabCam(x, y);
@@ -135,7 +137,7 @@ void renderScene(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    // Définition de la caméra
+    // Dï¿½finition de la camï¿½ra
     gluLookAt(  cam->posx, cam->posy, cam->posz,
                 cam->posx+cam->dirx, cam->posy+cam->diry,  cam->posz+cam->dirz,
                 0.0f, 1.0f,  0.0f
@@ -143,6 +145,7 @@ void renderScene(void)
 
     m->DrawGround();
     m->DrawSkybox(cam);
+    l->DrawLeg();
     glutSwapBuffers();
 }
 
@@ -157,8 +160,8 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
-    glutInitWindowSize(320,320);
-    glutCreateWindow("Implémentation :: Textures");
+    glutInitWindowSize(600,600);
+    glutCreateWindow("Implï¿½mentation :: Textures");
 
     /** FONCTIONS GLUT **/
     glutDisplayFunc(renderScene);

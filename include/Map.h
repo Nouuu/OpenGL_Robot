@@ -13,11 +13,12 @@ class Map
 {
     public:
         Map();
-        // Stockage des références aux textures
+        // Stockage des rï¿½fï¿½rences aux textures
         GLuint ListeTextures[20];
         GLuint Skybox[6];
         void LoadTextures(void);
         void DrawGround(void);
+        void DrawLeg(void);
         void DrawSkybox(Camera *cam);
     protected:
     private:
