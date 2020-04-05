@@ -42,6 +42,9 @@ void Legs::DrawLeg() {
         glTranslatef(-kneeWidth/2, footHeight + calfLength, 0);
         glRotatef(90, 0, 1, 0);
         gluCylinder(pObj, kneeGirth, kneeGirth, kneeWidth, 32, 32);
+        gluDisk (pObj, 0, kneeGirth, 32, 32);
+        glTranslatef(0, 0, kneeWidth);
+        gluDisk (pObj, 0, kneeGirth, 32, 32);
     glPopMatrix();
 
     // Calf
@@ -56,6 +59,9 @@ void Legs::DrawLeg() {
         glTranslatef(-ankleWidth/2, footHeight, 0);
         glRotatef(90, 0, 1, 0);
         gluCylinder(pObj, ankleGirth, ankleGirth, ankleWidth, 32, 32);
+        gluDisk (pObj, 0, ankleGirth, 32, 32);
+        glTranslatef(0, 0, ankleWidth);
+        gluDisk (pObj, 0, ankleGirth, 32, 32);
     glPopMatrix();
 
     // Foot
