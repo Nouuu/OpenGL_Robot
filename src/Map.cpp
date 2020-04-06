@@ -196,25 +196,72 @@ void Map::DrawSkybox(Camera *cam)
 
 void Map::DrawclankHead()
 {
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, Skybox[1]);
-    glBindTexture(GL_TEXTURE_2D, Skybox[5]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    GLUquadricObj* params_cylindre = gluNewQuadric();
+    GLUquadric* params_sphere = gluNewQuadric();
+    GLUquadric* params_oeil = gluNewQuadric();
 
-    /** La tête **/
-    GLUquadric* params = gluNewQuadric();
-    gluQuadricTexture(params,GL_TRUE);
-    glPushMatrix();
-    glTranslatef(5,5,5);
-    gluSphere(params,2,10,10);
-    glTranslatef(20,0,0);
-    gluSphere(params,2,10,10);
-    glPopMatrix();
-    glPushMatrix();
-    glTranslatef(15,0,0);
-    gluSphere(params,12,20,20);
-    glPopMatrix();
+    glColor3f(0.6, 0.6, 0.6);
+    glTranslatef(0.0, 0.0, 7.0);
+
+    drawHalfSphere(20, 20, 4.7);
+
+    glColor3f(0.3, 0.3, 0.3);
+    glTranslatef(0.5, 0.0, 0.0);
+    glRotatef(180, 1.0, 0.0, 0.0);
+
+    drawHalfSphere(20, 20, 5);
+
+    glColor3f(1.0, 0.1, 0.1);
+    glTranslatef(0.0, -7.0, 0.0);
+    gluSphere(params_sphere,0.4,10,10);
+
+    glColor3f(0.6, 0.6, 0.6);
+    glRotatef(90.0, 1.0, 0.0, 0.0);
+    glTranslatef(0.0, 0.0, -3.0);
+
+    gluCylinder(params_cylindre,0.1f,0.1f,3.0f,32,32);
+
+    glColor3f(0.2, 1.0, 0.2);
+    glTranslatef(3.0, -1.4, -1.0);
+
+    gluSphere(params_sphere,0.7,10,10);
+
+    glTranslatef(0.0, 2.8, 0.0);
+
+    gluSphere(params_sphere,0.7,10,10);
 }
+
+
+/*
+    scalex - scaling of sphere around x-axis
+   scaley - scaling of sphere around y-axis
+   rayon - radius of sphere
+*/
+void Map::drawHalfSphere(int scaley, int scalex, GLfloat rayon) {
+   int i, j;
+   GLfloat data[scalex*scaley][3];
+
+   /*
+   construction du tableau
+   */
+   for (i=0; i<scalex; i += 1) {
+        for (j=0; j<scaley; j += 1) {
+        data[i*scaley+j][0]=rayon*cos(j*2*M_PI/scaley)*cos(i*M_PI/(2*scalex));
+        data[i*scaley+j][1]=rayon*sin(i*M_PI/(2*scalex));
+        data[i*scaley+j][2]=rayon*sin(j*2*M_PI/scaley)*cos(i*M_PI/(2*scalex));
+        }
+    }
+    /*
+    Construction de la sphère
+    */
+    glBegin(GL_QUADS);
+        for (i=0; i<scalex-1; i += 1) {
+            for (j=0; j<scaley; j += 1) {
+                glVertex3fv(data[i*scaley+j]);
+                glVertex3fv(data[i*scaley+(j+1)%scaley]);
+                glVertex3fv(data[(i+1)*scaley+(j+1)%scaley]);
+                glVertex3fv(data[(i+1)*scaley+j]);
+            }
+        }
+    glEnd();
+ }

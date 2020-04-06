@@ -141,7 +141,7 @@ void renderScene(void)
                 0.0f, 1.0f,  0.0f
                 );
 
-    m->DrawGround();
+    // m->DrawGround();
     m->DrawclankHead();
     m->DrawSkybox(cam);
     glutSwapBuffers();
