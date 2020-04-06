@@ -11,6 +11,8 @@
 Camera *cam = new Camera();
 // Objet Scène
 Map *m = new Map();
+// Titre fenêtre
+const char *windowTitle = "Clank";
 
 
 
@@ -158,7 +160,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
     glutInitWindowSize(600,600);
-    glutCreateWindow("Implémentation :: Textures");
+    glutCreateWindow(windowTitle);
 
     /** FONCTIONS GLUT **/
     glutDisplayFunc(renderScene);
