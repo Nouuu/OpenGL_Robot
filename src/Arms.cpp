@@ -6,25 +6,35 @@
 
 Arms::Arms() {
     posx = 0.0f;
-    posy = 0.0f;
+    posy = 0.5f;
     posz = 0.0f;
 
-    x = 2.0f;
-    y = 1.0f;
-    z = 0.5f;
+    rotx = 0.0f;
+    roty = 0.0f;
+    rotz = 0.0f;
+
+    scale = 1.f;
+
+    shoulderRotation = -10.f;
+    forearmRotation = 15.f;
 
     for (int i = 0; i < 6; i++) {
         textures[i] = 0;
     }
 }
 
-Arms::Arms(float x, float y, float z, float posx, float posy, float posz) {
-    this->x = x;
-    this->y = y;
-    this->z = z;
+Arms::Arms(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
+    this->rotx = rotx;
+    this->roty = roty;
+    this->rotz = rotz;
     this->posx = posx;
     this->posy = posy;
     this->posz = posz;
+
+    this->scale = scale;
+
+    shoulderRotation = -10.f;
+    forearmRotation = 15.f;
 
     for (int i = 0; i < 6; i++) {
         textures[i] = 0;
@@ -33,7 +43,6 @@ Arms::Arms(float x, float y, float z, float posx, float posy, float posz) {
 
 void Arms::Draw() {
     glEnable(GL_TEXTURE_2D);
-    glColor3f(0.5f, 0.5f, 0.5f);
     glPushMatrix();
 
     /** Epaule **/
@@ -46,17 +55,291 @@ void Arms::Draw() {
     GLUquadric *pObj = gluNewQuadric();
     gluQuadricTexture(pObj, GLU_TRUE);
     glPushMatrix();
-    glTranslatef(0.0f, 0.5f, 0.0f);
-//    glRotatef(90, 1.0f, 0.0f, 0.0f);
-    gluCylinder(pObj, 0.25f, 0.25f, 0.25f, 32, 32);
-    glColor3f(1.0f, 0.0f, 0.0f);
-    gluDisk(pObj, 0.0f, 0.25f, 32, 32);
-    glTranslatef(0.0f, 0.0f, 0.25f);
-    glColor3f(0.0f, 0.0f, 1.0f);
-    gluDisk(pObj, 0.0f, 0.25f, 32, 32);
+    glTranslatef(posx, posy, posz);
+    //TODO Appliquer le scale partout
+    
+    // EPAULE
+    DrawShoulder(pObj);
 
+    // BRAS SUPERIEUR
+    DrawUpperarm(pObj);
+
+    // COUDE
+    DrawElbow(pObj);
+
+    // BRAS INFERIEUR
+    DrawForearm(pObj);
+    //MAIN
+    DrawHand(pObj);
+
+    gluDeleteQuadric(pObj);
     glPopMatrix();
 
+
+}
+
+void Arms::DrawShoulder(GLUquadric *pObj) {
+    glColor3f(0.5f, 0.5f, 0.5f);
+    gluCylinder(pObj, 0.25f, 0.25f, 0.15f, 32, 32);
+    gluDisk(pObj, 0.15f, 0.25f, 32, 32);
+    glTranslatef(0.f, 0.f, 0.1f);
+    glColor3f(0.35f, 0.35f, 0.35f);
+    gluSphere(pObj, 0.20f, 32, 32);
+}
+
+void Arms::DrawUpperarm(GLUquadric *pObj) {
+    glRotatef(shoulderRotation, 0.f, 0.f, 1.f); // ROTATION BRAS SUPERIEUR JOINTURE EPAULE
+    glTranslatef(0.f, -0.22f, -0.025f);
+    glRotatef(90, 1.f, 0.f, 0.f);
+    glColor3f(0.2f, 0.2f, 0.2f);
+    gluCylinder(pObj, 0.07f, 0.07f, 0.3f, 32, 32);
+}
+
+void Arms::DrawElbow(GLUquadric *pObj) {
+    glTranslatef(0.f, 0.075f, 0.3f);
+    glRotatef(90, 1.f, 0.f, 0.f);
+    gluCylinder(pObj, 0.1f, 0.1f, 0.15f, 32, 32);
+    glColor3f(0.3f, 0.3f, 0.3f);
+    glTranslatef(0.f, 0.f, 0.05f);
+    gluSphere(pObj, 0.1f, 32, 32);
+    glTranslatef(0.f, 0.f, 0.05f);
+    gluSphere(pObj, 0.1f, 32, 32);
+}
+
+void Arms::DrawForearm(GLUquadric *pObj) {
+    glTranslatef(0.f, 0.f, -0.1f);
+    glRotatef(-90, 1.f, 0.f, 0.f);
+    glRotatef(forearmRotation, 0.f, 1.f, 0.f); // ROTATION BRAS INFERIEUR JOINTURE EPAULE
+    glTranslatef(0.f, -0.075f, 0.05f);
+    glColor3f(0.2f, 0.2f, 0.2f);
+    gluCylinder(pObj, 0.07f, 0.07f, 0.3f, 32, 32);
+}
+
+void Arms::DrawHand(GLUquadric *pObj) {
+    // MAIN
+    glRotatef(180, 0.f, 0.f, 1.f); // ROTATION POIGNET
+    glTranslatef(0.f, 0.07f, 0.26f);
+
+    //BOULON
+    glTranslatef(0.f, -0.07f, 0.12f);
+    gluSphere(pObj, 0.1f, 32, 32);
+    glTranslatef(0.f, 0.07f, -0.12f);
+
+    //AVANT
+    glColor3f(0.4f, 0.4f, 0.4f);
+    glBegin(GL_QUADS);
+    glVertex3d(0.f, 0.f, 0.f);
+    glVertex3d(0.15f, 0.f, 0.05f);
+    glVertex3d(0.15f, 0.f, 0.4f);
+    glVertex3d(0.f, 0.f, 0.4f);
+
+    glVertex3d(0.15f, 0.f, 0.05f);
+    glVertex3d(0.20f, 0.f, 0.15f);
+    glVertex3d(0.2f, 0.f, 0.4f);
+    glVertex3d(0.15f, 0.f, 0.4f);
+
+    glVertex3d(0.f, 0.f, 0.f);
+    glVertex3d(-0.15f, 0.f, 0.05f);
+    glVertex3d(-0.15f, 0.f, 0.4f);
+    glVertex3d(0.f, 0.f, 0.4f);
+
+    glVertex3d(-0.15f, 0.f, 0.05f);
+    glVertex3d(-0.20f, 0.f, 0.15f);
+    glVertex3d(-0.2f, 0.f, 0.4f);
+    glVertex3d(-0.15f, 0.f, 0.4f);
+
+    // ARRIERE
+    glVertex3d(0.f, -0.14f, 0.f);
+    glVertex3d(0.15f, -0.14f, 0.05f);
+    glVertex3d(0.15f, -0.14f, 0.4f);
+    glVertex3d(0.f, -0.14f, 0.4f);
+
+    glVertex3d(0.15f, -0.14f, 0.05f);
+    glVertex3d(0.2f, -0.14f, 0.15f);
+    glVertex3d(0.2f, -0.14f, 0.4f);
+    glVertex3d(0.15f, -0.14f, 0.4f);
+
+    glVertex3d(0.f, -0.14f, 0.f);
+    glVertex3d(-0.15f, -0.14f, 0.05f);
+    glVertex3d(-0.15f, -0.14f, 0.4f);
+    glVertex3d(0.f, -0.14f, 0.4f);
+
+    glVertex3d(-0.15f, -0.14f, 0.05f);
+    glVertex3d(-0.20f, -0.14f, 0.15f);
+    glVertex3d(-0.2f, -0.14f, 0.4f);
+    glVertex3d(-0.15f, -0.14f, 0.4f);
+
+    //CONTOURS
+    glVertex3d(0.f, 0.f, 0.f);
+    glVertex3d(0.f, -0.14f, 0.f);
+    glVertex3d(0.15f, -0.14f, 0.05f);
+    glVertex3d(0.15f, 0.f, 0.05f);
+
+    glVertex3d(0.15f, 0.f, 0.05f);
+    glVertex3d(0.15f, -0.14f, 0.05f);
+    glVertex3d(0.2f, -0.14f, 0.15f);
+    glVertex3d(0.2f, 0.f, 0.15f);
+
+    glVertex3d(0.2f, 0.f, 0.15f);
+    glVertex3d(0.2f, -0.14f, 0.15f);
+    glVertex3d(0.2f, -0.14f, 0.4f);
+    glVertex3d(0.2f, 0.f, 0.4f);
+
+    glVertex3d(0.f, 0.f, 0.f);
+    glVertex3d(0.f, -0.14f, 0.f);
+    glVertex3d(-0.15f, -0.14f, 0.05f);
+    glVertex3d(-0.15f, 0.f, 0.05f);
+
+    glVertex3d(-0.15f, 0.f, 0.05f);
+    glVertex3d(-0.15f, -0.14f, 0.05f);
+    glVertex3d(-0.2f, -0.14f, 0.15f);
+    glVertex3d(-0.2f, 0.f, 0.15f);
+
+    glVertex3d(-0.2f, 0.f, 0.15f);
+    glVertex3d(-0.2f, -0.14f, 0.15f);
+    glVertex3d(-0.2f, -0.14f, 0.4f);
+    glVertex3d(-0.2f, 0.f, 0.4f);
+
+    glVertex3d(0.2f, 0.f, 0.4f);
+    glVertex3d(0.2f, -0.14f, 0.4f);
+    glVertex3d(-0.2f, -0.14f, 0.4f);
+    glVertex3d(-0.2f, 0.f, 0.4f);
+    glEnd();
+
+    glTranslatef(0.f, 0.f, 0.4f);
+
+    // DOIGTS
+    glColor3f(0.2f, 0.2f, 0.2f);
+    glBegin(GL_QUADS);
+    //1
+    //AVANT
+    glVertex3d(0.025f, -0.02f, 0.f);
+    glVertex3d(0.175f, -0.02f, 0.f);
+    glVertex3d(0.175f, -0.02f, 0.15f);
+    glVertex3d(0.025f, -0.02f, 0.15f);
+
+    glVertex3d(0.025f, -0.02f, 0.15f);
+    glVertex3d(0.175f, -0.02f, 0.15f);
+    glVertex3d(0.13f, -0.02f, 0.25f);
+    glVertex3d(0.07f, -0.02f, 0.25f);
+
+    //ARRIERE
+    glVertex3d(0.025f, -0.12f, 0.f);
+    glVertex3d(0.175f, -0.12f, 0.f);
+    glVertex3d(0.175f, -0.12f, 0.15f);
+    glVertex3d(0.025f, -0.12f, 0.15f);
+
+    glVertex3d(0.025f, -0.12f, 0.15f);
+    glVertex3d(0.175f, -0.12f, 0.15f);
+    glVertex3d(0.13f, -0.12f, 0.25f);
+    glVertex3d(0.07f, -0.12f, 0.25f);
+
+    //CONTOURS
+    glVertex3d(0.025f, -0.02f, 0.f);
+    glVertex3d(0.025f, -0.12f, 0.f);
+    glVertex3d(0.025f, -0.12f, 0.15f);
+    glVertex3d(0.025f, -0.02f, 0.15f);
+
+    glVertex3d(0.175f, -0.02f, 0.f);
+    glVertex3d(0.175f, -0.12f, 0.f);
+    glVertex3d(0.175f, -0.12f, 0.15f);
+    glVertex3d(0.175f, -0.02f, 0.15f);
+
+    glVertex3d(0.025f, -0.02f, 0.15f);
+    glVertex3d(0.025f, -0.12f, 0.15f);
+    glVertex3d(0.07f, -0.12f, 0.25f);
+    glVertex3d(0.07f, -0.02f, 0.25f);
+
+    glVertex3d(0.175f, -0.02f, 0.15f);
+    glVertex3d(0.175f, -0.12f, 0.15f);
+    glVertex3d(0.13f, -0.12f, 0.25f);
+    glVertex3d(0.13f, -0.02f, 0.25f);
+
+    glVertex3d(0.13f, -0.12f, 0.25f);
+    glVertex3d(0.13f, -0.02f, 0.25f);
+    glVertex3d(0.07f, -0.02f, 0.25f);
+    glVertex3d(0.07f, -0.12f, 0.25f);
+
+    //2
+    //AVANT
+    glVertex3d(-0.175f, -0.02f, 0.f);
+    glVertex3d(-0.025, -0.02f, 0.f);
+    glVertex3d(-0.025, -0.02f, 0.15f);
+    glVertex3d(-0.175, -0.02f, 0.15f);
+
+    glVertex3d(-0.175f, -0.02f, 0.15f);
+    glVertex3d(-0.025f, -0.02f, 0.15f);
+    glVertex3d(-0.07f, -0.02f, 0.25f);
+    glVertex3d(-0.13f, -0.02f, 0.25f);
+
+    //ARRIERE
+    glVertex3d(-0.025f, -0.12f, 0.f);
+    glVertex3d(-0.175f, -0.12f, 0.f);
+    glVertex3d(-0.175f, -0.12f, 0.15f);
+    glVertex3d(-0.025f, -0.12f, 0.15f);
+
+    glVertex3d(-0.025f, -0.12f, 0.15f);
+    glVertex3d(-0.175f, -0.12f, 0.15f);
+    glVertex3d(-0.13f, -0.12f, 0.25f);
+    glVertex3d(-0.07f, -0.12f, 0.25f);
+
+    //CONTOURS
+    glVertex3d(-0.025f, -0.02f, 0.f);
+    glVertex3d(-0.025f, -0.12f, 0.f);
+    glVertex3d(-0.025f, -0.12f, 0.15f);
+    glVertex3d(-0.025f, -0.02f, 0.15f);
+
+    glVertex3d(-0.175f, -0.02f, 0.f);
+    glVertex3d(-0.175f, -0.12f, 0.f);
+    glVertex3d(-0.175f, -0.12f, 0.15f);
+    glVertex3d(-0.175f, -0.02f, 0.15f);
+
+    glVertex3d(-0.025f, -0.02f, 0.15f);
+    glVertex3d(-0.025f, -0.12f, 0.15f);
+    glVertex3d(-0.07f, -0.12f, 0.25f);
+    glVertex3d(-0.07f, -0.02f, 0.25f);
+
+    glVertex3d(-0.175f, -0.02f, 0.15f);
+    glVertex3d(-0.175f, -0.12f, 0.15f);
+    glVertex3d(-0.13f, -0.12f, 0.25f);
+    glVertex3d(-0.13f, -0.02f, 0.25f);
+
+    glVertex3d(-0.13f, -0.12f, 0.25f);
+    glVertex3d(-0.13f, -0.02f, 0.25f);
+    glVertex3d(-0.07f, -0.02f, 0.25f);
+    glVertex3d(-0.07f, -0.12f, 0.25f);
+
+    //3
+    //AVANT
+    glVertex3d(-0.2f, -0.02f, -0.25f);
+    glVertex3d(-0.2f, -0.02f, -0.05f);
+    glVertex3d(-0.32f, -0.02f, 0.1f);
+    glVertex3d(-0.37f, -0.02f, -0.05f);
+
+    //ARRIERE
+    glVertex3d(-0.2f, -0.12f, -0.25f);
+    glVertex3d(-0.2f, -0.12f, -0.05f);
+    glVertex3d(-0.32f, -0.12f, 0.1f);
+    glVertex3d(-0.37f, -0.12f, -0.05f);
+
+    //CONTOURS
+    glVertex3d(-0.37f, -0.02f, -0.05f);
+    glVertex3d(-0.2f, -0.02f, -0.25f);
+    glVertex3d(-0.2f, -0.12f, -0.25f);
+    glVertex3d(-0.37f, -0.12f, -0.05f);
+
+    glVertex3d(-0.2f, -0.02f, -0.05f);
+    glVertex3d(-0.32f, -0.02f, 0.1f);
+    glVertex3d(-0.32f, -0.12f, 0.1f);
+    glVertex3d(-0.2f, -0.12f, -0.05f);
+
+    glVertex3d(-0.37f, -0.02f, -0.05f);
+    glVertex3d(-0.32f, -0.02f, 0.1f);
+    glVertex3d(-0.32f, -0.12f, 0.1f);
+    glVertex3d(-0.37f, -0.12f, -0.05f);
+
+
+    glEnd();
 
 }
 
@@ -89,30 +372,54 @@ void Arms::setPosz(float posz) {
     Arms::posz = posz;
 }
 
-float Arms::getX() const {
-    return x;
-}
-
-void Arms::setX(float x) {
-    Arms::x = x;
-}
-
-float Arms::getY() const {
-    return y;
-}
-
-void Arms::setY(float y) {
-    Arms::y = y;
-}
-
-float Arms::getZ() const {
-    return z;
-}
-
-void Arms::setZ(float z) {
-    Arms::z = z;
-}
-
 const GLuint *Arms::getTextures() const {
     return textures;
+}
+
+float Arms::getRotx() const {
+    return rotx;
+}
+
+void Arms::setRotx(float rotx) {
+    Arms::rotx = rotx;
+}
+
+float Arms::getRoty() const {
+    return roty;
+}
+
+void Arms::setRoty(float roty) {
+    Arms::roty = roty;
+}
+
+float Arms::getRotz() const {
+    return rotz;
+}
+
+void Arms::setRotz(float rotz) {
+    Arms::rotz = rotz;
+}
+
+float Arms::getScale() const {
+    return scale;
+}
+
+void Arms::setScale(float scale) {
+    Arms::scale = scale;
+}
+
+float Arms::getShoulderRotation() const {
+    return shoulderRotation;
+}
+
+void Arms::setShoulderRotation(float shoulderRotation) {
+    Arms::shoulderRotation = shoulderRotation;
+}
+
+float Arms::getForearmRotation() const {
+    return forearmRotation;
+}
+
+void Arms::setForearmRotation(float forearmRotation) {
+    Arms::forearmRotation = forearmRotation;
 }
