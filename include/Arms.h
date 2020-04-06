@@ -7,6 +7,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <math.h>
 
 #include "glut.h"
 #include "SOIL.h"
@@ -15,9 +16,19 @@ class Arms {
 public:
     Arms();
 
-    Arms(float x, float y, float z, float posx, float posy, float posz);
+    Arms(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz);
 
     void Draw();
+
+    void DrawShoulder(GLUquadric *pObj);
+
+    void DrawUpperarm(GLUquadric *pObj);
+
+    void DrawElbow(GLUquadric *pObj);
+
+    void DrawForearm(GLUquadric *pObj);
+
+    void DrawHand(GLUquadric *pObj);
 
     void SetTexture(int index, GLuint texture);
 
@@ -33,17 +44,29 @@ public:
 
     void setPosz(float posz);
 
-    float getX() const;
+    float getRotx() const;
 
-    void setX(float x);
+    void setRotx(float rotx);
 
-    float getY() const;
+    float getRoty() const;
 
-    void setY(float y);
+    void setRoty(float roty);
 
-    float getZ() const;
+    float getRotz() const;
 
-    void setZ(float z);
+    void setRotz(float rotz);
+
+    float getScale() const;
+
+    void setScale(float scale);
+
+    float getShoulderRotation() const;
+
+    void setShoulderRotation(float shoulderRotation);
+
+    float getForearmRotation() const;
+
+    void setForearmRotation(float forearmRotation);
 
     const GLuint *getTextures() const;
 
@@ -52,9 +75,14 @@ private:
     float posy;
     float posz;
 
-    float x;
-    float y;
-    float z;
+    float rotx;
+    float roty;
+    float rotz;
+
+    float shoulderRotation;
+    float forearmRotation;
+
+    float scale;
 
     GLuint textures[6];
 };
