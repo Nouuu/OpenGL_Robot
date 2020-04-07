@@ -56,8 +56,7 @@ void Arms::Draw() {
     gluQuadricTexture(pObj, GLU_TRUE);
     glPushMatrix();
     glTranslatef(posx, posy, posz);
-    //TODO Appliquer le scale partout
-    
+
     // EPAULE
     DrawShoulder(pObj);
 
@@ -80,267 +79,265 @@ void Arms::Draw() {
 
 void Arms::DrawShoulder(GLUquadric *pObj) {
     glColor3f(0.5f, 0.5f, 0.5f);
-    gluCylinder(pObj, 0.25f, 0.25f, 0.15f, 32, 32);
-    gluDisk(pObj, 0.15f, 0.25f, 32, 32);
-    glTranslatef(0.f, 0.f, 0.1f);
+    gluCylinder(pObj, 0.25f * scale, 0.25f * scale, 0.15f * scale, 32, 32);
+    gluDisk(pObj, 0.15f * scale, 0.25f * scale, 32, 32);
+    glTranslatef(0.f, 0.f, 0.1f * scale);
     glColor3f(0.35f, 0.35f, 0.35f);
-    gluSphere(pObj, 0.20f, 32, 32);
+    gluSphere(pObj, 0.20f * scale, 32, 32);
 }
 
 void Arms::DrawUpperarm(GLUquadric *pObj) {
     glRotatef(shoulderRotation, 0.f, 0.f, 1.f); // ROTATION BRAS SUPERIEUR JOINTURE EPAULE
-    glTranslatef(0.f, -0.22f, -0.025f);
+    glTranslatef(0.f, -0.22f * scale, -0.025f * scale);
     glRotatef(90, 1.f, 0.f, 0.f);
     glColor3f(0.2f, 0.2f, 0.2f);
-    gluCylinder(pObj, 0.07f, 0.07f, 0.3f, 32, 32);
+    gluCylinder(pObj, 0.07f * scale, 0.07f * scale, 0.3f * scale, 32, 32);
 }
 
 void Arms::DrawElbow(GLUquadric *pObj) {
-    glTranslatef(0.f, 0.075f, 0.3f);
+    glTranslatef(0.f, 0.075f * scale, 0.3f * scale);
     glRotatef(90, 1.f, 0.f, 0.f);
-    gluCylinder(pObj, 0.1f, 0.1f, 0.15f, 32, 32);
+    gluCylinder(pObj, 0.1f * scale, 0.1f * scale, 0.15f * scale, 32, 32);
     glColor3f(0.3f, 0.3f, 0.3f);
-    glTranslatef(0.f, 0.f, 0.05f);
-    gluSphere(pObj, 0.1f, 32, 32);
-    glTranslatef(0.f, 0.f, 0.05f);
-    gluSphere(pObj, 0.1f, 32, 32);
+    glTranslatef(0.f, 0.f, 0.05f * scale);
+    gluSphere(pObj, 0.1f * scale, 32, 32);
+    glTranslatef(0.f, 0.f, 0.05f * scale);
+    gluSphere(pObj, 0.1f * scale, 32, 32);
 }
 
 void Arms::DrawForearm(GLUquadric *pObj) {
-    glTranslatef(0.f, 0.f, -0.1f);
+    glTranslatef(0.f, 0.f, -0.1f * scale);
     glRotatef(-90, 1.f, 0.f, 0.f);
     glRotatef(forearmRotation, 0.f, 1.f, 0.f); // ROTATION BRAS INFERIEUR JOINTURE EPAULE
-    glTranslatef(0.f, -0.075f, 0.05f);
+    glTranslatef(0.f, -0.075f * scale, 0.05f * scale);
     glColor3f(0.2f, 0.2f, 0.2f);
-    gluCylinder(pObj, 0.07f, 0.07f, 0.3f, 32, 32);
+    gluCylinder(pObj, 0.07f * scale, 0.07f * scale, 0.3f * scale, 32, 32);
 }
 
 void Arms::DrawHand(GLUquadric *pObj) {
     // MAIN
     glRotatef(180, 0.f, 0.f, 1.f); // ROTATION POIGNET
-    glTranslatef(0.f, 0.07f, 0.26f);
+    glTranslatef(0.f, 0.07f * scale, 0.26f * scale);
 
     //BOULON
-    glTranslatef(0.f, -0.07f, 0.12f);
-    gluSphere(pObj, 0.1f, 32, 32);
-    glTranslatef(0.f, 0.07f, -0.12f);
+    glTranslatef(0.f, -0.07f * scale, 0.12f * scale);
+    gluSphere(pObj, 0.1f * scale, 32, 32);
+    glTranslatef(0.f, 0.07f * scale, -0.12f * scale);
 
     //AVANT
     glColor3f(0.4f, 0.4f, 0.4f);
     glBegin(GL_QUADS);
     glVertex3d(0.f, 0.f, 0.f);
-    glVertex3d(0.15f, 0.f, 0.05f);
-    glVertex3d(0.15f, 0.f, 0.4f);
-    glVertex3d(0.f, 0.f, 0.4f);
+    glVertex3d(0.15f * scale, 0.f, 0.05f * scale);
+    glVertex3d(0.15f * scale, 0.f, 0.4f * scale);
+    glVertex3d(0.f, 0.f, 0.4f * scale);
 
-    glVertex3d(0.15f, 0.f, 0.05f);
-    glVertex3d(0.20f, 0.f, 0.15f);
-    glVertex3d(0.2f, 0.f, 0.4f);
-    glVertex3d(0.15f, 0.f, 0.4f);
+    glVertex3d(0.15f * scale, 0.f, 0.05f * scale);
+    glVertex3d(0.20f * scale, 0.f, 0.15f * scale);
+    glVertex3d(0.2f * scale, 0.f, 0.4f * scale);
+    glVertex3d(0.15f * scale, 0.f, 0.4f * scale);
 
     glVertex3d(0.f, 0.f, 0.f);
-    glVertex3d(-0.15f, 0.f, 0.05f);
-    glVertex3d(-0.15f, 0.f, 0.4f);
-    glVertex3d(0.f, 0.f, 0.4f);
+    glVertex3d(-0.15f * scale, 0.f, 0.05f * scale);
+    glVertex3d(-0.15f * scale, 0.f, 0.4f * scale);
+    glVertex3d(0.f, 0.f, 0.4f * scale);
 
-    glVertex3d(-0.15f, 0.f, 0.05f);
-    glVertex3d(-0.20f, 0.f, 0.15f);
-    glVertex3d(-0.2f, 0.f, 0.4f);
-    glVertex3d(-0.15f, 0.f, 0.4f);
+    glVertex3d(-0.15f * scale, 0.f, 0.05f * scale);
+    glVertex3d(-0.20f * scale, 0.f, 0.15f * scale);
+    glVertex3d(-0.2f * scale, 0.f, 0.4f * scale);
+    glVertex3d(-0.15f * scale, 0.f, 0.4f * scale);
 
     // ARRIERE
-    glVertex3d(0.f, -0.14f, 0.f);
-    glVertex3d(0.15f, -0.14f, 0.05f);
-    glVertex3d(0.15f, -0.14f, 0.4f);
-    glVertex3d(0.f, -0.14f, 0.4f);
+    glVertex3d(0.f, -0.14f * scale, 0.f);
+    glVertex3d(0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(0.15f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(0.f, -0.14f * scale, 0.4f * scale);
 
-    glVertex3d(0.15f, -0.14f, 0.05f);
-    glVertex3d(0.2f, -0.14f, 0.15f);
-    glVertex3d(0.2f, -0.14f, 0.4f);
-    glVertex3d(0.15f, -0.14f, 0.4f);
+    glVertex3d(0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(0.2f * scale, -0.14f * scale, 0.15f * scale);
+    glVertex3d(0.2f * scale, -0.14f*scale, 0.4f*scale);
+    glVertex3d(0.15f * scale, -0.14f * scale, 0.4f * scale);
 
-    glVertex3d(0.f, -0.14f, 0.f);
-    glVertex3d(-0.15f, -0.14f, 0.05f);
-    glVertex3d(-0.15f, -0.14f, 0.4f);
-    glVertex3d(0.f, -0.14f, 0.4f);
+    glVertex3d(0.f, -0.14f * scale, 0.f);
+    glVertex3d(-0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(-0.15f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(0.f, -0.14f * scale, 0.4f * scale);
 
-    glVertex3d(-0.15f, -0.14f, 0.05f);
-    glVertex3d(-0.20f, -0.14f, 0.15f);
-    glVertex3d(-0.2f, -0.14f, 0.4f);
-    glVertex3d(-0.15f, -0.14f, 0.4f);
+    glVertex3d(-0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(-0.2f * scale, -0.14f * scale, 0.15f * scale);
+    glVertex3d(-0.2f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(-0.15f * scale, -0.14f * scale, 0.4f * scale);
 
     //CONTOURS
     glVertex3d(0.f, 0.f, 0.f);
-    glVertex3d(0.f, -0.14f, 0.f);
-    glVertex3d(0.15f, -0.14f, 0.05f);
-    glVertex3d(0.15f, 0.f, 0.05f);
+    glVertex3d(0.f, -0.14f * scale, 0.f);
+    glVertex3d(0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(0.15f * scale, 0.f, 0.05f * scale);
 
-    glVertex3d(0.15f, 0.f, 0.05f);
-    glVertex3d(0.15f, -0.14f, 0.05f);
-    glVertex3d(0.2f, -0.14f, 0.15f);
-    glVertex3d(0.2f, 0.f, 0.15f);
+    glVertex3d(0.15f * scale, 0.f, 0.05f * scale);
+    glVertex3d(0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(0.2f * scale, -0.14f * scale, 0.15f * scale);
+    glVertex3d(0.2f * scale, 0.f, 0.15f * scale);
 
-    glVertex3d(0.2f, 0.f, 0.15f);
-    glVertex3d(0.2f, -0.14f, 0.15f);
-    glVertex3d(0.2f, -0.14f, 0.4f);
-    glVertex3d(0.2f, 0.f, 0.4f);
+    glVertex3d(0.2f * scale, 0.f, 0.15f * scale);
+    glVertex3d(0.2f * scale, -0.14f * scale, 0.15f * scale);
+    glVertex3d(0.2f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(0.2f * scale, 0.f, 0.4f * scale);
 
     glVertex3d(0.f, 0.f, 0.f);
-    glVertex3d(0.f, -0.14f, 0.f);
-    glVertex3d(-0.15f, -0.14f, 0.05f);
-    glVertex3d(-0.15f, 0.f, 0.05f);
+    glVertex3d(0.f, -0.14f * scale, 0.f);
+    glVertex3d(-0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(-0.15f * scale, 0.f, 0.05f * scale);
 
-    glVertex3d(-0.15f, 0.f, 0.05f);
-    glVertex3d(-0.15f, -0.14f, 0.05f);
-    glVertex3d(-0.2f, -0.14f, 0.15f);
-    glVertex3d(-0.2f, 0.f, 0.15f);
+    glVertex3d(-0.15f * scale, 0.f, 0.05f * scale);
+    glVertex3d(-0.15f * scale, -0.14f * scale, 0.05f * scale);
+    glVertex3d(-0.2f * scale, -0.14f * scale, 0.15f * scale);
+    glVertex3d(-0.2f * scale, 0.f, 0.15f * scale);
 
-    glVertex3d(-0.2f, 0.f, 0.15f);
-    glVertex3d(-0.2f, -0.14f, 0.15f);
-    glVertex3d(-0.2f, -0.14f, 0.4f);
-    glVertex3d(-0.2f, 0.f, 0.4f);
+    glVertex3d(-0.2f * scale, 0.f, 0.15f * scale);
+    glVertex3d(-0.2f * scale, -0.14f * scale, 0.15f * scale);
+    glVertex3d(-0.2f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(-0.2f * scale, 0.f, 0.4f * scale);
 
-    glVertex3d(0.2f, 0.f, 0.4f);
-    glVertex3d(0.2f, -0.14f, 0.4f);
-    glVertex3d(-0.2f, -0.14f, 0.4f);
-    glVertex3d(-0.2f, 0.f, 0.4f);
+    glVertex3d(0.2f * scale, 0.f, 0.4f * scale);
+    glVertex3d(0.2f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(-0.2f * scale, -0.14f * scale, 0.4f * scale);
+    glVertex3d(-0.2f * scale, 0.f, 0.4f * scale);
     glEnd();
 
-    glTranslatef(0.f, 0.f, 0.4f);
+    glTranslatef(0.f, 0.f, 0.4f * scale);
 
     // DOIGTS
     glColor3f(0.2f, 0.2f, 0.2f);
     glBegin(GL_QUADS);
     //1
     //AVANT
-    glVertex3d(0.025f, -0.02f, 0.f);
-    glVertex3d(0.175f, -0.02f, 0.f);
-    glVertex3d(0.175f, -0.02f, 0.15f);
-    glVertex3d(0.025f, -0.02f, 0.15f);
+    glVertex3d(0.025f * scale, -0.02f * scale, 0.f);
+    glVertex3d(0.175f * scale, -0.02f * scale, 0.f);
+    glVertex3d(0.175f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(0.025f * scale, -0.02f * scale, 0.15f * scale);
 
-    glVertex3d(0.025f, -0.02f, 0.15f);
-    glVertex3d(0.175f, -0.02f, 0.15f);
-    glVertex3d(0.13f, -0.02f, 0.25f);
-    glVertex3d(0.07f, -0.02f, 0.25f);
+    glVertex3d(0.025f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(0.175f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(0.13f * scale, -0.02f * scale, 0.25f * scale);
+    glVertex3d(0.07f * scale, -0.02f * scale, 0.25f * scale);
 
     //ARRIERE
-    glVertex3d(0.025f, -0.12f, 0.f);
-    glVertex3d(0.175f, -0.12f, 0.f);
-    glVertex3d(0.175f, -0.12f, 0.15f);
-    glVertex3d(0.025f, -0.12f, 0.15f);
+    glVertex3d(0.025f * scale, -0.12f * scale, 0.f);
+    glVertex3d(0.175f * scale, -0.12f * scale, 0.f);
+    glVertex3d(0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.025f * scale, -0.12f * scale, 0.15f * scale);
 
-    glVertex3d(0.025f, -0.12f, 0.15f);
-    glVertex3d(0.175f, -0.12f, 0.15f);
-    glVertex3d(0.13f, -0.12f, 0.25f);
-    glVertex3d(0.07f, -0.12f, 0.25f);
+    glVertex3d(0.025f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.13f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(0.07f * scale, -0.12f * scale, 0.25f * scale);
 
     //CONTOURS
-    glVertex3d(0.025f, -0.02f, 0.f);
-    glVertex3d(0.025f, -0.12f, 0.f);
-    glVertex3d(0.025f, -0.12f, 0.15f);
-    glVertex3d(0.025f, -0.02f, 0.15f);
+    glVertex3d(0.025f * scale, -0.02f * scale, 0.f);
+    glVertex3d(0.025f * scale, -0.12f * scale, 0.f);
+    glVertex3d(0.025f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.025f * scale, -0.02f * scale, 0.15f * scale);
 
-    glVertex3d(0.175f, -0.02f, 0.f);
-    glVertex3d(0.175f, -0.12f, 0.f);
-    glVertex3d(0.175f, -0.12f, 0.15f);
-    glVertex3d(0.175f, -0.02f, 0.15f);
+    glVertex3d(0.175f * scale, -0.02f * scale, 0.f);
+    glVertex3d(0.175f * scale, -0.12f * scale, 0.f);
+    glVertex3d(0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.175f * scale, -0.02f * scale, 0.15f * scale);
 
-    glVertex3d(0.025f, -0.02f, 0.15f);
-    glVertex3d(0.025f, -0.12f, 0.15f);
-    glVertex3d(0.07f, -0.12f, 0.25f);
-    glVertex3d(0.07f, -0.02f, 0.25f);
+    glVertex3d(0.025f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(0.025f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.07f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(0.07f * scale, -0.02f * scale, 0.25f * scale);
 
-    glVertex3d(0.175f, -0.02f, 0.15f);
-    glVertex3d(0.175f, -0.12f, 0.15f);
-    glVertex3d(0.13f, -0.12f, 0.25f);
-    glVertex3d(0.13f, -0.02f, 0.25f);
+    glVertex3d(0.175f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(0.13f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(0.13f * scale, -0.02f * scale, 0.25f * scale);
 
-    glVertex3d(0.13f, -0.12f, 0.25f);
-    glVertex3d(0.13f, -0.02f, 0.25f);
-    glVertex3d(0.07f, -0.02f, 0.25f);
-    glVertex3d(0.07f, -0.12f, 0.25f);
+    glVertex3d(0.13f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(0.13f * scale, -0.02f * scale, 0.25f * scale);
+    glVertex3d(0.07f * scale, -0.02f * scale, 0.25f * scale);
+    glVertex3d(0.07f * scale, -0.12f * scale, 0.25f * scale);
 
     //2
     //AVANT
-    glVertex3d(-0.175f, -0.02f, 0.f);
-    glVertex3d(-0.025, -0.02f, 0.f);
-    glVertex3d(-0.025, -0.02f, 0.15f);
-    glVertex3d(-0.175, -0.02f, 0.15f);
+    glVertex3d(-0.175f * scale, -0.02f * scale, 0.f);
+    glVertex3d(-0.025f * scale, -0.02f * scale, 0.f);
+    glVertex3d(-0.025f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(-0.175f * scale, -0.02f * scale, 0.15f * scale);
 
-    glVertex3d(-0.175f, -0.02f, 0.15f);
-    glVertex3d(-0.025f, -0.02f, 0.15f);
-    glVertex3d(-0.07f, -0.02f, 0.25f);
-    glVertex3d(-0.13f, -0.02f, 0.25f);
+    glVertex3d(-0.175f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(-0.025f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(-0.07f * scale, -0.02f * scale, 0.25f * scale);
+    glVertex3d(-0.13f * scale, -0.02f * scale, 0.25f * scale);
 
     //ARRIERE
-    glVertex3d(-0.025f, -0.12f, 0.f);
-    glVertex3d(-0.175f, -0.12f, 0.f);
-    glVertex3d(-0.175f, -0.12f, 0.15f);
-    glVertex3d(-0.025f, -0.12f, 0.15f);
+    glVertex3d(-0.025f * scale, -0.12f * scale, 0.f);
+    glVertex3d(-0.175f * scale, -0.12f * scale, 0.f);
+    glVertex3d(-0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.025f * scale, -0.12f * scale, 0.15f * scale);
 
-    glVertex3d(-0.025f, -0.12f, 0.15f);
-    glVertex3d(-0.175f, -0.12f, 0.15f);
-    glVertex3d(-0.13f, -0.12f, 0.25f);
-    glVertex3d(-0.07f, -0.12f, 0.25f);
+    glVertex3d(-0.025f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.13f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(-0.07f * scale, -0.12f * scale, 0.25f * scale);
 
     //CONTOURS
-    glVertex3d(-0.025f, -0.02f, 0.f);
-    glVertex3d(-0.025f, -0.12f, 0.f);
-    glVertex3d(-0.025f, -0.12f, 0.15f);
-    glVertex3d(-0.025f, -0.02f, 0.15f);
+    glVertex3d(-0.025f * scale, -0.02f * scale, 0.f);
+    glVertex3d(-0.025f * scale, -0.12f * scale, 0.f);
+    glVertex3d(-0.025f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.025f * scale, -0.02f * scale, 0.15f * scale);
 
-    glVertex3d(-0.175f, -0.02f, 0.f);
-    glVertex3d(-0.175f, -0.12f, 0.f);
-    glVertex3d(-0.175f, -0.12f, 0.15f);
-    glVertex3d(-0.175f, -0.02f, 0.15f);
+    glVertex3d(-0.175f * scale, -0.02f * scale, 0.f);
+    glVertex3d(-0.175f * scale, -0.12f * scale, 0.f);
+    glVertex3d(-0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.175f * scale, -0.02f * scale, 0.15f * scale);
 
-    glVertex3d(-0.025f, -0.02f, 0.15f);
-    glVertex3d(-0.025f, -0.12f, 0.15f);
-    glVertex3d(-0.07f, -0.12f, 0.25f);
-    glVertex3d(-0.07f, -0.02f, 0.25f);
+    glVertex3d(-0.025f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(-0.025f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.07f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(-0.07f * scale, -0.02f * scale, 0.25f * scale);
 
-    glVertex3d(-0.175f, -0.02f, 0.15f);
-    glVertex3d(-0.175f, -0.12f, 0.15f);
-    glVertex3d(-0.13f, -0.12f, 0.25f);
-    glVertex3d(-0.13f, -0.02f, 0.25f);
+    glVertex3d(-0.175f * scale, -0.02f * scale, 0.15f * scale);
+    glVertex3d(-0.175f * scale, -0.12f * scale, 0.15f * scale);
+    glVertex3d(-0.13f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(-0.13f * scale, -0.02f * scale, 0.25f * scale);
 
-    glVertex3d(-0.13f, -0.12f, 0.25f);
-    glVertex3d(-0.13f, -0.02f, 0.25f);
-    glVertex3d(-0.07f, -0.02f, 0.25f);
-    glVertex3d(-0.07f, -0.12f, 0.25f);
+    glVertex3d(-0.13f * scale, -0.12f * scale, 0.25f * scale);
+    glVertex3d(-0.13f * scale, -0.02f * scale, 0.25f * scale);
+    glVertex3d(-0.07f * scale, -0.02f * scale, 0.25f * scale);
+    glVertex3d(-0.07f * scale, -0.12f * scale, 0.25f * scale);
 
     //3
     //AVANT
-    glVertex3d(-0.2f, -0.02f, -0.25f);
-    glVertex3d(-0.2f, -0.02f, -0.05f);
-    glVertex3d(-0.32f, -0.02f, 0.1f);
-    glVertex3d(-0.37f, -0.02f, -0.05f);
+    glVertex3d(-0.2f * scale, -0.02f * scale, -0.25f * scale);
+    glVertex3d(-0.2f * scale, -0.02f * scale, -0.05f * scale);
+    glVertex3d(-0.32f * scale, -0.02f * scale, 0.1f * scale);
+    glVertex3d(-0.37f * scale, -0.02f * scale, -0.05f * scale);
 
     //ARRIERE
-    glVertex3d(-0.2f, -0.12f, -0.25f);
-    glVertex3d(-0.2f, -0.12f, -0.05f);
-    glVertex3d(-0.32f, -0.12f, 0.1f);
-    glVertex3d(-0.37f, -0.12f, -0.05f);
+    glVertex3d(-0.2f * scale, -0.12f * scale, -0.25f * scale);
+    glVertex3d(-0.2f * scale, -0.12f * scale, -0.05f * scale);
+    glVertex3d(-0.32f * scale, -0.12f * scale, 0.1f * scale);
+    glVertex3d(-0.37f * scale, -0.12f * scale, -0.05f * scale);
 
     //CONTOURS
-    glVertex3d(-0.37f, -0.02f, -0.05f);
-    glVertex3d(-0.2f, -0.02f, -0.25f);
-    glVertex3d(-0.2f, -0.12f, -0.25f);
-    glVertex3d(-0.37f, -0.12f, -0.05f);
+    glVertex3d(-0.37f * scale, -0.02f * scale, -0.05f * scale);
+    glVertex3d(-0.2f * scale, -0.02f * scale, -0.25f * scale);
+    glVertex3d(-0.2f * scale, -0.12f * scale, -0.25f * scale);
+    glVertex3d(-0.37f * scale, -0.12f * scale, -0.05f * scale);
 
-    glVertex3d(-0.2f, -0.02f, -0.05f);
-    glVertex3d(-0.32f, -0.02f, 0.1f);
-    glVertex3d(-0.32f, -0.12f, 0.1f);
-    glVertex3d(-0.2f, -0.12f, -0.05f);
+    glVertex3d(-0.2f * scale, -0.02f * scale, -0.05f * scale);
+    glVertex3d(-0.32f * scale, -0.02f * scale, 0.1f * scale);
+    glVertex3d(-0.32f * scale, -0.12f * scale, 0.1f * scale);
+    glVertex3d(-0.2f * scale, -0.12f * scale, -0.05f * scale);
 
-    glVertex3d(-0.37f, -0.02f, -0.05f);
-    glVertex3d(-0.32f, -0.02f, 0.1f);
-    glVertex3d(-0.32f, -0.12f, 0.1f);
-    glVertex3d(-0.37f, -0.12f, -0.05f);
-
+    glVertex3d(-0.37f * scale, -0.02f * scale, -0.05f * scale);
+    glVertex3d(-0.32f * scale, -0.02f * scale, 0.1f * scale);
+    glVertex3d(-0.32f * scale, -0.12f * scale, 0.1f * scale);
+    glVertex3d(-0.37f * scale, -0.12f * scale, -0.05f * scale);
 
     glEnd();
-
 }
 
 void Arms::SetTexture(int index, GLuint texture) {
