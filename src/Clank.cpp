@@ -22,8 +22,6 @@ Clank::Clank() {
     deltaAnglex = 0.0f;
     deltaAngley = 0.0f;
 
-    locked = 1;
-
     arms = new Arms(1.f, posx, posy, posz, 0.f, 0.f, 0.f);
 }
 
@@ -45,26 +43,16 @@ Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float 
     deltaAnglex = 0.0f;
     deltaAngley = 0.0f;
 
-    arms = new Arms(1.f, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
+    arms = new Arms(scale, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
 }
 
 void Clank::updatePos() {
 
     if (deltaForward || deltaStrafe) {
-        if (locked) {
             posx += deltaForward * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posy = 1.5f;
             posz += deltaForward * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
             posx += deltaStrafe * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
             posz -= deltaStrafe * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
-
-        } else {
-            posx += deltaForward * dirx * MOVE_SPEED;
-            posy += deltaForward * diry * MOVE_SPEED;
-            posz += deltaForward * dirz * MOVE_SPEED;
-            posx += deltaStrafe * dirz * MOVE_SPEED;
-            posz -= deltaStrafe * dirx * MOVE_SPEED;
-        }
     }
     updateMembersPos();
 }
@@ -197,12 +185,4 @@ char Clank::getDeltaStrafe() const {
 
 void Clank::setDeltaStrafe(char deltaStrafe) {
     Clank::deltaStrafe = deltaStrafe;
-}
-
-char Clank::getLocked() const {
-    return locked;
-}
-
-void Clank::setLocked(char locked) {
-    Clank::locked = locked;
 }

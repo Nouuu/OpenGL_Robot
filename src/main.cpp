@@ -13,7 +13,7 @@ Camera *cam = new Camera();
 // Objet Scène
 Map *m = new Map();
 // Objet bras
-Clank *clank = new Clank(1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f);
+Clank *clank = new Clank(.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f);
 
 // Titre fenêtre
 const char *windowTitle = "Clank";

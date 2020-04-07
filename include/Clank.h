@@ -88,10 +88,6 @@ public:
 
     void setDeltaStrafe(char deltaStrafe);
 
-    char getLocked() const;
-
-    void setLocked(char locked);
-
 private:
     float posx;
     float posy;
@@ -113,7 +109,6 @@ private:
 
     char deltaForward;
     char deltaStrafe;
-    char locked;
 
     Arms *arms;
 };
