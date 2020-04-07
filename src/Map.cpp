@@ -92,10 +92,6 @@ void Map::DrawGround() {
     glTranslatef(0.0f, 1.0f, 0.0f);
 
 
-    Arms *arms = new Arms(1.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f);
-    arms->setShoulderRotation(30);
-    arms->setForearmRotation(60);
-    arms->Draw();
 }
 
 void Map::DrawSkybox(Camera *cam) {
