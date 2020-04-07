@@ -14,7 +14,7 @@ public:
     Map();
 
     // Stockage des références aux textures
-    GLuint ListeTextures[20];
+    GLuint ListeTextures[21];
     GLuint Skybox[6];
     GLuint ArmsTextures[6];
 
