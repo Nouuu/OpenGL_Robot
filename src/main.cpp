@@ -175,6 +175,9 @@ int main(int argc, char **argv) {
     glutInitWindowSize(600, 600);
     glutCreateWindow(windowTitle);
 
+    /** INIT TEXTURES **/
+    LoadTextures();
+
     /** FONCTIONS GLUT **/
     glutDisplayFunc(renderScene);
     glutReshapeFunc(reshapeWindow);
@@ -192,9 +195,6 @@ int main(int argc, char **argv) {
     /** GESTION SOURIS **/
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMove);
-
-    /** INIT TEXTURES **/
-    LoadTextures();
 
     /** INIT GL STATES **/
     glEnable(GL_DEPTH_TEST);
