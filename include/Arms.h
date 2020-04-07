@@ -12,13 +12,34 @@
 #include "glut.h"
 #include "SOIL.h"
 
+typedef struct {
+    char isWalking;
+    char walkingShoulderWay;
+    float walkingShoulderMaxRotation;
+    float walkingShoulderMinRotation;
+    float walkingForearmWay;
+    float walkingForearmMaxRotation;
+    float walkingForearmMinRotation;
+    float animationSpeed;
+} Walking;
+
 class Arms {
 public:
     Arms();
 
     Arms(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz);
 
+    void ConstructDefault();
+
     void Draw();
+
+    void UpdateAnimations();
+
+    void setWalkingAnimationgActive();
+
+    void setWalkingAnimationInactive();
+
+    void UpdateWalkingAnimation();
 
     void DrawShoulder(GLUquadric *pObj);
 
@@ -79,6 +100,7 @@ private:
     float roty;
     float rotz;
 
+    Walking walking;
     float shoulderRotation;
     float forearmRotation;
 

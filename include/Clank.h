@@ -22,11 +22,19 @@ public:
 
     Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz);
 
+    void ConstructDefault();
+
     void Draw();
 
     void updatePos();
 
     void updateMembersPos();
+
+    void updateMemberAnimations();
+
+    void enableWalkingAnimation();
+
+    void disableWalkingAnimation();
 
     float getPosx() const;
 
@@ -109,6 +117,7 @@ private:
 
     char deltaForward;
     char deltaStrafe;
+    char walkingAnimation;
 
     Arms *arms;
 };
