@@ -5,33 +5,28 @@
 #include "Clank.h"
 
 Clank::Clank() {
-    deltaForward = 0;
-    deltaStrafe = 0;
 
     posx = 0.0f;
     posy = 1.5f;
     posz = 5.0f;
 
-    dirx = 0.0f;
-    diry = 0.0f;
-    dirz = -1.0f;
-
-    angleh = 0.0f;
-    anglev = 0.0f;
-
-    deltaAnglex = 0.0f;
-    deltaAngley = 0.0f;
+    ConstructDefault();
 
     arms = new Arms(1.f, posx, posy, posz, 0.f, 0.f, 0.f);
 }
 
 Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
-    deltaForward = 0;
-    deltaStrafe = 0;
 
     this->posx = posx;
     this->posy = posy;
     this->posz = posz;
+    ConstructDefault();
+    arms = new Arms(scale, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
+}
+
+void Clank::ConstructDefault() {
+    deltaForward = 0;
+    deltaStrafe = 0;
 
     dirx = 0.0f;
     diry = 0.0f;
@@ -42,19 +37,18 @@ Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float 
 
     deltaAnglex = 0.0f;
     deltaAngley = 0.0f;
-
-    arms = new Arms(scale, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
 }
 
 void Clank::updatePos() {
 
     if (deltaForward || deltaStrafe) {
-            posx += deltaForward * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posz += deltaForward * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posx += deltaStrafe * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posz -= deltaStrafe * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
+        posx += deltaForward * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
+        posz += deltaForward * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
+        posx += deltaStrafe * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
+        posz -= deltaStrafe * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
     }
     updateMembersPos();
+    updateMemberAnimations();
 }
 
 void Clank::updateMembersPos() {
@@ -65,6 +59,18 @@ void Clank::updateMembersPos() {
 
 void Clank::Draw() {
     arms->Draw();
+}
+
+void Clank::enableWalkingAnimation() {
+    arms->setWalkingAnimationgActive();
+}
+
+void Clank::disableWalkingAnimation() {
+    arms->setWalkingAnimationInactive();
+}
+
+void Clank::updateMemberAnimations() {
+    arms->UpdateAnimations();
 }
 
 float Clank::getPosx() const {
