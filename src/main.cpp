@@ -168,6 +168,7 @@ void renderScene(void) {
 
 void LoadTextures() {
     m->LoadTextures();
+    clank->LoadTextures();
 }
 
 int main(int argc, char **argv) {

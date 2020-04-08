@@ -4,15 +4,23 @@
 
 #include "Clank.h"
 
+void Clank::LoadTextures() {
+    ListeTextures[0] = SOIL_load_OGL_texture("img/concrete-21_s100-g100.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    ListeTextures[1] = SOIL_load_OGL_texture("img/concrete-19_b005.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+
+    body->SetTexture(0, ListeTextures[0]);
+    body->SetTexture(1, ListeTextures[1]);
+}
+
 Clank::Clank() {
 
     posx = 0.0f;
     posy = 1.5f;
     posz = 5.0f;
+    scale = 1.f;
 
     ConstructDefault();
 
-    arms = new Arms(1.f, posx, posy, posz, 0.f, 0.f, 0.f);
 }
 
 Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
@@ -20,8 +28,8 @@ Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float 
     this->posx = posx;
     this->posy = posy;
     this->posz = posz;
+    this->scale = scale;
     ConstructDefault();
-    arms = new Arms(scale, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
 }
 
 void Clank::ConstructDefault() {
@@ -37,6 +45,10 @@ void Clank::ConstructDefault() {
 
     deltaAnglex = 0.0f;
     deltaAngley = 0.0f;
+
+
+    arms = new Arms(scale, posx, posy, posz, 0.f, 0.f, 0.f);
+    body = new Body(scale, posx, posy, posz, 0.f, 0.f, 0.f);
 }
 
 void Clank::updatePos() {
@@ -55,10 +67,14 @@ void Clank::updateMembersPos() {
     arms->setPosx(posx);
     arms->setPosy(posy);
     arms->setPosz(posz);
+    body->setPosx(posx);
+    body->setPosy(posy);
+    body->setPosz(posz);
 }
 
 void Clank::Draw() {
-    arms->Draw();
+//    arms->Draw();
+    body->Draw();
 }
 
 void Clank::enableWalkingAnimation() {

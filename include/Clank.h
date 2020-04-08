@@ -13,6 +13,7 @@
 #include "SOIL.h"
 
 #include "Arms.h"
+#include "Body.h"
 
 #define MOVE_SPEED 0.1f
 
@@ -35,6 +36,8 @@ public:
     void enableWalkingAnimation();
 
     void disableWalkingAnimation();
+
+    void LoadTextures(void);
 
     float getPosx() const;
 
@@ -97,6 +100,8 @@ public:
     void setDeltaStrafe(char deltaStrafe);
 
 private:
+
+    GLuint ListeTextures[20];
     float posx;
     float posy;
     float posz;
@@ -109,6 +114,8 @@ private:
     float roty;
     float rotz;
 
+    float scale;
+
     float angleh;
     float anglev;
 
@@ -120,6 +127,7 @@ private:
     char walkingAnimation;
 
     Arms *arms;
+    Body *body;
 };
 
 #endif //ROBOT_CLANK_CLANK_H
