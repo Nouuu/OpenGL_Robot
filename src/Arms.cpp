@@ -32,7 +32,7 @@ Arms::Arms(float scale, float posx, float posy, float posz, float rotx, float ro
 }
 
 void Arms::ConstructDefault() {
-    walking.isWalking = 1;
+    walking.isWalking = 0;
     walking.walkingShoulderMinRotation = -20.f;
     walking.walkingShoulderMaxRotation = 30.f;
     walking.walkingShoulderWay = 1;
@@ -130,14 +130,16 @@ void Arms::DrawShoulder(GLUquadric *pObj) {
     glColor3f(0.5f, 0.5f, 0.5f);
     gluCylinder(pObj, 0.25f * scale, 0.25f * scale, 0.15f * scale, 32, 32);
     gluDisk(pObj, 0.15f * scale, 0.25f * scale, 32, 32);
-    glTranslatef(0.f, 0.f, 0.1f * scale);
+    glTranslatef(0.f, 0.f, 0.15 * scale);
+    gluDisk(pObj, 0.15f * scale, 0.25f * scale, 32, 32);
+    glTranslatef(0.f, 0.f, -0.075 * scale);
     glColor3f(0.35f, 0.35f, 0.35f);
     gluSphere(pObj, 0.20f * scale, 32, 32);
 }
 
 void Arms::DrawUpperarm(GLUquadric *pObj) {
     glRotatef(shoulderRotation, 0.f, 0.f, 1.f); // ROTATION BRAS SUPERIEUR JOINTURE EPAULE
-    glTranslatef(0.f, -0.22f * scale, -0.025f * scale);
+    glTranslatef(0.f, -0.22f * scale, 0.f);
     glRotatef(90, 1.f, 0.f, 0.f);
     glColor3f(0.2f, 0.2f, 0.2f);
     gluCylinder(pObj, 0.07f * scale, 0.07f * scale, 0.3f * scale, 32, 32);
