@@ -2,6 +2,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <iostream>
 
 #include "Camera.h"
 #include "Map.h"
@@ -13,7 +14,7 @@ Camera *cam = new Camera();
 // Objet Scène
 Map *m = new Map();
 // Objet bras
-Clank *clank = new Clank(.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f);
+Clank *clank = new Clank(.5f, 0.f, 0.2f, 0.f, 0.f, 0.f, 0.f);
 
 // Titre fenêtre
 const char *windowTitle = "Clank";
@@ -80,9 +81,11 @@ void KeyboardUp(unsigned char key, int xx, int yy) {
         case '8':
         case '2':
             clank->setDeltaForward(0);
+            break;
         case '4':
         case '6':
             clank->setDeltaStrafe(0);
+            break;
     }
 }
 
@@ -158,8 +161,8 @@ void renderScene(void) {
     );
 
     m->DrawGround();
-    clank->Draw();
     m->DrawSkybox(cam);
+    clank->Draw();
     glutSwapBuffers();
 }
 
