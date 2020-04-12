@@ -21,8 +21,8 @@ Clank::Clank() {
 
     deltaAnglex = 0.0f;
     deltaAngley = 0.0f;
-
-    arms = new Arms(1.f, posx, posy, posz, 0.f, 0.f, 0.f);
+    head = new Head();
+    //arms = new Arms(1.f, posx, posy, posz, 0.f, 0.f, 0.f);
 }
 
 Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
@@ -64,7 +64,8 @@ void Clank::updateMembersPos() {
 }
 
 void Clank::Draw() {
-    arms->Draw();
+    head->Draw();
+    // arms->Draw();
 }
 
 float Clank::getPosx() const {

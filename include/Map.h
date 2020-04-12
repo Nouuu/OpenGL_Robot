@@ -8,7 +8,6 @@
 #include "SOIL.h"
 
 #include "Camera.h"
-#include <math.h>
 class Map
 {
     public:
@@ -19,9 +18,6 @@ class Map
         void LoadTextures(void);
         void DrawGround(void);
         void DrawSkybox(Camera *cam);
-        void DrawclankHead(void);
-        void DrawclankAntenna(void);
-        void drawHalfSphere(int scaley, int scalex, GLfloat rayon);
     protected:
     private:
         GLuint textures[6];

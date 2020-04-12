@@ -158,7 +158,6 @@ void renderScene(void) {
     );
 
     m->DrawGround();
-    m->DrawclankHead();
     m->DrawSkybox(cam);
     glutSwapBuffers();
 }

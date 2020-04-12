@@ -13,6 +13,7 @@
 #include "SOIL.h"
 
 #include "Arms.h"
+#include "Head.h"
 
 #define MOVE_SPEED 0.1f
 
@@ -111,6 +112,7 @@ private:
     char deltaStrafe;
 
     Arms *arms;
+    Head *head;
 };
 
 #endif //ROBOT_CLANK_CLANK_H
