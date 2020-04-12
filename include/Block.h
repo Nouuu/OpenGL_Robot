@@ -21,26 +21,28 @@
 
 #define TEXTURE_SCALE 1.0f
 
-class Block
-{
-    public:
-        Block();
-        Block(float x, float y, float z);
-        void Draw();
-        void SetTexture(int face, GLuint texture);
+class Block {
+public:
+    Block();
 
-        float posx;
-        float posy;
-        float posz;
+    Block(float x, float y, float z);
 
-        float x;
-        float y;
-        float z;
-    protected:
+    void Draw();
 
-    private:
-        GLuint textures[6];
-        char anchor[3];
+    void SetTexture(int face, GLuint texture);
+
+    float posx;
+    float posy;
+    float posz;
+
+    float x;
+    float y;
+    float z;
+protected:
+
+private:
+    GLuint textures[6];
+    char anchor[3];
 };
 
 #endif // BLOCK_H
