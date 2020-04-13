@@ -337,6 +337,9 @@
 1586681024 source:c:\esgi\infographie\opengl_robot\src\arms.cpp
 	"Arms.h"
 
-1586682733 source:c:\esgi\infographie\opengl_robot\src\clank.cpp
+1586784840 source:c:\esgi\infographie\opengl_robot\src\clank.cpp
 	"Clank.h"
+
+1586766833 source:c:\esgi\infographie\opengl_robot\src\head.cpp
+	"Head.h"
 
