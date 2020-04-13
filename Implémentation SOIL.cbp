@@ -45,9 +45,13 @@
 		</Linker>
 		<Unit filename="include/Block.h" />
 		<Unit filename="include/Camera.h" />
+		<Unit filename="include/Clank.h" />
+		<Unit filename="include/Head.h" />
 		<Unit filename="include/Map.h" />
 		<Unit filename="src/Block.cpp" />
 		<Unit filename="src/Camera.cpp" />
+		<Unit filename="src/Clank.cpp" />
+		<Unit filename="src/Head.cpp" />
 		<Unit filename="src/Map.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>

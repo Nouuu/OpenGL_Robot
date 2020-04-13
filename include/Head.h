@@ -14,4 +14,19 @@ public:
     void Draw();
 
     void drawHalfSphere(int scaley, int scalex, GLfloat rayon);
+private:
+    float posx;
+    float posy;
+    float posz;
+
+    float rotx;
+    float roty;
+    float rotz;
+
+    float shoulderRotation;
+    float forearmRotation;
+
+    float scale;
+
+    GLuint textures[6];
 };
