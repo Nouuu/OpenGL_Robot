@@ -240,7 +240,7 @@
 
 1584712842 c:\esgi\infographie\opengl_robot\include\soil.h
 
-1586682728 source:c:\esgi\infographie\opengl_robot\src\main.cpp
+1586785170 source:c:\esgi\infographie\opengl_robot\src\main.cpp
 	<stdlib.h>
 	<GL/gl.h>
 	<GL/glu.h>
@@ -337,9 +337,10 @@
 1586681024 source:c:\esgi\infographie\opengl_robot\src\arms.cpp
 	"Arms.h"
 
-1586784840 source:c:\esgi\infographie\opengl_robot\src\clank.cpp
+1587146835 source:c:\esgi\infographie\opengl_robot\src\clank.cpp
 	"Clank.h"
 
-1586766833 source:c:\esgi\infographie\opengl_robot\src\head.cpp
+1587146734 source:c:\esgi\infographie\opengl_robot\src\head.cpp
 	"Head.h"
+	<stdio.h>
 

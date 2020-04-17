@@ -52,34 +52,34 @@ void Head::Draw() {
     GLUquadric* params_oeil = gluNewQuadric();
 
     glColor3f(0.6, 0.6, 0.6);
-    glTranslatef(0.0, 0.0, 7.0);
+    glTranslatef(0.0 * this->scale, 0.0 * this->scale, 7.0 * this->scale);
 
-    drawHalfSphere(20, 20, 4.7);
+    drawHalfSphere(20, 20, 4.7 * this->scale);
 
     glColor3f(0.3, 0.3, 0.3);
-    glTranslatef(0.5, 0.0, 0.0);
+    glTranslatef(0.5 * this->scale, 0.0 * this->scale, 0.0 * this->scale);
     glRotatef(180, 1.0, 0.0, 0.0);
 
-    drawHalfSphere(20, 20, 5);
+    drawHalfSphere(20, 20, 5 * this->scale);
 
     glColor3f(1.0, 0.1, 0.1);
-    glTranslatef(0.0, -7.0, 0.0);
-    gluSphere(params_sphere,0.4,10,10);
+    glTranslatef(0.0, -7.0 * this->scale, 0.0);
+    gluSphere(params_sphere,0.4 * this->scale,10,10);
 
     glColor3f(0.6, 0.6, 0.6);
     glRotatef(90.0, 1.0, 0.0, 0.0);
-    glTranslatef(0.0, 0.0, -3.0);
+    glTranslatef(0.0, 0.0, -3.0 * this->scale);
 
-    gluCylinder(params_cylindre,0.1f,0.1f,3.0f,32,32);
+    gluCylinder(params_cylindre,0.1f * this->scale,0.1f * this->scale,3.0f * this->scale,32,32);
 
     glColor3f(0.2, 1.0, 0.2);
-    glTranslatef(3.0, -1.4, -1.0);
+    glTranslatef(3.0 * this->scale, -1.4 * this->scale, -1.0 * this->scale);
 
-    gluSphere(params_sphere,0.7,10,10);
+    gluSphere(params_sphere,0.7 * this->scale,10,10);
 
-    glTranslatef(0.0, 2.8, 0.0);
+    glTranslatef(0.0, 2.8 * this->scale, 0.0);
 
-    gluSphere(params_sphere,0.7,10,10);
+    gluSphere(params_sphere,0.7 * this->scale,10,10);
     glPopMatrix();
 }
 
