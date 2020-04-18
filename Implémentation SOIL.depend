@@ -337,10 +337,9 @@
 1586681024 source:c:\esgi\infographie\opengl_robot\src\arms.cpp
 	"Arms.h"
 
-1587146835 source:c:\esgi\infographie\opengl_robot\src\clank.cpp
+1587209563 source:c:\esgi\infographie\opengl_robot\src\clank.cpp
 	"Clank.h"
 
-1587146734 source:c:\esgi\infographie\opengl_robot\src\head.cpp
+1587208907 source:c:\esgi\infographie\opengl_robot\src\head.cpp
 	"Head.h"
-	<stdio.h>
 

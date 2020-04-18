@@ -50,17 +50,23 @@ void Head::Draw() {
     GLUquadricObj* params_cylindre = gluNewQuadric();
     GLUquadric* params_sphere = gluNewQuadric();
     GLUquadric* params_oeil = gluNewQuadric();
+    GLUquadric* params_marchoire = gluNewQuadric();
 
+    /** topside head **/
     glColor3f(0.6, 0.6, 0.6);
     glTranslatef(0.0 * this->scale, 0.0 * this->scale, 7.0 * this->scale);
 
     drawHalfSphere(20, 20, 4.7 * this->scale);
+
+    /** downside head **/
 
     glColor3f(0.3, 0.3, 0.3);
     glTranslatef(0.5 * this->scale, 0.0 * this->scale, 0.0 * this->scale);
     glRotatef(180, 1.0, 0.0, 0.0);
 
     drawHalfSphere(20, 20, 5 * this->scale);
+
+    /** antenna **/
 
     glColor3f(1.0, 0.1, 0.1);
     glTranslatef(0.0, -7.0 * this->scale, 0.0);
@@ -72,6 +78,7 @@ void Head::Draw() {
 
     gluCylinder(params_cylindre,0.1f * this->scale,0.1f * this->scale,3.0f * this->scale,32,32);
 
+    /** eyes **/
     glColor3f(0.2, 1.0, 0.2);
     glTranslatef(3.0 * this->scale, -1.4 * this->scale, -1.0 * this->scale);
 
@@ -80,6 +87,31 @@ void Head::Draw() {
     glTranslatef(0.0, 2.8 * this->scale, 0.0);
 
     gluSphere(params_sphere,0.7 * this->scale,10,10);
+
+    /********* Machoire ************/
+
+    glTranslatef(-5.0 * this->scale, 3.5 * this->scale, -3.0 * this->scale);
+    glRotatef(90.0, 1.0, 0.0, 0.0);
+    glColor3f(0.4, 0.4, 0.4);
+
+    gluCylinder(params_cylindre,1.1f * this->scale,1.1f * this->scale,1.5f * this->scale,32,32);
+    gluDisk(params_marchoire, 0.0f * this->scale,1.1f * this->scale, 32, 32);
+
+    glColor3f(0.1, 0.1, 0.1);
+    gluSphere(params_sphere, 0.5f * this->scale, 32, 32);
+
+    /*********** other Machoire **********/
+
+    glTranslatef(0.0 * this->scale, 0.0 * this->scale, 8.5 * this->scale);
+    glColor3f(0.4, 0.4, 0.4);
+
+    gluCylinder(params_cylindre,1.1f * this->scale,1.1f * this->scale,1.5f * this->scale,32,32);
+    glTranslatef(0.0 * this->scale, 0.0 * this->scale, 1.1 * this->scale);
+    gluDisk(params_marchoire, 0.0f * this->scale,1.1f * this->scale, 32, 32);
+
+    glColor3f(0.1, 0.1, 0.1);
+    gluSphere(params_sphere, 0.5f * this->scale, 32, 32);
+
     glPopMatrix();
 }
 
