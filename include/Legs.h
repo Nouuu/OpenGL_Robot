@@ -11,6 +11,7 @@ class Legs {
     public:
         Legs();
         void DrawLeg(void);
+        void DrawLegs(void);
     protected:
     private:
 };
