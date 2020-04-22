@@ -35,13 +35,13 @@ public:
 
     void updateRotation();
 
-    void updateMemberRotation();
-
     void updateMemberAnimations();
 
     void enableWalkingAnimation();
 
     void disableWalkingAnimation();
+
+    void setHeadRotationDelta(char delta);
 
     void LoadTextures(void);
 

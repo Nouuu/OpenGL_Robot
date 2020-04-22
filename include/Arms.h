@@ -14,7 +14,7 @@
 
 typedef struct {
     char isWalking;
-    char walkingShoulderWay;
+    unsigned char walkingShoulderWay;
     float walkingShoulderMaxRotation;
     float walkingShoulderMinRotation;
     float walkingForearmWay;

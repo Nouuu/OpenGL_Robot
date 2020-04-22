@@ -63,9 +63,11 @@ void KeyboardDown(unsigned char key, int xx, int yy) {
             break;
         case '4':
             clank->setDeltaAngley(1);
+            clank->setHeadRotationDelta(1);
             break;
         case '6':
             clank->setDeltaAngley(-1);
+            clank->setHeadRotationDelta(-1);
             break;
     }
 }
@@ -88,6 +90,7 @@ void KeyboardUp(unsigned char key, int xx, int yy) {
         case '4':
         case '6':
             clank->setDeltaAngley(0);
+            clank->setHeadRotationDelta(0);
             break;
     }
 }

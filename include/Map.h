@@ -13,7 +13,7 @@ class Map
     public:
         Map();
         // Stockage des r�f�rences aux textures
-        GLuint ListeTextures[20];
+        GLuint ListeTextures[21];
         GLuint Skybox[6];
         void LoadTextures(void);
         void DrawGround(void);

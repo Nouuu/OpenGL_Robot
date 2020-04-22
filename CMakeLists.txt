@@ -15,7 +15,8 @@ add_executable(CLANK
         include/stb_image_aug.c
         src/Arms.cpp
         src/Clank.cpp
-        src/Body.cpp)
+        src/Body.cpp
+        src/Head.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
