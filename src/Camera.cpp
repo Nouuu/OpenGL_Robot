@@ -34,20 +34,20 @@ void Camera::updatePos()
     {
         if (locked)
         {
-            posx += deltaForward * (dirx/cos(anglev + deltaAngley)) * MOVE_SPEED;
+            posx += deltaForward * (dirx/cos(anglev + deltaAngley)) * CAMERA_MOVE_SPEED;
             posy = 1.5f;
-            posz += deltaForward * (dirz/cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posx += deltaStrafe * (dirz/cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posz -= deltaStrafe * (dirx/cos(anglev + deltaAngley)) * MOVE_SPEED;
+            posz += deltaForward * (dirz/cos(anglev + deltaAngley)) * CAMERA_MOVE_SPEED;
+            posx += deltaStrafe * (dirz/cos(anglev + deltaAngley)) * CAMERA_MOVE_SPEED;
+            posz -= deltaStrafe * (dirx/cos(anglev + deltaAngley)) * CAMERA_MOVE_SPEED;
 
         }
         else
         {
-            posx += deltaForward * dirx * MOVE_SPEED;
-            posy += deltaForward * diry * MOVE_SPEED;
-            posz += deltaForward * dirz * MOVE_SPEED;
-            posx += deltaStrafe * dirz * MOVE_SPEED;
-            posz -= deltaStrafe * dirx * MOVE_SPEED;
+            posx += deltaForward * dirx * CAMERA_MOVE_SPEED;
+            posy += deltaForward * diry * CAMERA_MOVE_SPEED;
+            posz += deltaForward * dirz * CAMERA_MOVE_SPEED;
+            posx += deltaStrafe * dirz * CAMERA_MOVE_SPEED;
+            posz -= deltaStrafe * dirx * CAMERA_MOVE_SPEED;
         }
     }
 }

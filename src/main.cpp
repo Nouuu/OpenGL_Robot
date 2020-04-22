@@ -2,6 +2,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <iostream>
 
 #include "Camera.h"
 #include "Map.h"
@@ -13,7 +14,7 @@ Camera *cam = new Camera();
 // Objet Scène
 Map *m = new Map();
 // Objet bras
-Clank *clank = new Clank(.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f);
+Clank *clank = new Clank(.5f, 0.f, 0.2f, 0.f, 0.f, 0.f, 0.f);
 
 // Titre fenêtre
 const char *windowTitle = "Clank";
@@ -53,16 +54,18 @@ void KeyboardDown(unsigned char key, int xx, int yy) {
             cam->deltaStrafe = 1;
             break;
         case '8':
-            clank->setDeltaForward(1);
+            clank->setDeltaForward(-1);
+            clank->enableWalkingAnimation();
             break;
         case '2':
-            clank->setDeltaForward(-1);
+            clank->setDeltaForward(1);
+            clank->enableWalkingAnimation();
             break;
         case '4':
-            clank->setDeltaStrafe(1);
+            clank->setDeltaAngley(1);
             break;
         case '6':
-            clank->setDeltaStrafe(-1);
+            clank->setDeltaAngley(-1);
             break;
     }
 }
@@ -80,9 +83,12 @@ void KeyboardUp(unsigned char key, int xx, int yy) {
         case '8':
         case '2':
             clank->setDeltaForward(0);
+            clank->disableWalkingAnimation();
+            break;
         case '4':
         case '6':
-            clank->setDeltaStrafe(0);
+            clank->setDeltaAngley(0);
+            break;
     }
 }
 
@@ -144,6 +150,7 @@ void computePos(int inutile) {
 
 void clankPos(int inutile) {
     clank->updatePos();
+    clank->updateRotation();
     glutTimerFunc(10, clankPos, 0);
 }
 
@@ -158,13 +165,14 @@ void renderScene(void) {
     );
 
     m->DrawGround();
-    clank->Draw();
     m->DrawSkybox(cam);
+    clank->Draw();
     glutSwapBuffers();
 }
 
 void LoadTextures() {
     m->LoadTextures();
+    clank->LoadTextures();
 }
 
 int main(int argc, char **argv) {
@@ -174,6 +182,9 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(600, 600);
     glutCreateWindow(windowTitle);
+
+    /** INIT TEXTURES **/
+    LoadTextures();
 
     /** FONCTIONS GLUT **/
     glutDisplayFunc(renderScene);
@@ -192,9 +203,6 @@ int main(int argc, char **argv) {
     /** GESTION SOURIS **/
     glutMouseFunc(mouseButton);
     glutMotionFunc(mouseMove);
-
-    /** INIT TEXTURES **/
-    LoadTextures();
 
     /** INIT GL STATES **/
     glEnable(GL_DEPTH_TEST);

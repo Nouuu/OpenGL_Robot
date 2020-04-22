@@ -13,8 +13,10 @@
 #include "SOIL.h"
 
 #include "Arms.h"
+#include "Body.h"
 
-#define MOVE_SPEED 0.1f
+#define MOVE_SPEED 0.01f
+#define ROTATION_SPEED 1.f
 
 class Clank {
 public:
@@ -22,11 +24,25 @@ public:
 
     Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz);
 
+    void ConstructDefault();
+
     void Draw();
 
     void updatePos();
 
     void updateMembersPos();
+
+    void updateRotation();
+
+    void updateMemberRotation();
+
+    void updateMemberAnimations();
+
+    void enableWalkingAnimation();
+
+    void disableWalkingAnimation();
+
+    void LoadTextures(void);
 
     float getPosx() const;
 
@@ -89,6 +105,8 @@ public:
     void setDeltaStrafe(char deltaStrafe);
 
 private:
+
+    GLuint ListeTextures[20];
     float posx;
     float posy;
     float posz;
@@ -101,16 +119,19 @@ private:
     float roty;
     float rotz;
 
-    float angleh;
+    float scale;
+
     float anglev;
 
-    float deltaAnglex;
     float deltaAngley;
 
     char deltaForward;
     char deltaStrafe;
+    char walkingAnimation;
 
-    Arms *arms;
+    Arms *rightArm;
+    Arms *leftArm;
+    Body *body;
 };
 
 #endif //ROBOT_CLANK_CLANK_H

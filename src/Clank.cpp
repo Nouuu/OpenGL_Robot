@@ -4,67 +4,107 @@
 
 #include "Clank.h"
 
+void Clank::LoadTextures() {
+    ListeTextures[0] = SOIL_load_OGL_texture("img/concrete-21_s100-g100.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+                                             SOIL_FLAG_INVERT_Y);
+    ListeTextures[1] = SOIL_load_OGL_texture("img/concrete-19_b005.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+                                             SOIL_FLAG_INVERT_Y);
+
+    body->SetTexture(0, ListeTextures[0]);
+    body->SetTexture(1, ListeTextures[1]);
+}
+
 Clank::Clank() {
-    deltaForward = 0;
-    deltaStrafe = 0;
 
     posx = 0.0f;
     posy = 1.5f;
     posz = 5.0f;
+    scale = 1.f;
 
-    dirx = 0.0f;
-    diry = 0.0f;
-    dirz = -1.0f;
+    ConstructDefault();
 
-    angleh = 0.0f;
-    anglev = 0.0f;
-
-    deltaAnglex = 0.0f;
-    deltaAngley = 0.0f;
-
-    arms = new Arms(1.f, posx, posy, posz, 0.f, 0.f, 0.f);
 }
 
 Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
-    deltaForward = 0;
-    deltaStrafe = 0;
 
     this->posx = posx;
     this->posy = posy;
     this->posz = posz;
+    this->scale = scale;
+    ConstructDefault();
+}
+
+void Clank::ConstructDefault() {
+    deltaForward = 0;
+    deltaStrafe = 0;
 
     dirx = 0.0f;
     diry = 0.0f;
-    dirz = -1.0f;
+    dirz = 1.0f;
 
-    angleh = 0.0f;
     anglev = 0.0f;
 
-    deltaAnglex = 0.0f;
     deltaAngley = 0.0f;
 
-    arms = new Arms(scale, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
+
+    rightArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
+    leftArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
+    leftArm->InverseWalkingAnimationWay();
+    body = new Body(scale, posx, posy, posz, anglev + 0.f);
 }
 
 void Clank::updatePos() {
 
-    if (deltaForward || deltaStrafe) {
-            posx += deltaForward * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posz += deltaForward * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posx += deltaStrafe * (dirz / cos(anglev + deltaAngley)) * MOVE_SPEED;
-            posz -= deltaStrafe * (dirx / cos(anglev + deltaAngley)) * MOVE_SPEED;
+    if (deltaForward) {
+        posx += deltaForward * sin(anglev * M_PI / 180.f) * MOVE_SPEED;
+        posz += deltaForward * cos(anglev * M_PI / 180.f) * MOVE_SPEED;
     }
     updateMembersPos();
+    updateMemberAnimations();
+}
+
+void Clank::updateRotation() {
+    if (deltaAngley != 0) {
+        anglev += deltaAngley * ROTATION_SPEED;
+    }
 }
 
 void Clank::updateMembersPos() {
-    arms->setPosx(posx);
-    arms->setPosy(posy);
-    arms->setPosz(posz);
+    rightArm->setPosx(0.32f - 0.1f);
+    rightArm->setPosy(0.3f);
+    rightArm->setPosz(0.07f);
+
+    leftArm->setPosx(-0.06f - 0.1f);
+    leftArm->setPosy(0.3f);
+    leftArm->setPosz(0.07f);
+
+    body->setPosx(-0.1f);
+    body->setPosy(0);
+    body->setPosz(0);
 }
 
 void Clank::Draw() {
-    arms->Draw();
+    glTranslatef(posx, posy, posz);
+    glRotatef(anglev, 0.f, 1.f, 0.f);
+
+    rightArm->Draw();
+    leftArm->Draw();
+    body->Draw();
+}
+
+void Clank::enableWalkingAnimation() {
+    rightArm->setWalkingAnimationgActive();
+    leftArm->setWalkingAnimationgActive();
+}
+
+void Clank::disableWalkingAnimation() {
+    rightArm->setWalkingAnimationInactive();
+    leftArm->setWalkingAnimationInactive();
+}
+
+void Clank::updateMemberAnimations() {
+    rightArm->UpdateAnimations();
+    leftArm->UpdateAnimations();
 }
 
 float Clank::getPosx() const {
@@ -137,30 +177,6 @@ float Clank::getRotz() const {
 
 void Clank::setRotz(float rotz) {
     Clank::rotz = rotz;
-}
-
-float Clank::getAngleh() const {
-    return angleh;
-}
-
-void Clank::setAngleh(float angleh) {
-    Clank::angleh = angleh;
-}
-
-float Clank::getAnglev() const {
-    return anglev;
-}
-
-void Clank::setAnglev(float anglev) {
-    Clank::anglev = anglev;
-}
-
-float Clank::getDeltaAnglex() const {
-    return deltaAnglex;
-}
-
-void Clank::setDeltaAnglex(float deltaAnglex) {
-    Clank::deltaAnglex = deltaAnglex;
 }
 
 float Clank::getDeltaAngley() const {

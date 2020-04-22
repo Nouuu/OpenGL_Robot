@@ -12,12 +12,13 @@ add_executable(CLANK
         include/SOIL.c
         include/image_DXT.c
         include/image_helper.c
-include/stb_image_aug.c
+        include/stb_image_aug.c
         src/Arms.cpp
-        src/Clank.cpp)
+        src/Clank.cpp
+        src/Body.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
-include_directories( ./include ./img ${OPENGL_INCLUDE_DIRS}  ${GLUT_INCLUDE_DIRS} )
+include_directories(./src ./include ./img ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 
-target_link_libraries(CLANK ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
+target_link_libraries(CLANK ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
