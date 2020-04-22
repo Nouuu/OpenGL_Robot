@@ -51,6 +51,7 @@ void Clank::ConstructDefault() {
     leftArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
     leftArm->InverseWalkingAnimationWay();
     body = new Body(scale, posx, posy, posz, anglev + 0.f);
+    head = new Head(0.35 * scale, this->posx, this->posy, this->posz, 0.f, 0.f, 0.f);
 }
 
 void Clank::updatePos() {

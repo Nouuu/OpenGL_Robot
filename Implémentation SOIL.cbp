@@ -36,18 +36,45 @@
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
-			<Add library="lib\glut32.lib" />
-			<Add library="lib\libSOIL.a" />
+			<Add library="lib/glut32.lib" />
+			<Add library="lib/libSOIL.a" />
 			<Add library="glu32" />
 			<Add library="opengl32" />
 			<Add library="winmm" />
 			<Add library="gdi32" />
 		</Linker>
+		<Unit filename="../include/Block.h" />
+		<Unit filename="../include/Camera.h" />
+		<Unit filename="../include/Map.h" />
+		<Unit filename="../include/SOIL.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../include/SOIL.h" />
+		<Unit filename="../include/Skybox.h" />
+		<Unit filename="../include/glut.h" />
+		<Unit filename="../include/image_DXT.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../include/image_DXT.h" />
+		<Unit filename="../include/image_helper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../include/image_helper.h" />
+		<Unit filename="../include/stb_image_aug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../include/stb_image_aug.h" />
+		<Unit filename="../include/stbi_DDS_aug.h" />
+		<Unit filename="../include/stbi_DDS_aug_c.h" />
 		<Unit filename="include/Block.h" />
 		<Unit filename="include/Camera.h" />
+		<Unit filename="include/Clank.h" />
 		<Unit filename="include/Map.h" />
+		<Unit filename="src/Arms.cpp" />
 		<Unit filename="src/Block.cpp" />
 		<Unit filename="src/Camera.cpp" />
+		<Unit filename="src/Clank.cpp" />
+		<Unit filename="src/Head.cpp" />
 		<Unit filename="src/Map.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>

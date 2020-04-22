@@ -11,12 +11,12 @@
 
 // Objet Camera
 Camera *cam = new Camera();
-// Objet Scène
+// Objet Scï¿½ne
 Map *m = new Map();
 // Objet bras
 Clank *clank = new Clank(.5f, 0.f, 0.2f, 0.f, 0.f, 0.f, 0.f);
 
-// Titre fenêtre
+// Titre fenï¿½tre
 const char *windowTitle = "Clank";
 
 
@@ -135,7 +135,7 @@ void mouseButton(int button, int state, int x, int y) {
         if (state == GLUT_UP) {
             cam->releaseCam();
         }
-            // Mise à jour origine du clic
+            // Mise ï¿½ jour origine du clic
         else {
             cam->grabCam(x, y);
         }
@@ -158,7 +158,7 @@ void clankPos(int inutile) {
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    // Définition de la caméra
+    // Dï¿½finition de la camï¿½ra
     gluLookAt(cam->posx, cam->posy, cam->posz,
               cam->posx + cam->dirx, cam->posy + cam->diry, cam->posz + cam->dirz,
               0.0f, 1.0f, 0.0f
@@ -179,8 +179,8 @@ int main(int argc, char **argv) {
     /** CREATION FENETRE **/
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowPosition(100, 100);
-    glutInitWindowSize(600, 600);
+    glutInitWindowPosition(200,300);
+    glutInitWindowSize(1200,720);
     glutCreateWindow(windowTitle);
 
     /** INIT TEXTURES **/
