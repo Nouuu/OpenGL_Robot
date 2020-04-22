@@ -7,11 +7,12 @@
 #include "Camera.h"
 #include "Map.h"
 #include "Clank.h"
+#include "Legs.h"
 
 
 // Objet Camera
 Camera *cam = new Camera();
-// Objet Sc�ne
+// Objet Scène
 Map *m = new Map();
 // Objet bras
 Clank *clank = new Clank(.5f, 0.f, 0.2f, 0.f, 0.f, 0.f, 0.f);
