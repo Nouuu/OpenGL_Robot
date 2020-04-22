@@ -18,10 +18,10 @@ Body::Body() {
     ConstructDefault();
 }
 
-Body::Body(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
-    this->rotx = rotx;
+Body::Body(float scale, float posx, float posy, float posz, float roty) {
+    rotx = 0.0f;
+    rotz = 0.0f;
     this->roty = roty;
-    this->rotz = rotz;
     this->posx = posx;
     this->posy = posy;
     this->posz = posz;
@@ -41,17 +41,24 @@ void Body::ConstructDefault() {
 void Body::Draw() {
     glEnable(GL_TEXTURE_2D);
     glPushMatrix();
-
     /** Corps **/
 
     GLUquadric *pObj = gluNewQuadric();
     gluQuadricTexture(pObj, GLU_TRUE);
     glPushMatrix();
     glTranslatef(posx, posy, posz);
+    /**Rotation Y**/
+    glRotatef(roty, 0.f, 1.f, 0.f);
 
     DrawInterior(pObj);
 
     DrawExterior(pObj);
+
+//    glRotatef(-roty, 0.f, 1.f, 0.f);
+    gluDeleteQuadric(pObj);
+    glPopMatrix();
+    glPopMatrix();
+
 }
 
 void Body::DrawInterior(GLUquadric *pObj) {
@@ -64,7 +71,7 @@ void Body::DrawInterior(GLUquadric *pObj) {
 
     glBegin(GL_QUADS);
 
-    //Face Avant
+//Face Avant
     glTexCoord2f(0.0f, 0.0f);
     glVertex3d(0.f, 0.f, 0.f);
     glTexCoord2f(1.f, 0.0f);
@@ -74,7 +81,7 @@ void Body::DrawInterior(GLUquadric *pObj) {
     glTexCoord2f(0.0f, 1.f);
     glVertex3d(0.f, 0.3f, 0.f);
 
-    //Face Arrière
+//Face Arrière
     glTexCoord2f(0.0f, 0.0f);
 
     glVertex3d(0.f, 0.f, 0.15f);
@@ -85,7 +92,7 @@ void Body::DrawInterior(GLUquadric *pObj) {
     glTexCoord2f(0.0f, 1.f);
     glVertex3d(0.f, 0.3f, 0.15f);
 
-    //Face Dessous
+//Face Dessous
     glTexCoord2f(0.f, 0.f);
     glVertex3d(0.f, 0.f, 0.f);
     glTexCoord2f(1.f, 0.0f);
@@ -95,7 +102,7 @@ void Body::DrawInterior(GLUquadric *pObj) {
     glTexCoord2f(0.0f, 0.5f);
     glVertex3d(0.f, 0.f, 0.15f);
 
-    //Face côtés
+//Face côtés
     glTexCoord2f(0.f, 0.f);
     glVertex3d(0.f, 0.f, 0.f);
     glTexCoord2f(0.5f, 0.0f);
@@ -141,7 +148,7 @@ void Body::DrawExterior(GLUquadric *pObj) {
     glBegin(GL_QUADS);
 //    glColor3f(0.5f, 0.5f, 0.5f);
 
-    //AVANT
+//AVANT
     glTexCoord2f(0.f, 0.f);
     glVertex3d(-0.01f, 0.f, -0.01f);
     glTexCoord2f(0.5f, 0.f);
@@ -160,7 +167,7 @@ void Body::DrawExterior(GLUquadric *pObj) {
     glTexCoord2f(0.f, 1.f);
     glVertex3d(0.f, 0.3f, -0.01f);
 
-    //ARRIERE
+//ARRIERE
     glTexCoord2f(0.f, 0.f);
     glVertex3d(-0.01f, 0.f, 0.16f);
     glTexCoord2f(0.5f, 0.f);
@@ -179,7 +186,7 @@ void Body::DrawExterior(GLUquadric *pObj) {
     glTexCoord2f(0.f, 1.f);
     glVertex3d(0.f, 0.3f, 0.16f);
 
-    //COTES BAS
+//COTES BAS
     glTexCoord2f(0.f, 0.f);
     glVertex3d(-0.01f, 0.f, -0.01f);
     glTexCoord2f(0.5f, 0.f);
@@ -198,7 +205,7 @@ void Body::DrawExterior(GLUquadric *pObj) {
     glTexCoord2f(0.f, 0.5f);
     glVertex3d(0.31f, 0.f, 0.16f);
 
-    // SURFACE BAS
+// SURFACE BAS
 
     glTexCoord2f(0.f, 0.f);
     glVertex3d(-0.01f, 0.05f, -0.01f);
@@ -211,7 +218,7 @@ void Body::DrawExterior(GLUquadric *pObj) {
 
     glEnd();
 
-    //DESSUS EPAULE G
+//DESSUS EPAULE G
     glBegin(GL_QUAD_STRIP);
     glTexCoord2f(0.f, 0.f);
     glVertex3d(0.f, 0.3f, -0.01f);
@@ -269,7 +276,7 @@ void Body::DrawExterior(GLUquadric *pObj) {
     glVertex3d(0.06f, 0.3f, 0.16f);
     glEnd();
 
-    //DESSUS EPAULE D
+//DESSUS EPAULE D
     glBegin(GL_QUAD_STRIP);
     glTexCoord2f(0.f, 0.f);
     glVertex3d(0.24f, 0.3f, -0.01f);

@@ -54,16 +54,18 @@ void KeyboardDown(unsigned char key, int xx, int yy) {
             cam->deltaStrafe = 1;
             break;
         case '8':
-            clank->setDeltaForward(1);
+            clank->setDeltaForward(-1);
+            clank->enableWalkingAnimation();
             break;
         case '2':
-            clank->setDeltaForward(-1);
+            clank->setDeltaForward(1);
+            clank->enableWalkingAnimation();
             break;
         case '4':
-            clank->setDeltaStrafe(1);
+            clank->setDeltaAngley(1);
             break;
         case '6':
-            clank->setDeltaStrafe(-1);
+            clank->setDeltaAngley(-1);
             break;
     }
 }
@@ -81,10 +83,11 @@ void KeyboardUp(unsigned char key, int xx, int yy) {
         case '8':
         case '2':
             clank->setDeltaForward(0);
+            clank->disableWalkingAnimation();
             break;
         case '4':
         case '6':
-            clank->setDeltaStrafe(0);
+            clank->setDeltaAngley(0);
             break;
     }
 }
@@ -147,6 +150,7 @@ void computePos(int inutile) {
 
 void clankPos(int inutile) {
     clank->updatePos();
+    clank->updateRotation();
     glutTimerFunc(10, clankPos, 0);
 }
 

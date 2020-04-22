@@ -15,7 +15,7 @@ class Body {
 public:
     Body();
 
-    Body(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz);
+    Body(float scale, float posx, float posy, float posz, float roty);
 
     void ConstructDefault();
 

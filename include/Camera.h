@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#define MOVE_SPEED 0.03f
+#define CAMERA_MOVE_SPEED 0.03f
 #define SENSIBILITY 0.005f
 
 class Camera

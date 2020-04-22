@@ -27,7 +27,7 @@ class Arms {
 public:
     Arms();
 
-    Arms(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz);
+    Arms(float scale, float posx, float posy, float posz, float roty);
 
     void ConstructDefault();
 
@@ -40,6 +40,8 @@ public:
     void setWalkingAnimationInactive();
 
     void UpdateWalkingAnimation();
+
+    void InverseWalkingAnimationWay();
 
     void DrawShoulder(GLUquadric *pObj);
 

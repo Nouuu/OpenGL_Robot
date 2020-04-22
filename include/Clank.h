@@ -15,7 +15,8 @@
 #include "Arms.h"
 #include "Body.h"
 
-#define MOVE_SPEED 0.1f
+#define MOVE_SPEED 0.01f
+#define ROTATION_SPEED 1.f
 
 class Clank {
 public:
@@ -30,6 +31,10 @@ public:
     void updatePos();
 
     void updateMembersPos();
+
+    void updateRotation();
+
+    void updateMemberRotation();
 
     void updateMemberAnimations();
 
@@ -116,17 +121,16 @@ private:
 
     float scale;
 
-    float angleh;
     float anglev;
 
-    float deltaAnglex;
     float deltaAngley;
 
     char deltaForward;
     char deltaStrafe;
     char walkingAnimation;
 
-    Arms *arms;
+    Arms *rightArm;
+    Arms *leftArm;
     Body *body;
 };
 

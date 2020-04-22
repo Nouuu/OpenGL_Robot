@@ -19,6 +19,6 @@ add_executable(CLANK
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
-include_directories(./include ./img ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
+include_directories(./src ./include ./img ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 
 target_link_libraries(CLANK ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})

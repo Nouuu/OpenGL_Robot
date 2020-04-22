@@ -18,10 +18,10 @@ Arms::Arms() {
     ConstructDefault();
 }
 
-Arms::Arms(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
-    this->rotx = rotx;
+Arms::Arms(float scale, float posx, float posy, float posz, float roty) {
+    rotx = 0.f;
+    rotz = 0.f;
     this->roty = roty;
-    this->rotz = rotz;
     this->posx = posx;
     this->posy = posy;
     this->posz = posz;
@@ -90,6 +90,11 @@ void Arms::UpdateWalkingAnimation() {
     }
 }
 
+void Arms::InverseWalkingAnimationWay() {
+    walking.walkingForearmWay = -walking.walkingForearmWay;
+    walking.walkingShoulderWay = -walking.walkingShoulderWay;
+}
+
 void Arms::Draw() {
     glEnable(GL_TEXTURE_2D);
     glPushMatrix();
@@ -105,6 +110,8 @@ void Arms::Draw() {
     gluQuadricTexture(pObj, GLU_TRUE);
     glPushMatrix();
     glTranslatef(posx, posy, posz);
+    /**Rotation Y**/
+    glRotatef(roty, 0.f, 1.f, 0.f);
 
     // EPAULE
     DrawShoulder(pObj);
@@ -120,9 +127,10 @@ void Arms::Draw() {
     //MAIN
     DrawHand(pObj);
 
+//    glRotatef(-roty, 0.f, 1.f, 0.f);
     gluDeleteQuadric(pObj);
     glPopMatrix();
-
+    glPopMatrix();
 
 }
 
