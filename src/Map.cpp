@@ -1,6 +1,5 @@
 #include "Map.h"
 #include "Block.h"
-#include "Arms.h"
 
 #define GL_CLAMP_TO_EDGE 0x812F
 #define SKY_DISTANCE 200.0f
@@ -11,22 +10,22 @@ Map::Map() {
 
 void Map::LoadTextures() {
     // Skybox
-    Skybox[0] = SOIL_load_OGL_texture("img/skybox1.bmp", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    Skybox[0] = SOIL_load_OGL_texture("img/bkg/lightblue/left.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                       SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
                                       SOIL_FLAG_COMPRESS_TO_DXT);
-    Skybox[1] = SOIL_load_OGL_texture("img/skybox2.bmp", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    Skybox[1] = SOIL_load_OGL_texture("img/bkg/lightblue/front.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                       SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
                                       SOIL_FLAG_COMPRESS_TO_DXT);
-    Skybox[2] = SOIL_load_OGL_texture("img/skybox3.bmp", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    Skybox[2] = SOIL_load_OGL_texture("img/bkg/lightblue/top.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                       SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
                                       SOIL_FLAG_COMPRESS_TO_DXT);
-    Skybox[3] = SOIL_load_OGL_texture("img/skybox4.bmp", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    Skybox[3] = SOIL_load_OGL_texture("img/bkg/lightblue/back.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                       SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
                                       SOIL_FLAG_COMPRESS_TO_DXT);
-    Skybox[4] = SOIL_load_OGL_texture("img/skybox5.bmp", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    Skybox[4] = SOIL_load_OGL_texture("img/bkg/lightblue/right.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                       SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
                                       SOIL_FLAG_COMPRESS_TO_DXT);
-    Skybox[5] = SOIL_load_OGL_texture("img/skybox6.bmp", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    Skybox[5] = SOIL_load_OGL_texture("img/bkg/lightblue/bot.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                       SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
                                       SOIL_FLAG_COMPRESS_TO_DXT);
     // Textures utilisables
@@ -68,25 +67,30 @@ void Map::LoadTextures() {
                                               SOIL_FLAG_INVERT_Y);
     //ListeTextures[19] = SOIL_load_OGL_texture("img/betonurban.bmp",SOIL_LOAD_AUTO,SOIL_CREATE_NEW_ID,SOIL_FLAG_INVERT_Y);
     ListeTextures[19] = SOIL_load_OGL_texture("img/terre.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+
+    //ListeTextures[20] = Sol
+    ListeTextures[20] = SOIL_load_OGL_texture("img/tiles.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+                                              SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB |
+                                              SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
 void Map::DrawGround() {
     glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f, 1.0f, 1.0f);
-    glBindTexture(GL_TEXTURE_2D, ListeTextures[11]);
+    glBindTexture(GL_TEXTURE_2D, ListeTextures[20]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f);
     glVertex3f(-50.0f, 0.0f, -50.0f);
-    glTexCoord2f(0.0f, 50.0f);
+    glTexCoord2f(0.0f, 10.0f);
     glVertex3f(-50.0f, 0.0f, 50.0f);
-    glTexCoord2f(50.0f, 50.0f);
+    glTexCoord2f(10.0f, 10.0f);
     glVertex3f(50.0f, 0.0f, 50.0f);
-    glTexCoord2f(50.0f, 0.0f);
+    glTexCoord2f(10.0f, 0.0f);
     glVertex3f(50.0f, 0.0f, -50.0f);
     glEnd();
     glTranslatef(0.0f, 1.0f, 0.0f);
@@ -103,10 +107,10 @@ void Map::DrawSkybox(Camera *cam) {
     // Face
     glBindTexture(GL_TEXTURE_2D, Skybox[1]);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0);
@@ -164,14 +168,14 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the top quad
@@ -201,13 +205,13 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
     glEnd();
 }

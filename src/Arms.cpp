@@ -15,6 +15,32 @@ Arms::Arms() {
 
     scale = 1.f;
 
+    ConstructDefault();
+}
+
+Arms::Arms(float scale, float posx, float posy, float posz, float roty) {
+    rotx = 0.f;
+    rotz = 0.f;
+    this->roty = roty;
+    this->posx = posx;
+    this->posy = posy;
+    this->posz = posz;
+
+    this->scale = scale;
+
+    ConstructDefault();
+}
+
+void Arms::ConstructDefault() {
+    walking.isWalking = 0;
+    walking.walkingShoulderMinRotation = -20.f;
+    walking.walkingShoulderMaxRotation = 30.f;
+    walking.walkingShoulderWay = 1;
+    walking.walkingForearmWay = 1;
+    walking.walkingForearmMinRotation = -20.f;
+    walking.walkingForearmMaxRotation = 30.f;
+    walking.animationSpeed = 1.f;
+
     shoulderRotation = -10.f;
     forearmRotation = 15.f;
 
@@ -23,22 +49,50 @@ Arms::Arms() {
     }
 }
 
-Arms::Arms(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
-    this->rotx = rotx;
-    this->roty = roty;
-    this->rotz = rotz;
-    this->posx = posx;
-    this->posy = posy;
-    this->posz = posz;
-
-    this->scale = scale;
-
-    shoulderRotation = -10.f;
-    forearmRotation = 15.f;
-
-    for (int i = 0; i < 6; i++) {
-        textures[i] = 0;
+void Arms::UpdateAnimations() {
+    if (walking.isWalking) {
+        UpdateWalkingAnimation();
     }
+}
+
+void Arms::setWalkingAnimationgActive() {
+    walking.isWalking = 1;
+}
+
+void Arms::setWalkingAnimationInactive() {
+    walking.isWalking = 0;
+}
+
+void Arms::UpdateWalkingAnimation() {
+    if (walking.walkingShoulderWay == 1) {
+        shoulderRotation += walking.animationSpeed;
+        if (shoulderRotation > walking.walkingShoulderMaxRotation) {
+            shoulderRotation = walking.walkingShoulderMaxRotation;
+            walking.walkingShoulderWay = -1;
+        }
+        forearmRotation += walking.animationSpeed;
+        if (forearmRotation > walking.walkingForearmMaxRotation) {
+            forearmRotation = walking.walkingForearmMaxRotation;
+            walking.walkingForearmWay = -1;
+        }
+    } else {
+        shoulderRotation -= walking.animationSpeed;
+        if (shoulderRotation < walking.walkingShoulderMinRotation) {
+            shoulderRotation = walking.walkingShoulderMinRotation;
+            walking.walkingShoulderWay = 1;
+        }
+
+        forearmRotation -= walking.animationSpeed;
+        if (forearmRotation < walking.walkingForearmMinRotation) {
+            forearmRotation = walking.walkingForearmMinRotation;
+            walking.walkingForearmWay = 1;
+        }
+    }
+}
+
+void Arms::InverseWalkingAnimationWay() {
+    walking.walkingForearmWay = -walking.walkingForearmWay;
+    walking.walkingShoulderWay = -walking.walkingShoulderWay;
 }
 
 void Arms::Draw() {
@@ -56,6 +110,8 @@ void Arms::Draw() {
     gluQuadricTexture(pObj, GLU_TRUE);
     glPushMatrix();
     glTranslatef(posx, posy, posz);
+    /**Rotation Y**/
+    glRotatef(roty, 0.f, 1.f, 0.f);
 
     // EPAULE
     DrawShoulder(pObj);
@@ -71,9 +127,10 @@ void Arms::Draw() {
     //MAIN
     DrawHand(pObj);
 
+//    glRotatef(-roty, 0.f, 1.f, 0.f);
     gluDeleteQuadric(pObj);
     glPopMatrix();
-
+    glPopMatrix();
 
 }
 
@@ -81,14 +138,16 @@ void Arms::DrawShoulder(GLUquadric *pObj) {
     glColor3f(0.5f, 0.5f, 0.5f);
     gluCylinder(pObj, 0.25f * scale, 0.25f * scale, 0.15f * scale, 32, 32);
     gluDisk(pObj, 0.15f * scale, 0.25f * scale, 32, 32);
-    glTranslatef(0.f, 0.f, 0.1f * scale);
+    glTranslatef(0.f, 0.f, 0.15 * scale);
+    gluDisk(pObj, 0.15f * scale, 0.25f * scale, 32, 32);
+    glTranslatef(0.f, 0.f, -0.075 * scale);
     glColor3f(0.35f, 0.35f, 0.35f);
     gluSphere(pObj, 0.20f * scale, 32, 32);
 }
 
 void Arms::DrawUpperarm(GLUquadric *pObj) {
     glRotatef(shoulderRotation, 0.f, 0.f, 1.f); // ROTATION BRAS SUPERIEUR JOINTURE EPAULE
-    glTranslatef(0.f, -0.22f * scale, -0.025f * scale);
+    glTranslatef(0.f, -0.22f * scale, 0.f);
     glRotatef(90, 1.f, 0.f, 0.f);
     glColor3f(0.2f, 0.2f, 0.2f);
     gluCylinder(pObj, 0.07f * scale, 0.07f * scale, 0.3f * scale, 32, 32);
@@ -155,7 +214,7 @@ void Arms::DrawHand(GLUquadric *pObj) {
 
     glVertex3d(0.15f * scale, -0.14f * scale, 0.05f * scale);
     glVertex3d(0.2f * scale, -0.14f * scale, 0.15f * scale);
-    glVertex3d(0.2f * scale, -0.14f*scale, 0.4f*scale);
+    glVertex3d(0.2f * scale, -0.14f * scale, 0.4f * scale);
     glVertex3d(0.15f * scale, -0.14f * scale, 0.4f * scale);
 
     glVertex3d(0.f, -0.14f * scale, 0.f);
