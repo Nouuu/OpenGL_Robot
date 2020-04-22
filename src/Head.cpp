@@ -176,9 +176,9 @@ void Head::updateHeadRotation() {
                 headAnimation1.currentRotation = headAnimation1.maxRotation;
             break;
         default:
-            if (headAnimation1.currentRotation > 0)
+            if (headAnimation1.currentRotation > 0.1f)
                 headAnimation1.currentRotation -= headAnimation1.rotationSpeed;
-            else if (headAnimation1.currentRotation < 0)
+            else if (headAnimation1.currentRotation < -0.1f)
                 headAnimation1.currentRotation += headAnimation1.rotationSpeed;
             break;
     }

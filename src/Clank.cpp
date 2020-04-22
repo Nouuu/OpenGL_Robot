@@ -54,6 +54,7 @@ void Clank::ConstructDefault() {
     head = new Head(0.04f * scale, posx, posy, posz, anglev + 90.f);
 
     leftLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
+    leftLeg->InverseWalkingAnimationWay();
     rightLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
 }
 
@@ -114,17 +115,23 @@ void Clank::Draw() {
 void Clank::enableWalkingAnimation() {
     rightArm->setWalkingAnimationgActive();
     leftArm->setWalkingAnimationgActive();
+    leftLeg->setWalkingAnimationActive();
+    rightLeg->setWalkingAnimationActive();
 }
 
 void Clank::disableWalkingAnimation() {
     rightArm->setWalkingAnimationInactive();
     leftArm->setWalkingAnimationInactive();
+    leftLeg->setWalkingAnimationInactive();
+    rightLeg->setWalkingAnimationInactive();
 }
 
 void Clank::updateMemberAnimations() {
     rightArm->UpdateAnimations();
     leftArm->UpdateAnimations();
     head->updateHeadRotation();
+    leftLeg->UpdateAnimation();
+    rightLeg->UpdateAnimation();
 }
 
 void Clank::setHeadRotationDelta(char delta) {

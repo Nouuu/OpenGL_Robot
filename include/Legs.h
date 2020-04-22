@@ -7,6 +7,15 @@
 #include "glut.h"
 #include "SOIL.h"
 
+typedef struct {
+    char isWalking;
+    char walkingShoulderWay;
+    float walkingMaxRotation;
+    float walkingMinRotation;
+    float walkingCurrentRotation;
+    float animationSpeed;
+} WalkingLegs;
+
 class Legs {
 public:
     Legs();
@@ -16,6 +25,19 @@ public:
     void ConstructDefault();
 
     void Draw();
+
+    void setWalkingAnimationActive();
+
+    void setWalkingAnimationInactive();
+
+    void UpdateWalkingAnimation();
+
+    void UpdateAnimation();
+
+    void StopWalking();
+
+    void InverseWalkingAnimationWay();
+
 
     float getPosx() const;
 
@@ -80,6 +102,8 @@ private:
     float kneeGirth;
     float ankleWidth;
     float ankleGirth;
+
+    WalkingLegs walkingLegs;
 
 };
 

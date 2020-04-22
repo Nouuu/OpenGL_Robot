@@ -44,16 +44,23 @@ void Legs::ConstructDefault() {
 
 // ARTICULATION
     kneeWidth = footWidth * 2.3f;
-    kneeGirth = 0.05f*scale;
+    kneeGirth = 0.05f * scale;
     ankleWidth = footWidth * 2.3f;
-    ankleGirth = 0.05f*scale;
+    ankleGirth = 0.05f * scale;
+
+
+    walkingLegs.isWalking = 0;
+    walkingLegs.walkingMinRotation = -20.f;
+    walkingLegs.walkingMaxRotation = 30.f;
+    walkingLegs.walkingShoulderWay = 1;
+    walkingLegs.animationSpeed = 1.f;
+    walkingLegs.walkingCurrentRotation = 0.f;
 
     for (int i = 0; i < 6; i++) {
         textures[i] = 0;
     }
 
 }
-
 
 void Legs::Draw() {
     glEnable(GL_TEXTURE_2D);
@@ -62,6 +69,10 @@ void Legs::Draw() {
     glTranslatef(posx, posy, posz);
     /**Rotation Y**/
     glRotatef(roty, 0.f, 1.f, 0.f);
+
+    glTranslatef(0.f, (thighLength + calfLength + footHeight), 0.f);
+    glRotatef(walkingLegs.walkingCurrentRotation, 1.f, 0.f, 0.f);
+    glTranslatef(0.f, -(thighLength + calfLength + footHeight), 0.f);
 
     GLUquadric *pObj = gluNewQuadric();
     gluQuadricTexture(pObj, GL_TRUE);
@@ -168,6 +179,54 @@ void Legs::Draw() {
     glPopMatrix();
 }
 
+
+void Legs::setWalkingAnimationInactive() {
+    walkingLegs.isWalking = 0;
+}
+
+void Legs::setWalkingAnimationActive() {
+    walkingLegs.isWalking = 1;
+}
+
+void Legs::UpdateAnimation() {
+    if (walkingLegs.isWalking) {
+        UpdateWalkingAnimation();
+    } else {
+        StopWalking();
+    }
+}
+
+void Legs::UpdateWalkingAnimation() {
+    switch (walkingLegs.walkingShoulderWay) {
+        case 1:
+            walkingLegs.walkingCurrentRotation += walkingLegs.animationSpeed;
+            if (walkingLegs.walkingCurrentRotation > walkingLegs.walkingMaxRotation) {
+                walkingLegs.walkingCurrentRotation = walkingLegs.walkingMaxRotation;
+                InverseWalkingAnimationWay();
+            }
+            break;
+        case -1:
+            walkingLegs.walkingCurrentRotation -= walkingLegs.animationSpeed;
+            if (walkingLegs.walkingCurrentRotation < -walkingLegs.walkingMaxRotation) {
+                walkingLegs.walkingCurrentRotation = -walkingLegs.walkingMaxRotation;
+                InverseWalkingAnimationWay();
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void Legs::StopWalking() {
+    if (walkingLegs.walkingCurrentRotation > walkingLegs.animationSpeed + 0.1f)
+        walkingLegs.walkingCurrentRotation -= walkingLegs.animationSpeed;
+    else if (walkingLegs.walkingCurrentRotation < walkingLegs.animationSpeed - 0.1f)
+        walkingLegs.walkingCurrentRotation += walkingLegs.animationSpeed;
+}
+
+void Legs::InverseWalkingAnimationWay() {
+    walkingLegs.walkingShoulderWay = -walkingLegs.walkingShoulderWay;
+}
 
 float Legs::getPosx() const {
     return posx;
