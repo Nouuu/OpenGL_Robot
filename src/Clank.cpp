@@ -52,6 +52,9 @@ void Clank::ConstructDefault() {
     leftArm->InverseWalkingAnimationWay();
     body = new Body(scale * 2.f, posx, posy, posz, anglev + 0.f);
     head = new Head(0.04f * scale, posx, posy, posz, anglev + 90.f);
+
+    leftLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
+    rightLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
 }
 
 void Clank::updatePos() {
@@ -72,20 +75,28 @@ void Clank::updateRotation() {
 
 void Clank::updateMembersPos() {
     rightArm->setPosx((0.32f - 0.1f) * scale * 2);
-    rightArm->setPosy(0.3f * scale * 2);
+    rightArm->setPosy(posy + 0.3f * scale * 2);
     rightArm->setPosz(0.07f * scale * 2);
 
     leftArm->setPosx((-0.06f - 0.1f) * scale * 2);
-    leftArm->setPosy(0.3f * scale * 2);
+    leftArm->setPosy(posy + 0.3f * scale * 2);
     leftArm->setPosz(0.07f * scale * 2);
 
     body->setPosx(-0.1f * scale * 2);
-    body->setPosy(0.f * scale * 2);
+    body->setPosy(posy + 0.f * scale * 2);
     body->setPosz(0.f * scale * 2);
 
     head->setPosx(0.05f * scale * 2);
-    head->setPosy(0.47f * scale * 2);
-    head->setPosz(-0.05f * scale * 2);
+    head->setPosy(posy + 0.47f * scale * 2);
+    head->setPosz(-0.07f * scale * 2);
+
+    leftLeg->setPosx(-0.05f * scale * 2);
+    leftLeg->setPosy(posy - 0.37f * scale * 2);
+    leftLeg->setPosz(0.05f * scale * 2);
+
+    rightLeg->setPosx(0.15f * scale * 2);
+    rightLeg->setPosy(posy - 0.37f * scale * 2);
+    rightLeg->setPosz(0.07f * scale * 2);
 }
 
 void Clank::Draw() {
@@ -96,6 +107,8 @@ void Clank::Draw() {
     leftArm->Draw();
     body->Draw();
     head->Draw();
+    leftLeg->Draw();
+    rightLeg->Draw();
 }
 
 void Clank::enableWalkingAnimation() {

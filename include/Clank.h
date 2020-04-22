@@ -15,6 +15,7 @@
 #include "Arms.h"
 #include "Body.h"
 #include "Head.h"
+#include "Legs.h"
 
 #define MOVE_SPEED 0.01f
 #define ROTATION_SPEED 1.f
@@ -134,6 +135,8 @@ private:
     Arms *leftArm;
     Body *body;
     Head *head;
+    Legs *leftLeg;
+    Legs *rightLeg;
 };
 
 #endif //ROBOT_CLANK_CLANK_H

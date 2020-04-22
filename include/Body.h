@@ -25,8 +25,6 @@ public:
 
     void DrawExterior(GLUquadric *pObj);
 
-    void UpdateAnimations();
-
     void SetTexture(int index, GLuint texture);
 
     float getPosx() const;

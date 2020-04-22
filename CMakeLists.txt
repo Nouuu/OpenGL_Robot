@@ -16,7 +16,8 @@ add_executable(CLANK
         src/Arms.cpp
         src/Clank.cpp
         src/Body.cpp
-        src/Head.cpp)
+        src/Head.cpp
+        src/Legs.cpp)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
