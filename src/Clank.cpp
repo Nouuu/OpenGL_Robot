@@ -14,6 +14,13 @@ void Clank::LoadTextures() {
 
     body->SetTexture(0, ListeTextures[0]);
     body->SetTexture(1, ListeTextures[1]);
+    body->SetTexture(2, ListeTextures[2]);
+    leftArm->SetTexture(0, ListeTextures[0]);
+    leftArm->SetTexture(1, ListeTextures[1]);
+    leftArm->SetTexture(2, ListeTextures[2]);
+    rightArm->SetTexture(0, ListeTextures[0]);
+    rightArm->SetTexture(1, ListeTextures[1]);
+    rightArm->SetTexture(2, ListeTextures[2]);
     head->SetTexture(0, ListeTextures[0]);
     head->SetTexture(1, ListeTextures[1]);
     head->SetTexture(2, ListeTextures[2]);
