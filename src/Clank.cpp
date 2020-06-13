@@ -117,6 +117,7 @@ void Clank::enableWalkingAnimation() {
     leftArm->setWalkingAnimationgActive();
     leftLeg->setWalkingAnimationActive();
     rightLeg->setWalkingAnimationActive();
+    head->setWalkingAnimationActive();
 }
 
 void Clank::disableWalkingAnimation() {
@@ -124,12 +125,13 @@ void Clank::disableWalkingAnimation() {
     leftArm->setWalkingAnimationInactive();
     leftLeg->setWalkingAnimationInactive();
     rightLeg->setWalkingAnimationInactive();
+    head->setWalkingAnimationInactive();
 }
 
 void Clank::updateMemberAnimations() {
     rightArm->UpdateAnimations();
     leftArm->UpdateAnimations();
-    head->updateHeadRotation();
+    head->updateAnimation();
     leftLeg->UpdateAnimation();
     rightLeg->UpdateAnimation();
 }

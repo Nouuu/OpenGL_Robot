@@ -22,10 +22,15 @@ Head::Head(float scale, float posx, float posy, float posz, float roty) {
 }
 
 void Head::defaultConstruct() {
-    headAnimation1.deltaRotation = 0;
-    headAnimation1.rotationSpeed = 1.2f;
-    headAnimation1.maxRotation = 50.f;
     headAnimation1.currentRotation = 0.f;
+    headAnimation1.deltaHeadJaw = 1;
+    headAnimation1.deltaRotation = 0;
+    headAnimation1.headJawCurrentRotation = 0.f;
+    headAnimation1.headJawMaxRotation = 50.f;
+    headAnimation1.headJawSpeed = 1.2f;
+    headAnimation1.isWalking = 0;
+    headAnimation1.maxRotation = 50.f;
+    headAnimation1.rotationSpeed = 1.2f;
 
     rotx = 0.f;
     rotz = 0.f;
@@ -69,7 +74,13 @@ void Head::Draw() {
     glTranslatef(0.5 * this->scale, 0.0 * this->scale, 0.0 * this->scale);
     glRotatef(180, 1.0, 0.0, 0.0);
 
-    drawHalfSphere(20, 20, 5 * this->scale);
+    glPushMatrix();
+
+    glRotatef(headAnimation1.headJawCurrentRotation, 0.0, 0.0, 1.0);
+    drawHalfSphere(20, 20, 4.6 * this->scale);
+
+    glPopMatrix();
+
 
     /** antenna **/
 
@@ -161,6 +172,44 @@ void Head::drawHalfSphere(int scaley, int scalex, GLfloat rayon) {
 
 void Head::setDeltaRotation(char delta) {
     headAnimation1.deltaRotation = delta;
+}
+
+void Head::setWalkingAnimationActive() {
+    headAnimation1.isWalking = 1;
+}
+
+void Head::setWalkingAnimationInactive() {
+    headAnimation1.isWalking = 0;
+}
+
+void Head::updateHeadWalkingAnimation() {
+    if (!headAnimation1.isWalking && headAnimation1.headJawCurrentRotation > 0.f) {
+        headAnimation1.headJawCurrentRotation -= headAnimation1.headJawSpeed;
+    } else if (headAnimation1.isWalking) {
+        switch (headAnimation1.deltaHeadJaw) {
+            case -1:
+                headAnimation1.headJawCurrentRotation -= headAnimation1.headJawSpeed;
+                if (headAnimation1.headJawCurrentRotation < 0.f) {
+                    headAnimation1.headJawCurrentRotation = 0.f;
+                    headAnimation1.deltaHeadJaw = 1;
+                }
+                break;
+            case 1:
+                headAnimation1.headJawCurrentRotation += headAnimation1.headJawSpeed;
+                if (headAnimation1.headJawCurrentRotation > headAnimation1.headJawMaxRotation) {
+                    headAnimation1.headJawCurrentRotation = headAnimation1.headJawMaxRotation;
+                    headAnimation1.deltaHeadJaw = -1;
+                }
+                break;
+        }
+    }
+
+}
+
+
+void Head::updateAnimation() {
+    updateHeadRotation();
+    updateHeadWalkingAnimation();
 }
 
 void Head::updateHeadRotation() {

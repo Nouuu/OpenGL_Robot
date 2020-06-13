@@ -6,10 +6,15 @@
 #include "SOIL.h"
 
 typedef struct {
+    char deltaHeadJaw;
     char deltaRotation;
-    float rotationSpeed;
-    float maxRotation;
+    char isWalking;
     float currentRotation;
+    float headJawCurrentRotation;
+    float headJawMaxRotation;
+    float headJawSpeed;
+    float maxRotation;
+    float rotationSpeed;
 } headAnimation;
 
 class Head {
@@ -37,7 +42,15 @@ public:
 
     void setDeltaRotation(char delta);
 
+    void setWalkingAnimationActive();
+
+    void setWalkingAnimationInactive();
+
+    void updateHeadWalkingAnimation();
+
     void updateHeadRotation();
+
+    void updateAnimation();
 
     float getPosx() const;
 
