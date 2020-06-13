@@ -76,6 +76,10 @@ public:
 
     void setRotz(float rotz);
 
+    const GLuint *getTextures() const;
+
+    void SetTexture(int index, GLuint texture);
+
 private:
     float scale;
 

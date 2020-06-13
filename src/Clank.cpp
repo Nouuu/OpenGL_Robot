@@ -5,13 +5,18 @@
 #include "Clank.h"
 
 void Clank::LoadTextures() {
-    ListeTextures[0] = SOIL_load_OGL_texture("img/concrete-21_s100-g100.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    ListeTextures[0] = SOIL_load_OGL_texture("img/black_metal.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                              SOIL_FLAG_INVERT_Y);
-    ListeTextures[1] = SOIL_load_OGL_texture("img/concrete-19_b005.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    ListeTextures[1] = SOIL_load_OGL_texture("img/grey_metal.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+                                             SOIL_FLAG_INVERT_Y);
+    ListeTextures[2] = SOIL_load_OGL_texture("img/black.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                              SOIL_FLAG_INVERT_Y);
 
     body->SetTexture(0, ListeTextures[0]);
     body->SetTexture(1, ListeTextures[1]);
+    head->SetTexture(0, ListeTextures[0]);
+    head->SetTexture(1, ListeTextures[1]);
+    head->SetTexture(2, ListeTextures[2]);
 }
 
 Clank::Clank() {
