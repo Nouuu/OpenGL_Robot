@@ -5,7 +5,14 @@
 #define SKY_DISTANCE 200.0f
 
 Map::Map() {
-
+    float randX;
+    float randZ;
+    for (int i = 0; i < 50; ++i) {
+        randX = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 30)) - 15.f;
+        randZ = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 30)) - 15.f;
+        randomPos[i].posX = randX;
+        randomPos[i].posZ = randZ;
+    }
 }
 
 void Map::LoadTextures() {
@@ -85,17 +92,121 @@ void Map::DrawGround() {
 
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(-50.0f, 0.0f, -50.0f);
+    glVertex3f(-15.0f, 0.0f, -15.0f);
     glTexCoord2f(0.0f, 10.0f);
-    glVertex3f(-50.0f, 0.0f, 50.0f);
+    glVertex3f(-15.0f, 0.0f, 15.0f);
     glTexCoord2f(10.0f, 10.0f);
-    glVertex3f(50.0f, 0.0f, 50.0f);
+    glVertex3f(15.0f, 0.0f, 15.0f);
     glTexCoord2f(10.0f, 0.0f);
-    glVertex3f(50.0f, 0.0f, -50.0f);
+    glVertex3f(15.0f, 0.0f, -15.0f);
     glEnd();
     glTranslatef(0.0f, 1.0f, 0.0f);
 
+    DrawBox();
+    DrawBolt();
+}
 
+void Map::DrawBox() {
+    char metal[6] = "metal";
+    char wood[5] = "wood";
+
+    Box *boxMetal = new Box(0.7f, 0.f, 0.f, 0.f, 0.f, metal);
+    Box *boxWood = new Box(0.7f, 0.f, 0.f, 0.f, 0.f, wood);
+
+    DrawBoxPack1(5.f, 0.f, 30.f, boxMetal);
+    DrawBoxPack1(-5.f, 0.f, 90.f, boxWood);
+    DrawBoxPack1(0.f, 10.f, -20.f, boxWood);
+    DrawBoxPack1(10.f, -10.f, 0.f, boxMetal);
+
+    DrawBoxPack2(2.f, 2.f, 45.f, boxMetal);
+    DrawBoxPack2(10.f, 10.f, 90.f, boxWood);
+    DrawBoxPack2(-12.f, 2.f, 0.f, boxMetal);
+    DrawBoxPack2(2.f, 10.f, -60.f, boxWood);
+    DrawBoxPack2(0.f, -10.f, 45.f, boxMetal);
+}
+
+void Map::DrawBoxPack1(float x, float z, float rot, Box *box1) {
+    glPushMatrix();
+    glTranslatef(x, 0.f, z);
+    glRotatef(rot, 0., 1.f, 0.f);
+
+//    Box *box1 = new Box(0.7f, 0.f, -1.f, 0.f, 0.f, tex);
+    box1->posx = 0.f;
+    box1->posy = -1.f;
+    box1->posz = 0.f;
+
+    box1->Draw();
+
+    box1->posz = 0.f;
+    box1->posx = 1.f;
+    box1->Draw();
+
+    box1->posx = 0.4f;
+    box1->posy = -0.3f;
+    box1->Draw();
+
+    glPopMatrix();
+}
+
+void Map::DrawBoxPack2(float x, float z, float rot, Box *box1) {
+    glPushMatrix();
+    glTranslatef(x, 0.f, z);
+    glRotatef(rot, 0., 1.f, 0.f);
+
+    box1->posx = 0.f;
+    box1->posy = -1.f;
+    box1->posz = 0.f;
+
+    box1->Draw();
+//    Box *box2 = new Box(0.7f, 1.1f, -1.f, 0.2f, 0.f, tex);
+
+    box1->posx = 1.1f;
+    box1->posz = 0.2f;
+    box1->Draw();
+//    Box *box5 = new Box(0.7f, 0.6f, -0.3f, 0.2f, 0.f, tex);
+
+    box1->posx = 0.6f;
+    box1->posy = -0.3f;
+    box1->posz = 0.2f;
+    box1->Draw();
+
+
+//    Box *box3 = new Box(0.7f, 0.f, -1.f, 1.f, 0.f, tex);
+    box1->posx = 0.f;
+    box1->posy = -1.f;
+    box1->posz = 1.f;
+    box1->Draw();
+
+//    Box *box4 = new Box(0.7f, 1.f, -1.f, 1.3f, 0.f, tex);
+    box1->posx = 1.f;
+    box1->posy = -1.f;
+    box1->posz = 1.3f;
+    box1->Draw();
+//    Box *box6 = new Box(0.7f, 0.6f, -0.3f, 1.2f, 0.f, tex);
+
+    box1->posx = 0.6f;
+    box1->posy = -0.3f;
+    box1->posz = 1.2f;
+    box1->Draw();
+
+//    Box *box7 = new Box(0.7f, 0.6f, 0.4f, 0.7f, 0.f, tex);
+    box1->posx = 0.6f;
+    box1->posy = 0.4f;
+    box1->posz = 0.7f;
+
+    box1->Draw();
+
+
+    glPopMatrix();
+}
+
+void Map::DrawBolt() {
+    Bolt *bolt = new Bolt(0.3f, 0.f, -0.7f, 0.f, -85.f, 0.f, 0.f);
+    for (int i = 0; i < 50; ++i) {
+        bolt->posx = randomPos[i].posX;
+        bolt->posz = randomPos[i].posZ;
+        bolt->Draw();
+    }
 }
 
 void Map::DrawSkybox(Camera *cam) {
@@ -168,14 +279,14 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);
-        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-        glTexCoord2f(1, 0);
-        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-        glTexCoord2f(1, 1);
-        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-        glTexCoord2f(0, 1);
-        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+    glTexCoord2f(0, 0);
+    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+    glTexCoord2f(1, 0);
+    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+    glTexCoord2f(1, 1);
+    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+    glTexCoord2f(0, 1);
+    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the top quad
@@ -205,13 +316,13 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-        glTexCoord2f(0, 1);
-        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-        glTexCoord2f(0, 0);
-        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-        glTexCoord2f(1, 0);
-        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-        glTexCoord2f(1, 1);
-        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+    glTexCoord2f(0, 1);
+    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+    glTexCoord2f(0, 0);
+    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+    glTexCoord2f(1, 0);
+    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+    glTexCoord2f(1, 1);
+    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
     glEnd();
 }

@@ -9,6 +9,8 @@ add_executable(CLANK
         src/Camera.cpp
         src/Block.cpp
         src/Map.cpp
+        src/Box.cpp
+        src/Bolt.cpp
         include/SOIL.c
         include/image_DXT.c
         include/image_helper.c
