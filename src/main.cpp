@@ -182,9 +182,11 @@ int main(int argc, char **argv) {
     /** CREATION FENETRE **/
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowPosition(200,300);
-    glutInitWindowSize(1200,720);
+    glutInitWindowPosition(50,50);
+    glutInitWindowSize(1600,900);
     glutCreateWindow(windowTitle);
+
+    glEnable(GL_LIGHTING);
 
     /** INIT TEXTURES **/
     LoadTextures();

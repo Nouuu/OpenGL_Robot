@@ -5,13 +5,32 @@
 #include "Clank.h"
 
 void Clank::LoadTextures() {
-    ListeTextures[0] = SOIL_load_OGL_texture("img/concrete-21_s100-g100.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    ListeTextures[0] = SOIL_load_OGL_texture("img/black_metal.png", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                              SOIL_FLAG_INVERT_Y);
-    ListeTextures[1] = SOIL_load_OGL_texture("img/concrete-19_b005.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+    ListeTextures[1] = SOIL_load_OGL_texture("img/grey_metal.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+                                             SOIL_FLAG_INVERT_Y);
+    ListeTextures[2] = SOIL_load_OGL_texture("img/black.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
                                              SOIL_FLAG_INVERT_Y);
 
     body->SetTexture(0, ListeTextures[0]);
     body->SetTexture(1, ListeTextures[1]);
+    body->SetTexture(2, ListeTextures[2]);
+    leftArm->SetTexture(0, ListeTextures[0]);
+    leftArm->SetTexture(1, ListeTextures[1]);
+    leftArm->SetTexture(2, ListeTextures[2]);
+    rightArm->SetTexture(0, ListeTextures[0]);
+    rightArm->SetTexture(1, ListeTextures[1]);
+    rightArm->SetTexture(2, ListeTextures[2]);
+    head->SetTexture(0, ListeTextures[0]);
+    head->SetTexture(1, ListeTextures[1]);
+    head->SetTexture(2, ListeTextures[2]);
+    leftLeg->SetTexture(0, ListeTextures[0]);
+    leftLeg->SetTexture(1, ListeTextures[1]);
+    leftLeg->SetTexture(2, ListeTextures[2]);
+    rightLeg->SetTexture(0, ListeTextures[0]);
+    rightLeg->SetTexture(1, ListeTextures[1]);
+    rightLeg->SetTexture(2, ListeTextures[2]);
+
 }
 
 Clank::Clank() {
@@ -117,6 +136,7 @@ void Clank::enableWalkingAnimation() {
     leftArm->setWalkingAnimationgActive();
     leftLeg->setWalkingAnimationActive();
     rightLeg->setWalkingAnimationActive();
+    head->setWalkingAnimationActive();
 }
 
 void Clank::disableWalkingAnimation() {
@@ -124,12 +144,13 @@ void Clank::disableWalkingAnimation() {
     leftArm->setWalkingAnimationInactive();
     leftLeg->setWalkingAnimationInactive();
     rightLeg->setWalkingAnimationInactive();
+    head->setWalkingAnimationInactive();
 }
 
 void Clank::updateMemberAnimations() {
     rightArm->UpdateAnimations();
     leftArm->UpdateAnimations();
-    head->updateHeadRotation();
+    head->updateAnimation();
     leftLeg->UpdateAnimation();
     rightLeg->UpdateAnimation();
 }

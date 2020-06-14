@@ -6,11 +6,38 @@
 #include "SOIL.h"
 
 typedef struct {
+    char deltaHeadJaw;
     char deltaRotation;
-    float rotationSpeed;
-    float maxRotation;
+    char isWalking;
     float currentRotation;
+    float headJawCurrentRotation;
+    float headJawMaxRotation;
+    float headJawSpeed;
+    float maxRotation;
+    float rotationSpeed;
 } headAnimation;
+
+typedef struct {
+    float R;
+    float G;
+    float B;
+} RGBF;
+
+typedef struct {
+    RGBF on;
+    RGBF off;
+    RGBF *currentRGB;
+    int maxDelay;
+    int currentDelay;
+} antenna;
+
+typedef struct {
+    RGBF on;
+    RGBF off;
+    RGBF *currentRGB;
+    int maxDelay;
+    int currentDelay;
+} eyes;
 
 class Head {
 public:
@@ -32,12 +59,26 @@ private:
     float rotz;
 
     headAnimation headAnimation1;
+    antenna antenna1;
+    eyes eyes1;
 public:
     void defaultConstruct();
 
     void setDeltaRotation(char delta);
 
+    void setWalkingAnimationActive();
+
+    void setWalkingAnimationInactive();
+
+    void updateHeadWalkingAnimation();
+
     void updateHeadRotation();
+
+    void updateAnimation();
+
+    void updateAntennaColor();
+
+    void updateEyesColor();
 
     float getPosx() const;
 
@@ -62,6 +103,10 @@ public:
     float getRotz() const;
 
     void setRotz(float rotz);
+
+    const GLuint *getTextures() const;
+
+    void SetTexture(int index, GLuint texture);
 
 private:
     float scale;

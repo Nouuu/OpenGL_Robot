@@ -17,8 +17,8 @@
 #include "Head.h"
 #include "Legs.h"
 
-#define MOVE_SPEED 0.01f
-#define ROTATION_SPEED 1.f
+#define MOVE_SPEED 0.025f
+#define ROTATION_SPEED 1.5f
 
 class Clank {
 public:
