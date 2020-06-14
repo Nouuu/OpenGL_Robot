@@ -168,7 +168,6 @@ void Arms::DrawElbow(GLUquadric *pObj) {
     glBindTexture(GL_TEXTURE_2D, textures[0]);
     gluCylinder(pObj, 0.1f * scale, 0.1f * scale, 0.15f * scale, 32, 32);
     glTranslatef(0.f, 0.f, 0.05f * scale);
-    glBindTexture(GL_TEXTURE_2D, textures[1]);
     gluSphere(pObj, 0.1f * scale, 32, 32);
     glTranslatef(0.f, 0.f, 0.05f * scale);
     gluSphere(pObj, 0.1f * scale, 32, 32);
