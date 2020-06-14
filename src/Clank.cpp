@@ -24,6 +24,13 @@ void Clank::LoadTextures() {
     head->SetTexture(0, ListeTextures[0]);
     head->SetTexture(1, ListeTextures[1]);
     head->SetTexture(2, ListeTextures[2]);
+    leftLeg->SetTexture(0, ListeTextures[0]);
+    leftLeg->SetTexture(1, ListeTextures[1]);
+    leftLeg->SetTexture(2, ListeTextures[2]);
+    rightLeg->SetTexture(0, ListeTextures[0]);
+    rightLeg->SetTexture(1, ListeTextures[1]);
+    rightLeg->SetTexture(2, ListeTextures[2]);
+
 }
 
 Clank::Clank() {
