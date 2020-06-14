@@ -17,6 +17,28 @@ typedef struct {
     float rotationSpeed;
 } headAnimation;
 
+typedef struct {
+    float R;
+    float G;
+    float B;
+} RGBF;
+
+typedef struct {
+    RGBF on;
+    RGBF off;
+    RGBF *currentRGB;
+    int maxDelay;
+    int currentDelay;
+} antenna;
+
+typedef struct {
+    RGBF on;
+    RGBF off;
+    RGBF *currentRGB;
+    int maxDelay;
+    int currentDelay;
+} eyes;
+
 class Head {
 public:
     Head();
@@ -37,6 +59,8 @@ private:
     float rotz;
 
     headAnimation headAnimation1;
+    antenna antenna1;
+    eyes eyes1;
 public:
     void defaultConstruct();
 
@@ -51,6 +75,10 @@ public:
     void updateHeadRotation();
 
     void updateAnimation();
+
+    void updateAntennaColor();
+
+    void updateEyesColor();
 
     float getPosx() const;
 

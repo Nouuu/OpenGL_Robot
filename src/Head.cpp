@@ -32,6 +32,26 @@ void Head::defaultConstruct() {
     headAnimation1.maxRotation = 50.f;
     headAnimation1.rotationSpeed = 1.2f;
 
+    antenna1.currentDelay = 0;
+    antenna1.maxDelay = 50;
+    antenna1.on.R = 1.f;
+    antenna1.on.G = 0.1f;
+    antenna1.on.B = 0.1f;
+    antenna1.off.R = 0.5f;
+    antenna1.off.G = 0.1f;
+    antenna1.off.B = 0.1f;
+    antenna1.currentRGB = &(antenna1.on);
+
+    eyes1.currentDelay = 0;
+    eyes1.maxDelay = 100;
+    eyes1.on.R = 0.1f;
+    eyes1.on.G = 1.f;
+    eyes1.on.B = 0.1f;
+    eyes1.off.R = 0.1f;
+    eyes1.off.G = 0.5f;
+    eyes1.off.B = 0.1f;
+    eyes1.currentRGB = &(eyes1.on);
+
     rotx = 0.f;
     rotz = 0.f;
 
@@ -89,7 +109,7 @@ void Head::Draw() {
 
     /** antenna **/
     glBindTexture(GL_TEXTURE_2D, NULL);
-    glColor3f(1.0, 0.1, 0.1);
+    glColor3f(antenna1.currentRGB->R, antenna1.currentRGB->G, antenna1.currentRGB->B);
     glTranslatef(0.0, -7.0 * this->scale, 0.0);
     gluSphere(params_sphere, 0.4 * this->scale, 10, 10);
 
@@ -101,7 +121,7 @@ void Head::Draw() {
     gluCylinder(params_cylindre, 0.1f * this->scale, 0.1f * this->scale, 3.0f * this->scale, 32, 32);
 
     /** eyes **/
-    glColor3f(0.2, 1.0, 0.2);
+    glColor3f(eyes1.currentRGB->R, eyes1.currentRGB->G, eyes1.currentRGB->B);
     glTranslatef(3.0 * this->scale, -1.4 * this->scale, -1.0 * this->scale);
 
     gluSphere(params_sphere, 0.7 * this->scale, 10, 10);
@@ -222,6 +242,8 @@ void Head::updateHeadWalkingAnimation() {
 void Head::updateAnimation() {
     updateHeadRotation();
     updateHeadWalkingAnimation();
+    updateAntennaColor();
+    updateEyesColor();
 }
 
 void Head::updateHeadRotation() {
@@ -242,6 +264,30 @@ void Head::updateHeadRotation() {
             else if (headAnimation1.currentRotation < -1.f)
                 headAnimation1.currentRotation += headAnimation1.rotationSpeed;
             break;
+    }
+}
+
+void Head::updateAntennaColor() {
+    antenna1.currentDelay++;
+    if (antenna1.currentDelay > antenna1.maxDelay) {
+        antenna1.currentDelay = 0;
+        if (antenna1.currentRGB == &(antenna1.on)) {
+            antenna1.currentRGB = &(antenna1.off);
+        } else {
+            antenna1.currentRGB = &(antenna1.on);
+        }
+    }
+}
+
+void Head::updateEyesColor() {
+    eyes1.currentDelay++;
+    if (eyes1.currentDelay > eyes1.maxDelay) {
+        eyes1.currentDelay = 0;
+        if (eyes1.currentRGB == &(eyes1.on)) {
+            eyes1.currentRGB = &(eyes1.off);
+        } else {
+            eyes1.currentRGB = &(eyes1.on);
+        }
     }
 }
 
