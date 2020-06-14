@@ -12,6 +12,8 @@ Map::Map() {
         randZ = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 30)) - 15.f;
         randomPos[i].posX = randX;
         randomPos[i].posZ = randZ;
+        randomPos[i].rot = 0;
+        randomPos[i].checked = 0;
     }
 }
 
@@ -81,7 +83,7 @@ void Map::LoadTextures() {
                                               SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
-void Map::DrawGround() {
+void Map::DrawGround(float clankX, float clankZ) {
     glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f, 1.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, ListeTextures[20]);
@@ -103,7 +105,7 @@ void Map::DrawGround() {
     glTranslatef(0.0f, 1.0f, 0.0f);
 
     DrawBox();
-    DrawBolt();
+    DrawBolt(clankX, clankZ);
 }
 
 void Map::DrawBox() {
@@ -200,13 +202,31 @@ void Map::DrawBoxPack2(float x, float z, float rot, Box *box1) {
     glPopMatrix();
 }
 
-void Map::DrawBolt() {
+void Map::DrawBolt(float clankX, float clankZ) {
     Bolt *bolt = new Bolt(0.3f, 0.f, -0.7f, 0.f, -85.f, 0.f, 0.f);
     for (int i = 0; i < 50; ++i) {
-        bolt->posx = randomPos[i].posX;
-        bolt->posz = randomPos[i].posZ;
-        bolt->Draw();
+        if (!randomPos[i].checked) {
+            bolt->posx = randomPos[i].posX;
+            bolt->posz = randomPos[i].posZ;
+            bolt->angleZ = randomPos[i].rot;
+            bolt->Draw();
+
+            randomPos[i].checked = checkCollision(clankX, clankZ, bolt->posx, bolt->posz);
+
+            randomPos[i].rot += 1.f;
+            if (randomPos[i].rot > 360.f) {
+                randomPos[i].rot = 0.f;
+            }
+        }
     }
+}
+
+char Map::checkCollision(float clankX, float clankZ, float boltX, float boltZ) {
+    if ((clankX - boltX < 0.4f && clankZ - boltZ < 0.4f) &&
+        (clankX - boltX > -0.4f && clankZ - boltZ > -0.4f)) {
+        return 1;
+    }
+    return 0;
 }
 
 void Map::DrawSkybox(Camera *cam) {

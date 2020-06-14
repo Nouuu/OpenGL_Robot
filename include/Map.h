@@ -7,6 +7,7 @@
 
 #include "glut.h"
 #include "SOIL.h"
+#include <stdio.h>
 
 #include "Camera.h"
 #include "Box.h"
@@ -15,6 +16,8 @@
 typedef struct {
     float posX;
     float posZ;
+    float rot;
+    char checked;
 } RandomPos;
 
 class Map {
@@ -27,7 +30,7 @@ public:
 
     void LoadTextures(void);
 
-    void DrawGround(void);
+    void DrawGround(float clankX, float clankZ);
 
     void DrawSkybox(Camera *cam);
 
@@ -37,7 +40,9 @@ public:
 
     void DrawBoxPack2(float x, float z, float rot, Box *box1);
 
-    void DrawBolt();
+    void DrawBolt(float clankX, float clankZ);
+
+    char checkCollision(float clankX, float clankZ, float boltX, float boltZ);
 
 protected:
 private:

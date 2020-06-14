@@ -167,7 +167,7 @@ void renderScene(void) {
               0.0f, 1.0f, 0.0f
     );
 
-    m->DrawGround();
+    m->DrawGround(clank->getPosx(), clank->getPosz());
     m->DrawSkybox(cam);
     clank->Draw();
     glutSwapBuffers();
@@ -182,8 +182,8 @@ int main(int argc, char **argv) {
     /** CREATION FENETRE **/
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowPosition(50,50);
-    glutInitWindowSize(1600,900);
+    glutInitWindowPosition(50, 50);
+    glutInitWindowSize(1600, 900);
     glutCreateWindow(windowTitle);
 
     glEnable(GL_LIGHTING);
