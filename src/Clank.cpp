@@ -1,7 +1,3 @@
-//
-// Created by Unknow on 07/04/2020.
-//
-
 #include "Clank.h"
 
 void Clank::LoadTextures() {
@@ -33,6 +29,7 @@ void Clank::LoadTextures() {
 
 }
 
+// Initialisations des positions et rotations + constructeur par défaut
 Clank::Clank() {
 
     posx = 0.0f;
@@ -44,6 +41,7 @@ Clank::Clank() {
 
 }
 
+// Initialisations des positions en paramètre + constructeur par défaut
 Clank::Clank(float scale, float posx, float posy, float posz, float rotx, float roty, float rotz) {
 
     this->posx = posx;
@@ -61,25 +59,23 @@ void Clank::ConstructDefault() {
     diry = 0.0f;
     dirz = 1.0f;
 
-    anglev = 0.0f;
+    anglev = 0.0f;          // TODO c'est quoi ?
+    deltaAngley = 0.0f;     // TODO c'est quoi ?
 
-    deltaAngley = 0.0f;
-
-
-    rightArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
+    rightArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f); // TODO pourquoi 90 ?
     leftArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
-    leftArm->InverseWalkingAnimationWay();
+    leftArm->InverseWalkingAnimationWay(); // Quand l'un va en avant, l'autre va en arrière
     body = new Body(scale * 2.f, posx, posy, posz, anglev + 0.f);
     head = new Head(0.04f * scale, posx, posy, posz, anglev + 90.f);
 
-    leftLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
-    leftLeg->InverseWalkingAnimationWay();
+    leftLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f); // TODO pourquoi 180 ?
+    leftLeg->InverseWalkingAnimationWay(); // Quand l'un va en avant, l'autre va en arrière
     rightLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
 }
 
 void Clank::updatePos() {
 
-    if (deltaForward) {
+    if (deltaForward) { // Si Clank est en mouvement
         posx += deltaForward * sin(anglev * M_PI / 180.f) * MOVE_SPEED;
         posz += deltaForward * cos(anglev * M_PI / 180.f) * MOVE_SPEED;
     }
@@ -89,13 +85,13 @@ void Clank::updatePos() {
 
 void Clank::updateRotation() {
     if (deltaAngley != 0) {
-        anglev += deltaAngley * ROTATION_SPEED;
+        anglev += deltaAngley * ROTATION_SPEED;          // TODO pourquoi angle V ?
     }
 }
 
 void Clank::updateMembersPos() {
-    rightArm->setPosx((0.32f - 0.1f) * scale * 2);
-    rightArm->setPosy(posy + 0.3f * scale * 2);
+    rightArm->setPosx((0.32f - 0.1f) * scale * 2);  // TODO pourquoi * 2 partout ?
+    rightArm->setPosy(posy + 0.3f * scale * 2);     // TODO pourquoi des soustractions en dur ?
     rightArm->setPosz(0.07f * scale * 2);
 
     leftArm->setPosx((-0.06f - 0.1f) * scale * 2);

@@ -1,6 +1,6 @@
 #include "Legs.h"
 
-
+// Initialisations des positions et rotations + constructeur par défaut
 Legs::Legs() {
     posx = 0.0f;
     posy = 0.5f;
@@ -15,6 +15,7 @@ Legs::Legs() {
     ConstructDefault();
 }
 
+// Initialisations des positions et rotations en paramètre + constructeur par défaut
 Legs::Legs(float scale, float posx, float posy, float posz, float roty) {
     rotx = 0.0f;
     rotz = 0.0f;
@@ -29,25 +30,24 @@ Legs::Legs(float scale, float posx, float posy, float posz, float roty) {
 }
 
 void Legs::ConstructDefault() {
-// LEG
+    // LEG
     thighLength = 0.5f * scale;
     calfLength = 0.5f * scale;
     legGirth = 0.06f * scale;
     legGap = 0.8f * scale;
 
-// FOOT
+    // FOOT
     footLength = 0.5f * scale;
     footWidth = 0.1f * scale;
     footHeight = 0.2f * scale;
     heelLength = 0.0f * scale;
     toeLength = footLength + footLength * 0.25f;
 
-// ARTICULATION
+    // ARTICULATION
     kneeWidth = footWidth * 2.3f;
     kneeGirth = 0.05f * scale;
     ankleWidth = footWidth * 2.3f;
     ankleGirth = 0.05f * scale;
-
 
     walkingLegs.isWalking = 0;
     walkingLegs.walkingMinRotation = -20.f;
@@ -63,158 +63,173 @@ void Legs::ConstructDefault() {
 }
 
 void Legs::Draw() {
+    // Active le placage de textures a deux dimensions
     glEnable(GL_TEXTURE_2D);
+
     glPushMatrix();
 
-    GLUquadric *pObj = gluNewQuadric();
-    gluQuadricTexture(pObj, GL_TRUE);
+        // Crée et retourne un pointeur vers un nouvel objet quadrics
+        GLUquadric *pObj = gluNewQuadric();
 
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        // Activation des textures
+        gluQuadricTexture(pObj, GL_TRUE);
 
-    glTranslatef(posx, posy, posz);
-    /**Rotation Y**/
-    glRotatef(roty, 0.f, 1.f, 0.f);
+        // Définit et conserve une couleur courante
+        glColor3f(1.0f, 1.0f, 1.0f);
 
-    glTranslatef(0.f, (thighLength + calfLength + footHeight), 0.f);
-    glRotatef(walkingLegs.walkingCurrentRotation, 1.f, 0.f, 0.f);
-    glTranslatef(0.f, -(thighLength + calfLength + footHeight), 0.f);
+        // Set les paramètres de la texture
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);     // dimension horizontale de la texture
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);     // dimension verticale de la texture
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Méthode d'agrandissement
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Méthode de réduction
+
+        glTranslatef(posx, posy, posz);
+        /**Rotation Y**/
+        glRotatef(roty, 0.f, 1.f, 0.f);
+
+        glTranslatef(0.f, (thighLength + calfLength + footHeight), 0.f);
+        glRotatef(walkingLegs.walkingCurrentRotation, 1.f, 0.f, 0.f);
+        glTranslatef(0.f, -(thighLength + calfLength + footHeight), 0.f);
 
 
-    // Thigh
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, textures[1]);
-    glTranslatef(0, footHeight + calfLength + thighLength, 0);
-    glRotatef(90, 1, 0, 0);
-    gluCylinder(pObj, legGirth, legGirth, thighLength, 32, 32);
-    glPopMatrix();
+        // Thigh
+        glPushMatrix();
+            // Spécifie la texture
+            glBindTexture(GL_TEXTURE_2D, textures[1]);
+            glTranslatef(0, footHeight + calfLength + thighLength, 0);
+            glRotatef(90, 1, 0, 0);
+            gluCylinder(pObj, legGirth, legGirth, thighLength, 32, 32);
+        glPopMatrix();
 
-    // Knee
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, textures[0]);
-    glTranslatef(-kneeWidth / 2, footHeight + calfLength, 0);
-    glRotatef(90, 0, 1, 0);
-    gluCylinder(pObj, kneeGirth, kneeGirth, kneeWidth, 32, 32);
-    gluDisk(pObj, 0, kneeGirth, 32, 32);
-    glTranslatef(0, 0, kneeWidth);
-    gluDisk(pObj, 0, kneeGirth, 32, 32);
-    glPopMatrix();
+        // Knee
+        glPushMatrix();
+            // Spécifie la texture
+            glBindTexture(GL_TEXTURE_2D, textures[0]);
+            glTranslatef(-kneeWidth / 2, footHeight + calfLength, 0);
+            glRotatef(90, 0, 1, 0);
+            gluCylinder(pObj, kneeGirth, kneeGirth, kneeWidth, 32, 32);
+            gluDisk(pObj, 0, kneeGirth, 32, 32);
+            glTranslatef(0, 0, kneeWidth);
+            gluDisk(pObj, 0, kneeGirth, 32, 32);
+        glPopMatrix();
 
-    // Calf
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, textures[1]);
-    glTranslatef(0, footHeight + calfLength, 0);
-    glRotatef(90, 1, 0, 0);
-    gluCylinder(pObj, legGirth, legGirth, calfLength, 32, 32);
-    glPopMatrix();
+        // Calf
+        glPushMatrix();
+            // Spécifie la texture
+            glBindTexture(GL_TEXTURE_2D, textures[1]);
+            glTranslatef(0, footHeight + calfLength, 0);
+            glRotatef(90, 1, 0, 0);
+            gluCylinder(pObj, legGirth, legGirth, calfLength, 32, 32);
+        glPopMatrix();
 
-    // Ankle
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, textures[0]);
-    glTranslatef(-ankleWidth / 2, footHeight, 0);
-    glRotatef(90, 0, 1, 0);
-    gluCylinder(pObj, ankleGirth, ankleGirth, ankleWidth, 32, 32);
-    gluDisk(pObj, 0, ankleGirth, 32, 32);
-    glTranslatef(0, 0, ankleWidth);
-    gluDisk(pObj, 0, ankleGirth, 32, 32);
-    glPopMatrix();
+        // Ankle
+        glPushMatrix();
+            // Spécifie la texture
+            glBindTexture(GL_TEXTURE_2D, textures[0]);
+            glTranslatef(-ankleWidth / 2, footHeight, 0);
+            glRotatef(90, 0, 1, 0);
+            gluCylinder(pObj, ankleGirth, ankleGirth, ankleWidth, 32, 32);
+            gluDisk(pObj, 0, ankleGirth, 32, 32);
+            glTranslatef(0, 0, ankleWidth);
+            gluDisk(pObj, 0, ankleGirth, 32, 32);
+        glPopMatrix();
 
-    // Foot
-    glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, textures[2]);
-    // BASE OF THE FOOT
-    glBegin(GL_QUADS);
-    // Top face
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(footWidth, footHeight, -heelLength);       // back right
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(-footWidth, footHeight, -heelLength);       // back left
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, footHeight, footLength);       // front left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(footWidth, footHeight, footLength);       // front right
+        // Foot
+        glPushMatrix();
+            // Spécifie la texture
+            glBindTexture(GL_TEXTURE_2D, textures[2]);
+            // BASE OF THE FOOT
+            glBegin(GL_QUADS);
+                // Top face
+                glTexCoord2f(0.0f, 0.0f);
+                glVertex3f(footWidth, footHeight, -heelLength);       // back right
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(-footWidth, footHeight, -heelLength);       // back left
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, footHeight, footLength);       // front left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(footWidth, footHeight, footLength);       // front right
 
-    // Bottom face
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(footWidth, 0.0f, footLength);          // front right
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(-footWidth, 0.0f, footLength);          // front left
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, 0.0f, -heelLength);          // back left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(footWidth, 0.0f, -heelLength);          // back right
+                // Bottom face
+                glTexCoord2f(0.0f, 0.0f);
+                glVertex3f(footWidth, 0.0f, footLength);          // front right
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(-footWidth, 0.0f, footLength);          // front left
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, 0.0f, -heelLength);          // back left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(footWidth, 0.0f, -heelLength);          // back right
 
-    // Back face
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(footWidth, 0.0f, -heelLength);          // bottom right
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(-footWidth, 0.0f, -heelLength);          // bottom left
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, footHeight, -heelLength);      // top left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(footWidth, footHeight, -heelLength);      // top right
+                // Back face
+                glTexCoord2f(0.0f, 0.0f);
+                glVertex3f(footWidth, 0.0f, -heelLength);          // bottom right
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(-footWidth, 0.0f, -heelLength);          // bottom left
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, footHeight, -heelLength);      // top left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(footWidth, footHeight, -heelLength);      // top right
 
-    // Left face
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(-footWidth, footHeight, footLength);      // top right
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(-footWidth, footHeight, -heelLength);      // top left
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, 0.0f, -heelLength);          // bottom left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(-footWidth, 0.0f, footLength);          // bottom right
+                // Left face
+                glTexCoord2f(0.0f, 0.0f);
+                glVertex3f(-footWidth, footHeight, footLength);      // top right
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(-footWidth, footHeight, -heelLength);      // top left
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, 0.0f, -heelLength);          // bottom left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(-footWidth, 0.0f, footLength);          // bottom right
 
-    // Right face
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(footWidth, footHeight, -heelLength);       // top right
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(footWidth, footHeight, footLength);       // top left
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(footWidth, 0.0f, footLength);           // bottom left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(footWidth, 0.0f, -heelLength);           // bottom right
-    glEnd();
+                // Right face
+                glTexCoord2f(0.0f, 0.0f);
+                glVertex3f(footWidth, footHeight, -heelLength);       // top right
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(footWidth, footHeight, footLength);       // top left
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(footWidth, 0.0f, footLength);           // bottom left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(footWidth, 0.0f, -heelLength);           // bottom right
+            glEnd();
 
-    // TOES
-    glBegin(GL_TRIANGLES);
-    // Top face
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(footWidth, footHeight, footLength);       // base right
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, footHeight, footLength);       // base left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(0, 0.0f, toeLength);                 // point
+            // TOES
+            glBegin(GL_TRIANGLES);
+                // Top face
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(footWidth, footHeight, footLength);       // base right
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, footHeight, footLength);       // base left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(0, 0.0f, toeLength);                 // point
 
-    // Bottom face
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(footWidth, 0.0f, footLength);          // base right
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, 0.0f, footLength);          // base left
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(0, 0.0f, toeLength);                 // point
+                // Bottom face
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(footWidth, 0.0f, footLength);          // base right
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, 0.0f, footLength);          // base left
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(0, 0.0f, toeLength);                 // point
 
-    // Left face
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(-footWidth, footHeight, footLength);      // base top
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(-footWidth, 0.0f, footLength);          // base bottom
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(0, 0.0f, toeLength);                 // point
+                // Left face
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(-footWidth, footHeight, footLength);      // base top
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(-footWidth, 0.0f, footLength);          // base bottom
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(0, 0.0f, toeLength);                 // point
 
-    // Right face
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(footWidth, footHeight, footLength);        // base top
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(footWidth, 0.0f, footLength);           // base bottom
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(0, 0.0f, toeLength);                 // point
-    glEnd();
+                // Right face
+                glTexCoord2f(1.0f, 0.0f);
+                glVertex3f(footWidth, footHeight, footLength);        // base top
+                glTexCoord2f(1.0f, 1.0f);
+                glVertex3f(footWidth, 0.0f, footLength);           // base bottom
+                glTexCoord2f(0.0f, 1.0f);
+                glVertex3f(0, 0.0f, toeLength);                 // point
+            glEnd();
 
-    glPopMatrix();
-    gluDeleteQuadric(pObj);
+        glPopMatrix();
+
+        // Suppression de l'objet
+        gluDeleteQuadric(pObj);
     glPopMatrix();
 }
 

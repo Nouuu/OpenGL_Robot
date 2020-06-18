@@ -84,23 +84,30 @@ void Map::LoadTextures() {
 }
 
 void Map::DrawGround(float clankX, float clankZ) {
+    // Active le placage de textures a deux dimensions
     glEnable(GL_TEXTURE_2D);
+
+    // Définit et conserve une couleur courante
     glColor3f(1.0f, 1.0f, 1.0f);
+
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, ListeTextures[20]);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Set les paramètres de la texture
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);     // dimension horizontale de la texture
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);     // dimension verticale de la texture
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Méthode d'agrandissement
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Méthode de réduction
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(-15.0f, 0.0f, -15.0f);
-    glTexCoord2f(0.0f, 10.0f);
-    glVertex3f(-15.0f, 0.0f, 15.0f);
-    glTexCoord2f(10.0f, 10.0f);
-    glVertex3f(15.0f, 0.0f, 15.0f);
-    glTexCoord2f(10.0f, 0.0f);
-    glVertex3f(15.0f, 0.0f, -15.0f);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(-15.0f, 0.0f, -15.0f);
+        glTexCoord2f(0.0f, 10.0f);
+        glVertex3f(-15.0f, 0.0f, 15.0f);
+        glTexCoord2f(10.0f, 10.0f);
+        glVertex3f(15.0f, 0.0f, 15.0f);
+        glTexCoord2f(10.0f, 0.0f);
+        glVertex3f(15.0f, 0.0f, -15.0f);
     glEnd();
     glTranslatef(0.0f, 1.0f, 0.0f);
 
@@ -127,77 +134,67 @@ void Map::DrawBox() {
     DrawBoxPack2(0.f, -10.f, 45.f, boxMetal);
 }
 
+// Pack de 3 boîtes
 void Map::DrawBoxPack1(float x, float z, float rot, Box *box1) {
     glPushMatrix();
-    glTranslatef(x, 0.f, z);
-    glRotatef(rot, 0., 1.f, 0.f);
+        glTranslatef(x, 0.f, z);
+        glRotatef(rot, 0., 1.f, 0.f);
 
-//    Box *box1 = new Box(0.7f, 0.f, -1.f, 0.f, 0.f, tex);
-    box1->posx = 0.f;
-    box1->posy = -1.f;
-    box1->posz = 0.f;
+        box1->posx = 0.f;
+        box1->posy = -1.f;
+        box1->posz = 0.f;
+        box1->Draw();
 
-    box1->Draw();
+        box1->posz = 0.f;
+        box1->posx = 1.f;
+        box1->Draw();
 
-    box1->posz = 0.f;
-    box1->posx = 1.f;
-    box1->Draw();
-
-    box1->posx = 0.4f;
-    box1->posy = -0.3f;
-    box1->Draw();
+        box1->posx = 0.4f;
+        box1->posy = -0.3f;
+        box1->Draw();
 
     glPopMatrix();
 }
 
+// Pack de 7 boîtes
 void Map::DrawBoxPack2(float x, float z, float rot, Box *box1) {
     glPushMatrix();
-    glTranslatef(x, 0.f, z);
-    glRotatef(rot, 0., 1.f, 0.f);
+        glTranslatef(x, 0.f, z);
+        glRotatef(rot, 0., 1.f, 0.f);
 
-    box1->posx = 0.f;
-    box1->posy = -1.f;
-    box1->posz = 0.f;
+        box1->posx = 0.f;
+        box1->posy = -1.f;
+        box1->posz = 0.f;
+        box1->Draw();
 
-    box1->Draw();
-//    Box *box2 = new Box(0.7f, 1.1f, -1.f, 0.2f, 0.f, tex);
+        box1->posx = 1.1f;
+        box1->posz = 0.2f;
+        box1->Draw();
 
-    box1->posx = 1.1f;
-    box1->posz = 0.2f;
-    box1->Draw();
-//    Box *box5 = new Box(0.7f, 0.6f, -0.3f, 0.2f, 0.f, tex);
+        box1->posx = 0.6f;
+        box1->posy = -0.3f;
+        box1->posz = 0.2f;
+        box1->Draw();
 
-    box1->posx = 0.6f;
-    box1->posy = -0.3f;
-    box1->posz = 0.2f;
-    box1->Draw();
+        box1->posx = 0.f;
+        box1->posy = -1.f;
+        box1->posz = 1.f;
+        box1->Draw();
 
+        box1->posx = 1.f;
+        box1->posy = -1.f;
+        box1->posz = 1.3f;
+        box1->Draw();
 
-//    Box *box3 = new Box(0.7f, 0.f, -1.f, 1.f, 0.f, tex);
-    box1->posx = 0.f;
-    box1->posy = -1.f;
-    box1->posz = 1.f;
-    box1->Draw();
+        box1->posx = 0.6f;
+        box1->posy = -0.3f;
+        box1->posz = 1.2f;
+        box1->Draw();
 
-//    Box *box4 = new Box(0.7f, 1.f, -1.f, 1.3f, 0.f, tex);
-    box1->posx = 1.f;
-    box1->posy = -1.f;
-    box1->posz = 1.3f;
-    box1->Draw();
-//    Box *box6 = new Box(0.7f, 0.6f, -0.3f, 1.2f, 0.f, tex);
-
-    box1->posx = 0.6f;
-    box1->posy = -0.3f;
-    box1->posz = 1.2f;
-    box1->Draw();
-
-//    Box *box7 = new Box(0.7f, 0.6f, 0.4f, 0.7f, 0.f, tex);
-    box1->posx = 0.6f;
-    box1->posy = 0.4f;
-    box1->posz = 0.7f;
-
-    box1->Draw();
-
+        box1->posx = 0.6f;
+        box1->posy = 0.4f;
+        box1->posz = 0.7f;
+        box1->Draw();
 
     glPopMatrix();
 }
@@ -205,7 +202,7 @@ void Map::DrawBoxPack2(float x, float z, float rot, Box *box1) {
 void Map::DrawBolt(float clankX, float clankZ) {
     Bolt *bolt = new Bolt(0.3f, 0.f, -0.7f, 0.f, -85.f, 0.f, 0.f);
     for (int i = 0; i < 50; ++i) {
-        if (!randomPos[i].checked) {
+        if (!randomPos[i].checked) {        // Si le boulon n'a pas été en collision (sinon on ne le dessine pas)
             bolt->posx = randomPos[i].posX;
             bolt->posz = randomPos[i].posZ;
             bolt->angleZ = randomPos[i].rot;
@@ -213,7 +210,7 @@ void Map::DrawBolt(float clankX, float clankZ) {
 
             randomPos[i].checked = checkCollision(clankX, clankZ, bolt->posx, bolt->posz);
 
-            randomPos[i].rot += 1.f;
+            randomPos[i].rot += 1.f;        // Rotation sur lui-même
             if (randomPos[i].rot > 360.f) {
                 randomPos[i].rot = 0.f;
             }
@@ -221,6 +218,7 @@ void Map::DrawBolt(float clankX, float clankZ) {
     }
 }
 
+// Vérification de collision avec sensibilité à 0.04f
 char Map::checkCollision(float clankX, float clankZ, float boltX, float boltZ) {
     if ((clankX - boltX < 0.4f && clankZ - boltZ < 0.4f) &&
         (clankX - boltX > -0.4f && clankZ - boltZ > -0.4f)) {
@@ -230,31 +228,37 @@ char Map::checkCollision(float clankX, float clankZ, float boltX, float boltZ) {
 }
 
 void Map::DrawSkybox(Camera *cam) {
+    // On désactive la lumière car la skybox est "pré-éclairée"
     glDisable(GL_LIGHTING);
+
+    // Active le placage de textures a deux dimensions
     glEnable(GL_TEXTURE_2D);
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
     // Face
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, Skybox[1]);
 
+    // Paramètres de texture
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the left quad
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, Skybox[0]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -262,17 +266,18 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the back quad
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, Skybox[3]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -280,18 +285,18 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-
+        glTexCoord2f(0, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the right quad
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, Skybox[4]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -299,17 +304,18 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the top quad
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, Skybox[2]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -317,18 +323,18 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
     glEnd();
 
     // Render the bottom quad
-
+    // Spécifie la texture
     glBindTexture(GL_TEXTURE_2D, Skybox[5]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -336,13 +342,13 @@ void Map::DrawSkybox(Camera *cam) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 1);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
-    glTexCoord2f(0, 0);
-    glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 0);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
-    glTexCoord2f(1, 1);
-    glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 1);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
+        glTexCoord2f(0, 0);
+        glVertex3f(-SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 0);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, -SKY_DISTANCE + cam->posz);
+        glTexCoord2f(1, 1);
+        glVertex3f(SKY_DISTANCE + cam->posx, -SKY_DISTANCE + cam->posy, SKY_DISTANCE + cam->posz);
     glEnd();
 }

@@ -14,32 +14,38 @@ Bolt::Bolt(float scale, float posx, float posy, float posz, float angleX, float 
 }
 
 void Bolt::Draw() {
+
     glPushMatrix();
 
-    glEnable(GL_TEXTURE_2D);
+        // Active le placage de textures a deux dimensions
+        glEnable(GL_TEXTURE_2D);
 
-    glColor3f(1.0f, 0.9f, 0.f);
+        // Définit et conserve une couleur courante
+        glColor3f(1.0f, 0.9f, 0.f);
 
-    glTranslatef(posx, posy, posz);
-    glRotatef(angleX, 1.0f, 0.0f, 0.0f);
-    glRotatef(angleY, 0.0f, 1.0f, 0.0f);
-    glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+        glTranslatef(posx, posy, posz);
+        glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+        glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+        glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
 
-    glTranslatef(0.0f, 1.0f * scale, 0.0f);
-    GLUquadricObj *pObj = gluNewQuadric();
+        glTranslatef(0.0f, 1.0f * scale, 0.0f);
 
-    gluCylinder(pObj, 0.1f * scale, 0.1f * scale, 1.0f * scale, 32, 32);
-    glTranslatef(0.0f, 0.0f, 1.0f * scale);
-    gluCylinder(pObj, 0.2f * scale, 0.2f * scale, 0.1f * scale, 32, 32);
-    gluDisk(pObj, 0.0f, 0.2f * scale, 32, 32);
-    glTranslatef(0.0f, 0.0f, -1.0f * scale);
-    /*  Pas de vise  */
-    glColor3f(1.0f, 1.f, 0.f);
+        // Crée et retourne un pointeur vers un nouvel objet quadrics
+        GLUquadric *pObj = gluNewQuadric();
 
-    for (int i = 0; i < 5; i += 1) {
-        gluDisk(pObj, 0.0f, 0.15f * scale, 32, 32);
-        glTranslatef(0.0f, 0.0f, 0.2f * scale);
-    }
+        gluCylinder(pObj, 0.1f * scale, 0.1f * scale, 1.0f * scale, 32, 32);
+        glTranslatef(0.0f, 0.0f, 1.0f * scale);
+        gluCylinder(pObj, 0.2f * scale, 0.2f * scale, 0.1f * scale, 32, 32);
+        gluDisk(pObj, 0.0f, 0.2f * scale, 32, 32);
+        glTranslatef(0.0f, 0.0f, -1.0f * scale);
+
+        // Définit et conserve une couleur courante
+        glColor3f(1.0f, 1.f, 0.f);
+
+        for (int i = 0; i < 5; i += 1) {
+            gluDisk(pObj, 0.0f, 0.15f * scale, 32, 32);
+            glTranslatef(0.0f, 0.0f, 0.2f * scale);
+        }
     glPopMatrix();
 }
 
