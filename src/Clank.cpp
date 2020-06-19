@@ -59,16 +59,18 @@ void Clank::ConstructDefault() {
     diry = 0.0f;
     dirz = 1.0f;
 
-    anglev = 0.0f;          // TODO c'est quoi ?
+    anglev = 0.0f;          // angle de rotation sur Y
     deltaAngley = 0.0f;     // Rotation du corps : 1 pour gauche et -1 pour droite
 
-    rightArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f); // TODO pourquoi 90 ?
+    // Tout ça on s'en fout un peu au niveau des positions, c'est appelé une fois au constructeur mais 10 ms après c'est l'update qui prend la main
+    // +90 et +180 pour qu'on mette tout dans le bon axe
+    rightArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
     leftArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);
     leftArm->InverseWalkingAnimationWay(); // Quand l'un va en avant, l'autre va en arrière
     body = new Body(scale * 2.f, posx, posy, posz, anglev + 0.f);
     head = new Head(0.04f * scale, posx, posy, posz, anglev + 90.f);
 
-    leftLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f); // TODO pourquoi 180 ?
+    leftLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
     leftLeg->InverseWalkingAnimationWay(); // Quand l'un va en avant, l'autre va en arrière
     rightLeg = new Legs(scale * 0.7f, posx, posy, posz, anglev + 180.f);
 }
@@ -85,13 +87,13 @@ void Clank::updatePos() {
 
 void Clank::updateRotation() {
     if (deltaAngley != 0) {
-        anglev += deltaAngley * ROTATION_SPEED;          // TODO pourquoi angle V ?
+        anglev += deltaAngley * ROTATION_SPEED;
     }
 }
 
 void Clank::updateMembersPos() {
-    rightArm->setPosx((0.32f - 0.1f) * scale * 2);  // TODO pourquoi * 2 partout ?
-    rightArm->setPosy(posy + 0.3f * scale * 2);     // TODO pourquoi des soustractions en dur ?
+    rightArm->setPosx((0.32f - 0.1f) * scale * 2);
+    rightArm->setPosy(posy + 0.3f * scale * 2);
     rightArm->setPosz(0.07f * scale * 2);
 
     leftArm->setPosx((-0.06f - 0.1f) * scale * 2);
