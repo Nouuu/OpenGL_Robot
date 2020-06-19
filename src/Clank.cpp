@@ -60,7 +60,7 @@ void Clank::ConstructDefault() {
     dirz = 1.0f;
 
     anglev = 0.0f;          // TODO c'est quoi ?
-    deltaAngley = 0.0f;     // TODO c'est quoi ?
+    deltaAngley = 0.0f;     // Rotation du corps : 1 pour gauche et -1 pour droite
 
     rightArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f); // TODO pourquoi 90 ?
     leftArm = new Arms(scale * 0.55f, posx, posy, posz, anglev + 90.f);

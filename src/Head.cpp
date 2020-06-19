@@ -236,17 +236,17 @@ void Head::setWalkingAnimationInactive() {
 void Head::updateHeadWalkingAnimation() {
     if (!headAnimation1.isWalking && headAnimation1.headJawCurrentRotation > 0.f) {
         headAnimation1.headJawCurrentRotation -= headAnimation1.headJawSpeed; // Fermeture de la bouche à l'arrêt
-    } else if (headAnimation1.isWalking) {
-        switch (headAnimation1.deltaHeadJaw) {
-            case -1:
-                headAnimation1.headJawCurrentRotation -= headAnimation1.headJawSpeed;
-                if (headAnimation1.headJawCurrentRotation < 0.f) {
-                    headAnimation1.headJawCurrentRotation = 0.f;
-                    headAnimation1.deltaHeadJaw = 1;
+    } else if (headAnimation1.isWalking) {                                              // Si Clank marche
+        switch (headAnimation1.deltaHeadJaw) {                                          // En fonction de si la bouche est fermée ou ouverte
+            case -1:                                                                    // Si la bouche est ouverte
+                headAnimation1.headJawCurrentRotation -= headAnimation1.headJawSpeed;   // On la ferme
+                if (headAnimation1.headJawCurrentRotation < 0.f) {                      // Si on dépasse 0 (position initiale)
+                    headAnimation1.headJawCurrentRotation = 0.f;                        // On bloque à 0
+                    headAnimation1.deltaHeadJaw = 1;                                    // La bouche est fermée
                 }
                 break;
-            case 1:
-                headAnimation1.headJawCurrentRotation += headAnimation1.headJawSpeed;
+            case 1:                                                                                 // Si fermée
+                headAnimation1.headJawCurrentRotation += headAnimation1.headJawSpeed;               // On l'ouvre
                 if (headAnimation1.headJawCurrentRotation > headAnimation1.headJawMaxRotation) {
                     headAnimation1.headJawCurrentRotation = headAnimation1.headJawMaxRotation;
                     headAnimation1.deltaHeadJaw = -1;
@@ -265,18 +265,18 @@ void Head::updateAnimation() {
 }
 
 void Head::updateHeadRotation() {
-    switch (headAnimation1.deltaRotation) {
-        case -1:
-            headAnimation1.currentRotation -= headAnimation1.rotationSpeed;
-            if (headAnimation1.currentRotation < -headAnimation1.maxRotation)
-                headAnimation1.currentRotation = -headAnimation1.maxRotation;
+    switch (headAnimation1.deltaRotation) {                                     // Si delta != 0, donc si Clank tourne
+        case -1:                                                                // S'il va à droite
+            headAnimation1.currentRotation -= headAnimation1.rotationSpeed;     // Il tourne la tête à droite
+            if (headAnimation1.currentRotation < -headAnimation1.maxRotation)   // S'il atteint l'angle max
+                headAnimation1.currentRotation = -headAnimation1.maxRotation;   // Il bloque
             break;
-        case 1:
-            headAnimation1.currentRotation += headAnimation1.rotationSpeed;
-            if (headAnimation1.currentRotation > headAnimation1.maxRotation)
-                headAnimation1.currentRotation = headAnimation1.maxRotation;
+        case 1:                                                                 // S'il va à gauche
+            headAnimation1.currentRotation += headAnimation1.rotationSpeed;     // Il tourne la tête à gauche
+            if (headAnimation1.currentRotation > headAnimation1.maxRotation)    // S'il atteint l'angle max
+                headAnimation1.currentRotation = headAnimation1.maxRotation;    // Il bloque
             break;
-        default:
+        default:                                                                // Sinon
             if (headAnimation1.currentRotation > 1.f)
                 headAnimation1.currentRotation -= headAnimation1.rotationSpeed;
             else if (headAnimation1.currentRotation < -1.f)
